@@ -9,6 +9,9 @@
           Host
         </th>
         <th>
+          CPU
+        </th>
+        <th>
           Services
         </th>
         <th>
@@ -25,6 +28,10 @@
           <td>
             <i class="icon-unlock" title="This node is free for limited use" rel="tooltip"></i>
             <a href="http://<%= node.host %>/dashboard"><%= node.host %></a>
+          </td>
+
+          <td>
+            <%= get_monit(node.host) %>
           </td>
 
           <td>
