@@ -38,23 +38,19 @@ class NodesController < ApplicationController
   end
 
   def self.restart_redis
-    logger.debug "Restarting redis"
     `sudo /etc/init.d/redis-server restart`
   end
 
   def self.restart_elasticsearch
-    logger.debug "Restarting elasticsearch"
     `sudo /etc/init.d/elasticsearch restart`
   end
 
   def self.restart_logstash
-    logger.debug "Restarting logstash"
    `sudo /etc/init.d/logstash restart`
   end
 
   def self.reapply_mappings
-    logger.debug "Reapplying mappings"
-    `curl -XPUT -d @#{Rails.root}/config/elasticsearch-mappings.json http://localhost:9200/_template/foo`
+    `curl -s -XPUT -d @#{Rails.root}/config/elasticsearch-mappings.json http://localhost:9200/_template/foo`
   end
   
 end
