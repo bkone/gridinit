@@ -169,7 +169,8 @@ class Elasticsearch
     search = Tire.search '*' do
       query do
         boolean do
-          must { string "testguid:#{params[:testguid]}*" }
+          # must { string "testguid:#{params[:testguid]}*" }
+          must { text :testguid, params[:testguid] }
           must { text :label, params[:label] } if params[:label].size > 0
           must { string "@tags:#{params[:tags]}*"  }
           must { range :error_count, { :gte => 1 } } if value_field == 'error_count'
