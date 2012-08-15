@@ -69,3 +69,8 @@
     <% end %>
   </tbody>
 </table>
+<script>
+$(function(){
+  $(".nodes-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
+});
+</script>

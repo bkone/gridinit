@@ -172,6 +172,5 @@ $(function(){
     format: function(s) {return s.replace(/[\,\.]/g,'');},
     type: 'numeric'
   });
-  $(".nodes-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
-  $(".runs-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
+  
 });
