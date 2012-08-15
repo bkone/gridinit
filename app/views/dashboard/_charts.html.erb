@@ -1,0 +1,102 @@
+<div class="span12">       
+  <div class="slate">
+    <div class="page-header">
+      <ul class="nav nav-pills pull-right">    
+        <li class="dropdown">
+          <a class="dropdown-toggle iconlink" data-toggle="dropdown" href="#"><i class="icon-bar-chart"></i><b class="caret"></b></a>
+          <ul id="chart" class="dropdown-menu">
+            <li><a data-value="chart_response_times_by_label">Response Times by Label</a></li>
+            <li><a data-value="chart_errors_by_label">Errors by Label</a></li>
+            <li><a data-value="chart_response_times">Response Times</a></li>
+            <li><a data-value="chart_throughput">Throughput</a></li>
+            <li><a data-value="chart_concurrency">Concurrency</a></li>
+            <!-- <li><a data-value="chart_response_codes">Response Codes</a></li> -->
+            <!-- <li><a data-value="chart_logs">Transaction Logs</a></li> -->
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle iconlink" data-toggle="dropdown" href="#"><i class="icon-time"></i><b class="caret"></b></a>
+          <ul id="interval" class="dropdown-menu">
+            <li><a data-param="interval" data-value="day">per day</a></li>
+            <li><a data-param="interval" data-value="hour">per hour</a></li>
+            <li><a data-param="interval" data-value="minute">per minute</a></li>
+            <li><a data-param="interval" data-value="second">per second</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle iconlink" data-toggle="dropdown" href="#"><i class="icon-download-alt"></i><b class="caret"></b></a>
+          <ul id="export" class="dropdown-menu">
+            <li><a href="#">CSV</a></li>
+            <li><a href="#">PDF</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle iconlink" data-toggle="dropdown" href="#"><i class="icon-refresh"></i><b class="caret"></b></a>
+          <ul id="export" class="dropdown-menu">
+            <li id="pause" class="refresh"><a href="#">Pause Refresh</a></li>
+            <li id="play" class="refresh"><a href="#">Auto Refresh</a></li>
+          </ul>
+        </li>
+      </ul>
+      <h2 class="chart-label">
+        Response Times by Label
+      </h2>
+    </div>
+    <div id="chart_response_times_by_label" class="chart-container active">
+      <div class="smoother"></div>
+      <div class="annotations"></div>
+      <div class="chart"></div>
+      <div class="range-slider"></div>
+      <div class="legend"></div>
+    </div>
+    <div id="chart_errors_by_label" class="chart-container">
+      <div class="smoother"></div>
+      <div class="annotations"></div>
+      <div class="chart"></div>
+      <div class="range-slider"></div>
+      <div class="legend"></div>
+    </div>
+    <div id="chart_response_times" class="chart-container">
+      <div class="smoother"></div>
+      <div class="chart"></div>
+      <div class="range-slider"></div>
+    </div>
+    <div id="chart_throughput" class="chart-container">
+      <div class="smoother"></div>
+      <div class="chart"></div>
+      <div class="range-slider"></div>
+    </div>
+    <div id="chart_concurrency" class="chart-container">
+      <div class="smoother"></div>
+      <div class="chart"></div>
+      <div class="range-slider"></div>
+    </div>
+    <div id="chart_logs" class="chart-container">
+      <pre class="logs prettyprint" data-scroll_id="0"></pre>
+    </div>
+    <script>
+      if(getParameterByName('testguid')) {
+
+        $('#pause').hide();
+
+        chart_response_times_by_label();
+        chart_errors_by_label();
+        chart_response_times();
+        chart_concurrency();
+        chart_throughput();
+        chart_logs();
+        // chart_response_codes();
+      }
+
+      $('#pause').click(function() {
+        clearInterval(interval);
+        $('.refresh').toggle();
+      });
+      
+      $('#play').click(function() {
+        var interval=setInterval(chart_response_times_by_label,8000);
+        $('.refresh').toggle();
+      });
+    </script>
+  </div> 
+</div>  

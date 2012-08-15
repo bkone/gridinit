@@ -1,0 +1,37 @@
+input
+ {
+  redis {
+    host => "127.0.0.1"
+    type => "redis-input"
+    data_type => "list"
+    key => "logstash"
+    message_format => "json_event"
+  }
+}
+
+filter {
+  grok {
+    type => "jmeter"
+    pattern => "%{JMETER}"
+    add_tag => [ "jmeter" ]  
+    keep_empty_captures => true
+  }
+  grok {
+    type => "errors"
+    pattern => "%{JMETER}"
+    add_tag => [ "errors" ]  
+    keep_empty_captures => false
+  }
+  grok {
+    type => "watirwebdriver"
+    pattern => "%{WATIRWEBDRIVER}"
+    add_tag => [ "watirwebdriver" ]
+  }
+}
+
+output {
+  #stdout { debug => true debug_format => "json"}
+  elasticsearch {
+    host => "127.0.0.1"
+  }
+}

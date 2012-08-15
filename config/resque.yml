@@ -1,0 +1,4 @@
+development: localhost:6379
+test: localhost:6379
+staging: gridinit.com:6379
+production: gridinit.com:6379

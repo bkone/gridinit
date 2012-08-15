@@ -1,0 +1,29 @@
+input {
+  file {
+    type => "jmeter"
+    path => "/var/log/gridnode-jmeter.log"
+  }
+  file {
+    type => "watirwebdriver"
+    path => "/var/log/gridnode-watirwebdriver.log"
+  }
+  file {
+    type => "stdout"
+    path => "/var/log/gridnode-stdout.log"
+  }
+  file {
+    type => "stderr"
+    path => "/var/log/gridnode-stderr.log"
+  }
+  file {
+    type => "errors"
+    path => "/var/log/gridnode-errors.log"
+  }
+}
+
+output {
+  redis { 
+    host => "gridinit.com" 
+    data_type => "list" key => "logstash" 
+  }
+}

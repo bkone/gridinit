@@ -1,0 +1,151 @@
+<link href='http://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>  
+<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
+
+<div class="container home row-fluid">
+  
+  <div id="floating_menu">  
+    <div class="menu">
+      <a href="#overview" class="menu_item">Overview</a>
+      <a href="#features" class="menu_item">Features</a>
+      <a href="#pricing" class="menu_item">Pricing</a>
+      <a href="#signup" class="menu_item">Signup</a>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <p class="slogan">Performance Testing for Everyone</p>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span12 screenshot">
+      <%= image_tag "screenshot.jpg" %>
+    </div>
+  </div>
+
+  <div class="row-fluid">
+    <div class="span2"></div>
+    <div class="span8">
+      <p class="description">Welcome to the grid. The grid is a collection of performance test automation tools deployed on cloud resources, making them an inexpensive test asset for a wide variety of testing needs. 
+      </p>
+    </div>
+    <div class="span2"></div>
+  </div>
+
+  <hr class="soften">
+
+  <div class="row-fluid">
+    <div class="span2"></div>
+    <div class="span8 marketing">
+      <a name="overview"></a>
+      <h1>Overview</h1>
+      <p class="marketing-byline">The grid can be used to execute basic URL load tests through to more advanced JMeter based test plans. The grid is an Australian solution hosted out of Sydney with a near zero latency network for our domestic clients. The grid also taps into the international cloud market offering distributed load tests across the globe. Pay for our managed services, or host your own grid for free.</p>
+      </p>
+    </div>
+    <div class="span2"></div>
+  </div>
+
+  <hr class="soften">
+
+  <div class="row-fluid">
+    <div class="span2"></div>
+    <div class="span8 marketing">
+      <a name="features"></a>
+      <h1>Features</h1>
+      <div class="row">
+        <div class="span4">
+          <h2><i class="icon-magic"></i> JMeter Based</h2>
+          <p>Execute JMeter test plans on the grid. Our innovative engine gets the most performance out of independent grid nodes without detriment to your results.</p>
+        </div>
+        <div class="span4">
+          <h2><i class="icon-bar-chart"></i> Live Results</h2>
+          <p>Get real time data from your tests. Don't mess with disparate results. Use canned charts or tap into real time search indexes using elasticsearch.</p>
+        </div>
+        <div class="span4">
+          <h2><i class="icon-group"></i> Tons of Users</h2>
+          <p>With each node running <abbr title="Subject to test design">thousands</abbr> of users and the ability to scale out with as many nodes as you like, the cloud is the limit on your load tests.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="span4">
+          <h2><i class="icon-table"></i> Test Data</h2>
+          <p>Most test plans depend on static data. We host a key value store using redis so that test data can be accessed from your test plans via a simple API.</p>
+        </div>
+        <div class="span4">
+          <h2><i class="icon-gift"></i> Open Source</h2>
+          <p>Don't like something? Clone our repository, contribute or fork your own. All our code is open sourced under the Apache Software License.</p>
+        </div>
+        <div class="span4">
+          <h2><i class="icon-money"></i> All Budgets</h2>
+          <p>Use our hosted <abbr title="Some restrictions apply">infrastructure</abbr> or host your own grid nodes for free. Or use our competitively priced managed subscription.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="soften">
+
+  <div class="row-fluid">
+    <div class="span2"></div>
+    <div class="span8 marketing">
+      <a name="pricing"></a>
+      <h1>Pricing</h1>
+      <div class="row">
+        <div class="span6">
+          <h2><i class="icon-cloud"></i> Cloud</h2>
+          <p>We host a number of nodes <abbr title="Free with restricted use here at gridinit.com">free</abbr> for casual use. Alternatively you can host your <abbr title="Using you own cloud infrastructure">own</abbr> nodes for free.</p>
+        </div>
+        <div class="span6">
+          <h2><i class="icon-credit-card"></i> Managed</h2>
+          <p>Our managed subscription supports infrastructure, planning, prepration and execution of your tests. </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="soften">
+
+  <div class="row-fluid">
+    <div class="span2"></div>
+    <div class="span8 marketing">
+      <a name="signup"></a>
+      <h1>Signup</h1>
+      <p class="marketing-byline">Want to join our beta? Sign in with your Github, Twitter or Google credentials...</p>
+      </p>
+    </div>
+    <div class="span2"></div>
+  </div>
+
+</div>
+
+<script>
+//config
+$float_speed=1500; //milliseconds
+$float_easing="easeOutQuint";
+$menu_fade_speed=500; //milliseconds
+$closed_menu_opacity=0.75;
+
+//cache vars
+$floating_menu=$("#floating_menu");
+$floating_menu_menu=$("#floating_menu .menu");
+$floating_menu_label=$("#floating_menu .label");
+
+$(window).load(function() {
+  menuPosition=$('#floating_menu').position().top;
+  FloatMenu();
+
+});
+
+$(window).scroll(function () { 
+  FloatMenu();
+});
+
+function FloatMenu(){
+  var scrollAmount=$(document).scrollTop();
+  var newPosition=menuPosition+scrollAmount;
+  if($(window).height()<$floating_menu.height()+$floating_menu_menu.height()){
+    $floating_menu.css("top",menuPosition);
+  } else {
+    $floating_menu.stop().animate({top: newPosition}, $float_speed, $float_easing);
+  }
+}
+</script>

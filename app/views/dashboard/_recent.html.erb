@@ -1,0 +1,71 @@
+<div class="span6">   
+  <div class="slate"> 
+    <div class="page-header">
+      <div class="btn-group pull-right">
+        <button class="btn dropdown-toggle" data-toggle="dropdown">
+          <i class="icon-tasks"></i>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <li><a href="/runs">Manage Tests</a></li>
+          <li class="divider"></li>
+          <li><a data-toggle="modal" href="#runmodal">Start New Test</a></li>
+          <li class="divider"></li>
+          <li><a href="/runs/abort_running_tests">Abort Running Tests</a></li>
+          <li><a href="/runs/delete_queued_tests">Delete Queued Tests</a></li>
+          <% if admin_user? %>
+          <li class="divider"></li>
+          <li><a href="/runs/delete_all_tests">Delete All Tests</a></li>  
+          <% end %>
+        </ul>
+      </div>
+      <h2>
+        Recent Tests
+      </h2>
+    </div>
+    <table class="runs-table table">
+    <tbody>
+      <% @runs_paginated.each_with_index do |run, index| %>
+      <% params = hash_keys_to_sym run.params %>
+        <tr>
+          <td id="<%= params[:testguid] %>" class="apdex" style="width:1px">
+            <% if run.status == 'queued' %>
+              <span class="label">queued</span>
+            <% elsif run.status == 'running' %>
+              <span class="label label-info">running</span>
+            <% else %>
+              <script>
+                var satisfied = getParameterByName('satisfied') ? getParameterByName('satisfied') : 4000;
+                $.getJSON('/charts/get_response_times?testguid=<%= params[:testguid] %>&label=&satisfied='+satisfied, function(d) {
+                    if(d[0].apdex){
+                      $('#<%= params[:testguid] %>.apdex').css('background-color', d[0].apdex.colour); 
+                    } else {
+                      $('#<%= params[:testguid] %>.apdex').html('n/a')
+                    }
+                });
+              </script>
+            <% end %>
+          </td>
+          <td>
+            <% if run.privacy_flag == 0 %>
+              <i class="icon-eye-open" title="Test results are public" rel="tooltip"></i>
+            <% else %>
+              <i class="icon-eye-close" title="Test results are private" rel="tooltip"></i>
+            <% end %>
+            <a class="track" href="/runs/<%= run.id %>"><%= params[:domain] ? truncate(params[:domain], :length=>15) : 'multiple domains' %></a> 
+          </td>
+          <td class="date">
+            <%= run.status == 'completed' ? 'Completed' : 'Queued' %> 
+            <%= distance_of_time_in_words(Time.now - (run.completed ? run.completed : run.updated_at)) %> ago
+          </td>
+        </tr>
+      <% end %>
+      <% unless @runs_paginated.size > 0 %>
+        <tr>
+          <td>No tests have been run</td>
+        </tr>
+      <% end %>
+    </tbody>
+    </table>
+  </div>    
+</div>

@@ -1,0 +1,342 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    actionmailer (3.2.6)
+      actionpack (= 3.2.6)
+      mail (~> 2.4.4)
+    actionpack (3.2.6)
+      activemodel (= 3.2.6)
+      activesupport (= 3.2.6)
+      builder (~> 3.0.0)
+      erubis (~> 2.7.0)
+      journey (~> 1.0.1)
+      rack (~> 1.4.0)
+      rack-cache (~> 1.2)
+      rack-test (~> 0.6.1)
+      sprockets (~> 2.1.3)
+    activemodel (3.2.6)
+      activesupport (= 3.2.6)
+      builder (~> 3.0.0)
+    activerecord (3.2.6)
+      activemodel (= 3.2.6)
+      activesupport (= 3.2.6)
+      arel (~> 3.0.2)
+      tzinfo (~> 0.3.29)
+    activeresource (3.2.6)
+      activemodel (= 3.2.6)
+      activesupport (= 3.2.6)
+    activesupport (3.2.6)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
+    addressable (2.2.8)
+    airbrake (3.1.2)
+      activesupport
+      builder
+    arel (3.0.2)
+    builder (3.0.0)
+    cabin (0.4.4)
+      json
+    capistrano (2.12.0)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
+    childprocess (0.3.2)
+      ffi (~> 1.0.6)
+    clbustos-rtf (0.4.2)
+    daemon_controller (1.0.0)
+    daemons (1.1.8)
+    diff-lcs (1.1.3)
+    dirty-memoize (0.0.4)
+    distribution (0.7.0)
+    erubis (2.7.0)
+    execjs (1.4.0)
+      multi_json (~> 1.0)
+    extendmatrix (0.3.1)
+    faraday (0.8.1)
+      multipart-post (~> 1.1)
+    fastercsv (1.5.5)
+    fastthread (1.0.7)
+    ffi (1.0.11)
+    foreman (0.53.0)
+      thor (>= 0.13.6)
+    grizzled-rails-logger (0.1.5)
+      term-ansicolor (>= 1.0.7)
+    growl (1.0.3)
+    guard (1.0.3)
+      ffi (>= 0.5.0)
+      thor (>= 0.14.6)
+    guard-bundler (0.1.3)
+      bundler (>= 1.0.0)
+      guard (>= 0.2.2)
+    guard-rails (0.1.0)
+      guard (>= 0.2.2)
+    guard-rspec (0.7.3)
+      guard (>= 0.10.0)
+    guard-spork (0.8.0)
+      guard (>= 0.10.0)
+      spork (>= 0.8.4)
+    har (0.0.8)
+      json
+      json-schema (= 0.1.12)
+      launchy (>= 0.3.7)
+    hashie (1.2.0)
+    hashr (0.0.21)
+    headless (0.3.1)
+    highline (1.6.13)
+    hike (1.2.1)
+    honeypot-captcha (0.0.2)
+    httpauth (0.1)
+    i18n (0.6.0)
+    imgkit (1.3.6)
+    jls-grok (0.10.7)
+      cabin (~> 0.4.0)
+    journey (1.0.4)
+    jquery-rails (2.0.2)
+      railties (>= 3.2.0, < 5.0)
+      thor (~> 0.14)
+    json (1.7.3)
+    json-schema (0.1.12)
+      json
+    kaminari (0.13.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      railties (>= 3.0.0)
+    launchy (2.1.0)
+      addressable (~> 2.2.6)
+    libwebsocket (0.1.3)
+      addressable
+    mail (2.4.4)
+      i18n (>= 0.4.0)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+    mime-types (1.19)
+    minimization (0.2.1)
+      text-table (~> 1.2)
+    multi_json (1.3.6)
+    multipart-post (1.1.5)
+    mysql2 (0.3.11)
+    mysql2 (0.3.11-x86-mingw32)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.5.2)
+    net-ssh-gateway (1.1.0)
+      net-ssh (>= 1.99.1)
+    nokogiri (1.5.5)
+    nokogiri (1.5.5-x86-mingw32)
+    oauth (0.4.6)
+    oauth2 (0.6.1)
+      faraday (~> 0.7)
+      httpauth (~> 0.1)
+      multi_json (~> 1.3)
+    omniauth (1.0.3)
+      hashie (~> 1.2)
+      rack
+    omniauth-github (1.0.1)
+      omniauth (~> 1.0)
+      omniauth-oauth2 (~> 1.0)
+    omniauth-google (1.0.1)
+      multi_json
+      omniauth (~> 1.0.0)
+      omniauth-oauth
+    omniauth-oauth (1.0.1)
+      oauth
+      omniauth (~> 1.0)
+    omniauth-oauth2 (1.0.2)
+      oauth2 (~> 0.6.0)
+      omniauth (~> 1.0)
+    omniauth-twitter (0.0.12)
+      multi_json (~> 1.3)
+      omniauth-oauth (~> 1.0)
+    passenger (3.0.13)
+      daemon_controller (>= 1.0.0)
+      fastthread (>= 1.0.1)
+      rack
+      rake (>= 0.8.1)
+    polyglot (0.3.3)
+    prawn (0.8.4)
+      prawn-core (>= 0.8.4, < 0.9)
+      prawn-layout (>= 0.8.4, < 0.9)
+      prawn-security (>= 0.8.4, < 0.9)
+    prawn-core (0.8.4)
+    prawn-layout (0.8.4)
+    prawn-security (0.8.4)
+    prawn-svg (0.9.1.11)
+      prawn (>= 0.8.4)
+    rack (1.4.1)
+    rack-cache (1.2)
+      rack (>= 0.4)
+    rack-google_analytics (1.0.2)
+      rack
+    rack-protection (1.2.0)
+      rack
+    rack-ssl (1.3.2)
+      rack
+    rack-test (0.6.1)
+      rack (>= 1.0)
+    rails (3.2.6)
+      actionmailer (= 3.2.6)
+      actionpack (= 3.2.6)
+      activerecord (= 3.2.6)
+      activeresource (= 3.2.6)
+      activesupport (= 3.2.6)
+      bundler (~> 1.0)
+      railties (= 3.2.6)
+    railties (3.2.6)
+      actionpack (= 3.2.6)
+      activesupport (= 3.2.6)
+      rack-ssl (~> 1.3.2)
+      rake (>= 0.8.7)
+      rdoc (~> 3.4)
+      thor (>= 0.14.6, < 2.0)
+    rake (0.9.2.2)
+    rdoc (3.12)
+      json (~> 1.4)
+    redis (2.1.1)
+    redis-namespace (1.1.0)
+      redis (< 3.0.0)
+    reportbuilder (1.4.2)
+      clbustos-rtf (~> 0.4.0)
+      prawn (~> 0.8.4)
+      prawn-svg (~> 0.9.1)
+      text-table (~> 1.2)
+    resque (1.21.0)
+      multi_json (~> 1.0)
+      redis-namespace (~> 1.0)
+      sinatra (>= 0.9.2)
+      vegas (~> 0.1.2)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
+    rserve-client (0.2.5)
+    rspec (2.10.0)
+      rspec-core (~> 2.10.0)
+      rspec-expectations (~> 2.10.0)
+      rspec-mocks (~> 2.10.0)
+    rspec-core (2.10.1)
+    rspec-expectations (2.10.0)
+      diff-lcs (~> 1.1.3)
+    rspec-mocks (2.10.1)
+    rspec-rails (2.10.1)
+      actionpack (>= 3.0)
+      activesupport (>= 3.0)
+      railties (>= 3.0)
+      rspec (~> 2.10.0)
+    ruby-ole (1.2.11.3)
+    rubyvis (0.5.1)
+    rubyzip (0.9.9)
+    selenium-webdriver (2.24.0)
+      childprocess (>= 0.2.5)
+      libwebsocket (~> 0.1.3)
+      multi_json (~> 1.0)
+      rubyzip
+    sinatra (1.3.2)
+      rack (~> 1.3, >= 1.3.6)
+      rack-protection (~> 1.2)
+      tilt (~> 1.3, >= 1.3.3)
+    spork (0.9.2)
+    spreadsheet (0.6.9)
+      ruby-ole (>= 1.0)
+    sprockets (2.1.3)
+      hike (~> 1.2)
+      rack (~> 1.0)
+      tilt (~> 1.1, != 1.3.0)
+    sqlite3 (1.3.6)
+    sqlite3 (1.3.6-x86-mingw32)
+    statsample (1.2.0)
+      dirty-memoize (~> 0.0)
+      distribution (~> 0.6)
+      extendmatrix (~> 0.3.1)
+      fastercsv (> 0)
+      minimization (~> 0.2.0)
+      reportbuilder (~> 1.4)
+      rserve-client (~> 0.2.5)
+      rubyvis (~> 0.5)
+      spreadsheet (~> 0.6.5)
+      statsample-bivariate-extension (> 0)
+    statsample-bivariate-extension (1.1.0)
+      distribution (~> 0.6)
+    term-ansicolor (1.0.7)
+    text-table (1.2.2)
+    thor (0.15.3)
+    tilt (1.3.3)
+    tire (0.4.2)
+      activemodel (>= 3.0)
+      hashr (~> 0.0.19)
+      multi_json (~> 1.0)
+      rake
+      rest-client (~> 1.6)
+    treetop (1.4.10)
+      polyglot
+      polyglot (>= 0.3.1)
+    tzinfo (0.3.33)
+    uglifier (1.2.5)
+      execjs (>= 0.3.0)
+      multi_json (~> 1.3)
+    uuidtools (2.1.2)
+    vegas (0.1.11)
+      rack (>= 1.0.0)
+    watir-webdriver (0.6.1)
+      selenium-webdriver (>= 2.18.0)
+    watir-webdriver-performance (0.1.3.1)
+      watir-webdriver
+      watir-webdriver
+    watirgrid (1.1.5)
+
+PLATFORMS
+  ruby
+  x86-mingw32
+
+DEPENDENCIES
+  activerecord
+  activerecord-jdbch2-adapter
+  activerecord-jdbcmysql-adapter
+  activeresource
+  activesupport
+  airbrake
+  capistrano
+  daemons
+  foreman
+  grizzled-rails-logger
+  growl
+  guard
+  guard-bundler
+  guard-rails
+  guard-rspec
+  guard-spork
+  har
+  headless
+  honeypot-captcha
+  imgkit
+  jls-grok
+  jquery-rails
+  jruby-lint
+  jruby-openssl
+  kaminari
+  mysql2
+  nokogiri
+  omniauth-github
+  omniauth-google
+  omniauth-twitter
+  passenger
+  rack-google_analytics
+  rails (~> 3.2.1)
+  redis
+  resque
+  rest-client
+  rspec
+  rspec-rails
+  spork
+  sqlite3
+  statsample
+  therubyrhino
+  tire
+  trinidad
+  uglifier
+  uuidtools
+  warbler
+  watir-webdriver
+  watir-webdriver-performance
+  watirgrid

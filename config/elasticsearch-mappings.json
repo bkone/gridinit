@@ -1,0 +1,28 @@
+{ 
+  "template" : "logstash-*",
+  "mappings" : { 
+    "_default_" : { 
+      "dynamic_templates" : [
+        { 
+          "template_1" : { 
+            "path_match" : "@fields.label",
+            "match_mapping_type" : "string",
+            "mapping" : { 
+              "type" : "string",
+              "index" : "not_analyzed"
+            }
+          }
+        },{ 
+          "template_2" : { 
+            "path_match" : "@source_host",
+            "match_mapping_type" : "string",
+            "mapping" : { 
+              "type" : "string",
+              "index" : "not_analyzed"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

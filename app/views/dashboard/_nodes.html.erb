@@ -1,0 +1,71 @@
+<table class="nodes-table table">
+  <tbody>
+    <% unless @nodes.blank? %>
+      <tr>
+        <th>
+          <input type="checkbox" id="checkallnodes">
+        </th>
+        <th>
+          Host
+        </th>
+        <th>
+          Services
+        </th>
+        <th>
+          Role
+        </th>
+      </tr>
+      
+      <% @nodes.each do |node| %>
+        <tr>
+          <td>
+            <input type="checkbox" name="nodes[]" value="<%= node.host %>" <%= 'checked="true"' unless node.role == 'master' %> <%= 'disabled' if node.role == 'master' %>>
+          </td>
+          
+          <td>
+            <i class="icon-unlock" title="This node is free for limited use" rel="tooltip"></i>
+            <a href="http://<%= node.host %>/dashboard"><%= node.host %></a>
+          </td>
+
+          <td>
+            <span data-host="<%= node.host %>" class="services">
+              <% ['logstash', 'elasticsearch', 'resque', 'redis'].each do |service| %>
+                <%= image_tag service + ".png", 
+                  :class  => service, 
+                  :size   => '10x10',
+                  :style  => "display:none;", 
+                  :rel    => "tooltip", 
+                  :title  => service
+                %>
+              <% end %>    
+           </span>
+           
+            <script>
+            <% ['logstash', 'elasticsearch', 'resque', 'redis'].each do |service| %>
+              <% next if service == 'redis' && node.role != 'master' %>
+              $.ajax({
+                url: "http://<%= node.host %>:<%= request.port %>/health/<%= service %>",
+                timeout: 10000
+              })
+                .done(function() { 
+                  $('.services[data-host="<%= node.host %>"] > img.<%= service %>').show();
+                })
+                .fail(function() {
+                  $('#role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', '<%= service %> is not running');
+                })
+            <% end %>
+            </script>
+            
+          </td>
+
+          <td>
+            <span data-host="<%= node.host %>" data-role="<%= node.role %>"class="label node-role" id="role" rel="tooltip" data-toggle="modal" href="#modal-nodeconfig" style="cursor:pointer;">
+              <%= node.role %>
+            </span>
+          </td>
+
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

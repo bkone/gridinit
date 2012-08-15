@@ -1,0 +1,69 @@
+.home {
+  background-color: rgb(231,231,231);
+}
+.screenshot {
+  text-align: center;
+}
+.slogan {
+  font-family: 'Oxygen';
+  margin-top: 0;
+  padding-top: 0;
+  text-shadow: 0 1px 1px rgb(236,236,236);
+  letter-spacing: -1px;
+  color: rgb(37,37,37);
+  padding-top: 80px;
+  padding-bottom: 55px;
+  text-align: center;
+  font-size: 40px;
+  line-height: 1;
+  letter-spacing: -1px;
+  text-align: center;
+}
+.description {
+  font-family: 'Oxygen';
+  font-size: 25px;
+  color: rgb(141,141,141);
+  line-height: 1.5;
+  margin-top: 0;
+  padding-top: 0;
+  text-align: center;
+}
+.marketing h1 {
+  margin: 36px 0 27px;
+  font-size: 30px;
+  font-weight: 300;
+  text-align: center;
+}
+.marketing h2 {
+  font-size: 20px;
+  text-align: center;
+}
+.marketing-byline {
+margin: -18px 0 27px;
+font-size: 18px;
+font-weight: 300;
+line-height: 24px;
+color: #999;
+text-align: center;
+}
+.marketing p {
+  margin-right: 10px;
+  display: block;
+  -webkit-margin-before: 1em;
+  -webkit-margin-after: 1em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+}
+hr.soften {
+  height: 1px;
+  margin: 54px 0;
+  background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  background-image: -moz-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  background-image: -ms-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  background-image: -o-linear-gradient(left, transparent, rgba(0, 0, 0, .1), transparent);
+  border: 0;
+}
+#floating_menu{position:absolute; top:200px; left:20px; z-index:9999; width:100px; height:50px;}
+#floating_menu .menu .menu_item{display:block; background:rgb(231,231,231); color:#bbb; border-top:1px solid rgb(236,236,236); padding:10px 20px; font-family:Arial, Helvetica, sans-serif; font-size:12px; text-decoration:none;}
+#floating_menu .menu a.menu_item:hover{background:rgb(236,236,236); color:#fff;}
+.content{width:520px; margin:50px auto;}

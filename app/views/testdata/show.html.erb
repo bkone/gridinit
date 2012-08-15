@@ -1,0 +1,64 @@
+<div class="secondary-masthead">  
+  <div class="container">    
+    <ul class="breadcrumb">
+      <a href="/">Dashboard</a> <span class="divider">/</span>
+      <a href="/testdata">Test Data</a> <span class="divider">/</span>
+      <li class="active"><%= @key.capitalize %></li>
+     </ul> 
+  </div> 
+</div>
+
+<div class="main-area dashboard">
+  <div class="container">
+
+    <div class="row">
+      <div class="span12">
+        <div class="slate">
+
+          <div class="page-header">
+            <div class="btn-group pull-right">
+              <button class="btn dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-wrench"></i>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="/testdata/<%=@key%>.csv">Download CSV</a></li>
+                <li><a href="http://<%= request.host %>:7379/SRANDMEMBER/<%= @key %>">Retrieve random member</a></li>
+                <li><a href="http://<%= request.host %>:7379/SPOP/<%= @key %>">Remove random member</a></li>
+              </ul>
+            </div>
+            <h2><%= @key.capitalize %></h2>
+          </div>
+
+          <table class="keys-table table">
+            <thead>
+              <tr>
+                <th class="span1"></td>
+                <th><%= raw(page_entries_info @members_paginated) %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @members_paginated.each do |member| %> 
+                <tr>
+                  <td class="btn-group span1">
+                    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="/testdata/<%=@key%>?member=<%=member%>" data-method="delete">Delete Member</a></li>
+                    </ul>
+                  </td>
+                  <td>
+                    <%= JSON.parse(member).join(',') %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+
+        </div>
+        <div>
+          <%= paginate @members_paginated, :param_name => :members_page if @members_paginated %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

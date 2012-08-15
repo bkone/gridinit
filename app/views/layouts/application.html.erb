@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+
+            ,   /) ,      ,    
+   _   __     _(/   __     _/_ 
+  (_/_/ (__(_(_(__(_/ (__(_(__ 
+ .-/                           
+(_/                                   
+
+  Gridinit brought to you by Altentee.com - The Automation Company
+  Get the source at https://github.com/altentee/gridinit
+  
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="">
+      <meta name="author" content="">
+      <title><%= request.subdomain %> Gridinit &raquo; <%= controller.controller_name == 'pages' ? 'Performance Testing for Everyone' : controller.controller_name.capitalize %></title>
+      <%= stylesheet_link_tag    "application", :media => "all" %>
+      <%= stylesheet_link_tag    "bootstrap", :media => "all" %>
+      <%= stylesheet_link_tag    "rickshaw", :media => "all" %>
+      <%= stylesheet_link_tag    "prettify", :media => "all" %>
+      <link href="/css/smoothness/jquery-ui-1.8.17.custom.css" rel="stylesheet" type="text/css">
+      <%= javascript_include_tag "application", "bootstrap", "jquery.jeditable", "jquery.bbq", "jquery.tablesorter", "jquery.validate", "jquery.highlight", "jquery.ui", "json2", "prettify", "d3", "d3.layout", "rickshaw", "jquery.endless-scroll", "jquery.tag-it" %>
+      <%= csrf_meta_tags %>
+      <link href="http://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet" type="text/css">
+      <link rel="shortcut icon" href="/favicon.ico?v=0.1" />
+      <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+      <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+      <![endif]-->
+  </head>    
+  <body>
+    
+    <div class="masthead">
+        
+      <div class="container">
+
+        <div class="masthead-top clearfix">        
+          <ul class="nav nav-pills pull-right">
+            <li>
+              <a data-toggle="modal" href="#runmodal" style="color:#6ECBE2"><i class="icon-bolt"></i> New Test</a>
+            </li>
+            
+            <% if current_user %>
+              <li><%= link_to('Sign Out', signout_path) %></li>
+            <% else %>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> Sign In<b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <% unless Rails.env.production? or Rails.env.staging? %>
+                    <li><a href="/signin/developer"><i class="icon-sign-blank"></i>Developer</a></li>
+                  <% end %>
+                  <li><a href="/signin/github" class="track"><i class="icon-github"></i>Github</a></li>
+                  <li><a href="/signin/google" class="track"><i class="icon-google-plus"></i>Google</a></li>
+                  <li><a href="/signin/twitter" class="track"><i class="icon-twitter"></i>Twitter</a></li>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+          <h1><a href="/" class="track"><img alt="Logo" src="/assets/logo.png"></a></h1>   
+        </div>
+        
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="container">
+            
+              <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+              
+              <div class="nav-collapse">
+              <ul class="nav">
+                <li>
+                  <a href="/dashboard" class="track"><i class="icon-dashboard"></i> Dashboard</a>
+                </li>
+                
+                <% if admin_user? %>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="icon-cogs"></i> Configure <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="/testdata" class="track">Data</a></li>
+                    <li class="divider"></li>
+                    <li><a href="http://<%= request.host %>:9200/_plugin/head/">Elasticsearch</a></li>
+                    <li><a href="/resque">Resque</a></li>
+                  </ul>
+                </li>
+                <% end %>
+              </ul>
+              <ul class="nav pull-right">
+                <li>
+                  <a href="javascript:UserVoice.showPopupWidget();"><i class="icon-heart-empty"></i> Feedback & Support</a>
+                </li>
+              </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>  
+    </div>
+    
+    <%= yield %>
+
+    <%= render 'dashboard/node' %>
+    <%= render 'dashboard/run' %>
+
+    <script type="text/javascript">
+      var uvOptions = {};
+      (function() {
+        var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+        uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/I4Ea44XCtRSYc20swiiyQ.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+      })();
+    </script>
+  </body>
+</html>

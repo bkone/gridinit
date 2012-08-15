@@ -1,0 +1,103 @@
+USERNAME [a-zA-Z0-9_-]+
+USER %{USERNAME}
+INT (?:[+-]?(?:[0-9]+))
+BASE10NUM (?<![0-9.+-])(?>[+-]?(?:(?:[0-9]+(?:\.[0-9]+)?)|(?:\.[0-9]+)))
+NUMBER (?:%{BASE10NUM})
+BASE16NUM (?<![0-9A-Fa-f])(?:[+-]?(?:0x)?(?:[0-9A-Fa-f]+))
+BASE16FLOAT \b(?<![0-9A-Fa-f.])(?:[+-]?(?:0x)?(?:(?:[0-9A-Fa-f]+(?:\.[0-9A-Fa-f]*)?)|(?:\.[0-9A-Fa-f]+)))\b
+
+POSINT \b(?:[0-9]+)\b
+WORD \b\w+\b
+NOTSPACE \S+
+DATA .*?
+GREEDYDATA .*
+#QUOTEDSTRING (?:(?<!\\)(?:"(?:\\.|[^\\"])*"|(?:'(?:\\.|[^\\'])*')|(?:`(?:\\.|[^\\`])*`)))
+QUOTEDSTRING (?:(?<!\\)(?:"(?:\\.|[^\\"]+)*"|(?:'(?:\\.|[^\\']+)*')|(?:`(?:\\.|[^\\`]+)*`)))
+
+# Networking
+MAC (?:%{CISCOMAC}|%{WINDOWSMAC}|%{COMMONMAC})
+CISCOMAC (?:(?:[A-Fa-f0-9]{4}\.){2}[A-Fa-f0-9]{4})
+WINDOWSMAC (?:(?:[A-Fa-f0-9]{2}-){5}[A-Fa-f0-9]{2})
+COMMONMAC (?:(?:[A-Fa-f0-9]{2}:){5}[A-Fa-f0-9]{2})
+IP (?<![0-9])(?:(?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2})[.](?:25[0-5]|2[0-4][0-9]|[0-1]?[0-9]{1,2}))(?![0-9])
+HOSTNAME \b(?:[0-9A-Za-z][0-9A-Za-z-]{0,62})(?:\.(?:[0-9A-Za-z][0-9A-Za-z-]{0,62}))*(\.?|\b)
+HOST %{HOSTNAME}
+IPORHOST (?:%{HOSTNAME}|%{IP})
+HOSTPORT (?:%{IPORHOST=~/\./}:%{POSINT})
+
+# paths
+PATH (?:%{UNIXPATH}|%{WINPATH})
+UNIXPATH (?:/(?:[\w_%!$@:.,-]+|\\.)*)+
+#UNIXPATH (?<![\w\/])(?:/[^\/\s?*]*)+
+LINUXTTY (?:/dev/pts/%{POSINT})
+BSDTTY (?:/dev/tty[pq][a-z0-9])
+TTY (?:%{BSDTTY}|%{LINUXTTY})
+WINPATH (?:[A-Za-z]+:|\\)(?:\\[^\\?*]*)+
+URIPROTO [A-Za-z]+(\+[A-Za-z+]+)?
+URIHOST %{IPORHOST}(?::%{POSINT:port})?
+# uripath comes loosely from RFC1738, but mostly from what Firefox
+# doesn't turn into %XX
+URIPATH (?:/[A-Za-z0-9$.+!*'(),~:#%_-]*)+
+#URIPARAM \?(?:[A-Za-z0-9]+(?:=(?:[^&]*))?(?:&(?:[A-Za-z0-9]+(?:=(?:[^&]*))?)?)*)?
+URIPARAM \?[A-Za-z0-9$.+!*'(),~#%&/=:;_-]*
+URIPATHPARAM %{URIPATH}(?:%{URIPARAM})?
+URI %{URIPROTO}://(?:%{USER}(?::[^@]*)?@)?(?:%{URIHOST})?(?:%{URIPATHPARAM})?
+
+# Months: January, Feb, 3, 03, 12, December
+MONTH \b(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\b
+MONTHNUM (?:0?[1-9]|1[0-2])
+MONTHDAY (?:(?:0[1-9])|(?:[12][0-9])|(?:3[01])|[1-9])
+
+# Days: Monday, Tue, Thu, etc...
+DAY (?:Mon(?:day)?|Tue(?:sday)?|Wed(?:nesday)?|Thu(?:rsday)?|Fri(?:day)?|Sat(?:urday)?|Sun(?:day)?)
+
+# Years?
+YEAR [0-9]+
+# Time: HH:MM:SS
+#TIME \d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?
+# I'm still on the fence about using grok to perform the time match,
+# since it's probably slower.
+# TIME %{POSINT<24}:%{POSINT<60}(?::%{POSINT<60}(?:\.%{POSINT})?)?
+HOUR (?:2[0123]|[01][0-9])
+MINUTE (?:[0-5][0-9])
+# '60' is a leap second in most time standards and thus is valid.
+SECOND (?:(?:[0-5][0-9]|60)(?:[.,][0-9]+)?)
+TIME (?!<[0-9])%{HOUR}:%{MINUTE}(?::%{SECOND})(?![0-9])
+# datestamp is YYYY/MM/DD-HH:MM:SS.UUUU (or something like it)
+DATE_US %{MONTHNUM}[/-]%{MONTHDAY}[/-]%{YEAR}
+DATE_EU %{YEAR}[/-]%{MONTHNUM}[/-]%{MONTHDAY}
+ISO8601_TIMEZONE (?:Z|[+-]%{HOUR}(?::?%{MINUTE}))
+ISO8601_SECOND (?:%{SECOND}|60)
+TIMESTAMP_ISO8601 %{YEAR}-%{MONTHNUM}-%{MONTHDAY}[T ]%{HOUR}:?%{MINUTE}(?::?%{SECOND})?%{ISO8601_TIMEZONE}?
+DATE %{DATE_US}|%{DATE_EU}
+DATESTAMP %{DATE}[- ]%{TIME}
+TZ (?:[PMCE][SD]T)
+DATESTAMP_RFC822 %{DAY} %{MONTH} %{MONTHDAY} %{YEAR} %{TIME} %{TZ}
+DATESTAMP_OTHER %{DAY} %{MONTH} %{MONTHDAY} %{TIME} %{TZ} %{YEAR}
+
+# Syslog Dates: Month Day HH:MM:SS
+SYSLOGTIMESTAMP %{MONTH} +%{MONTHDAY} %{TIME}
+PROG (?:[\w._/-]+)
+SYSLOGPROG %{PROG:program}(?:\[%{POSINT:pid}\])?
+SYSLOGHOST %{IPORHOST}
+SYSLOGFACILITY <%{POSINT:facility}.%{POSINT:priority}>
+HTTPDATE %{MONTHDAY}/%{MONTH}/%{YEAR}:%{TIME} %{INT:ZONE}
+
+# Shortcuts
+QS %{QUOTEDSTRING}
+
+# Log formats
+SYSLOGBASE %{SYSLOGTIMESTAMP:timestamp} (?:%{SYSLOGFACILITY} )?%{SYSLOGHOST:logsource} %{SYSLOGPROG}:
+COMBINEDAPACHELOG %{IPORHOST:clientip} %{USER:ident} %{USER:auth} \[%{HTTPDATE:timestamp}\] "%{WORD:verb} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}" %{NUMBER:response} (?:%{NUMBER:bytes}|-) "(?:%{URI:referrer}|-)" %{QS:agent}
+
+#<sample t="2965" lt="0" ts="1337677986001" s="false" lb="app_individual_ranking" rc="" rm="Number of samples in transaction : 1, number of failing samples : 1" tn="users 1-1" dt="" by="891" sc="1" ec="1" ng="50" na="50"/>
+JMETER .+?t="%{BASE16FLOAT:time:float}" lt="%{BASE16FLOAT:latency:float}" ts="%{NUMBER:timestamp:int}" s="%{DATA:successful}" lb="%{DATA:label}" rc="%{DATA:response_code:int}" rm="%{DATA:response_message}" tn=".+?%{INT:thread_name_group:int}-%{INT:thread_name_id:int}" dt="%{DATA:data_type}" by="%{INT:bytes:int}" sc="%{INT:sample_count:int}" ec="%{INT:error_count:int}" ng="%{INT:active_threads_in_group:int}" na="%{INT:active_threads:int}" testguid="%{DATA:testguid}"
+
+#3,HTTP/1.1,200,  0.48,   1435,http://localhost:80/,1,2012-01-02 21:48:11
+SIEGE %{INT:vuser:int},.+?,%{NUMBER:return_code:int},\s+%{BASE16FLOAT:responsetime:float},\s+%{INT:bytes:int},%{DATA:label},\d+,%{DATA:datetime}
+
+#I, [2012-02-03T14:38:33.394660 #20369]  INFO -- : 01_Load_Demo,1408,200,1238
+WATIRWEBDRIVER .+?\[.+?#%{INT:vuser:int}\]\s+%{DATA:success}\s+.+?\:\s+%{DATA:label},%{BASE16FLOAT:responsetime:float},%{NUMBER:return_code:int},%{INT:bytes:int}
+
+#"usr","sys","idl","wai","hiq","siq","read","writ","recv","send","in","out","int","csw"
+DSTAT %{BASE16FLOAT:usr:float},%{BASE16FLOAT:sys:float},%{BASE16FLOAT:idl:float},%{BASE16FLOAT:wai:float},%{BASE16FLOAT:hiq:float},%{BASE16FLOAT:siq:float},%{BASE16FLOAT:read:float},%{BASE16FLOAT:writ:float},%{BASE16FLOAT:recv:float},%{BASE16FLOAT:send:float},%{BASE16FLOAT:in:float},%{BASE16FLOAT:out:float},%{BASE16FLOAT:int:float},%{BASE16FLOAT:csw:float}

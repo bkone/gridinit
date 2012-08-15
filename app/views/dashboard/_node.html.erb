@@ -1,0 +1,56 @@
+<div id="modal-nodeconfig" class="modal hide fade" style="display: none; ">
+
+  <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <ul id="roles" class="nav nav-pills">
+        <li data-role="standalone"><a href="#">Standalone</a></li>
+        <li data-role="master"><a href="#">Master</a></li>
+        <li data-role="slave"><a href="#" >Slave</a></li>
+      </ul>
+    </div>
+    <div class="modal-body">
+
+    <form id="form-nodeconfig" method="post" action="/nodes/<%= @node.host %>" enctype="multipart/form-data">
+      <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+      <input name="_method" type="hidden" value="put" />
+      <input id="role" name="role" type="hidden" value="<%= @node.role %>" />
+      <input id="host" name="host" type="hidden" value="<%= @node.host %>" />
+
+      <div class="roles standalone">
+        <div class="control-group">
+          <div class="controls">
+            <label class="radio">
+               Run this as a standalone node.
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="roles master">
+        <div class="control-group">
+          <div class="controls">
+            <label class="radio">
+              Run this as a master node. A master node can control many slave nodes.
+            </label>
+            </div>
+        </div>
+      </div>
+
+      <div class="roles slave">
+        <div class="control-group">
+          <div class="controls">
+            <label class="radio">
+              Run this as a slave node. You must provide the IP of the master node to slave to.<br/>
+              <input id="master" name="master" type="text" placeholder="Master Node IP">
+            </label>
+          </div>
+        </div>   
+      </div>
+
+    </div>
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+      <a href="#" class="btn-nodeconfig btn btn-info">Submit Changes</a>
+    </div>
+  </form>
+</div>

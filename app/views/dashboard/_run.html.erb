@@ -1,0 +1,147 @@
+<div id="runmodal" class="modal hide fade" style="display: none; ">
+  <div>
+    <div class="modal-header">
+      <a class="close" data-dismiss="modal">×</a>
+      <ul class="nav nav-pills">
+        <li id="basic" class="active"><a href="#">Basic</a></li>
+        <li id="advanced"><a href="#">Advanced</a></li>
+      </ul>
+    </div>
+    <div class="modal-body">
+
+      <div class="basic">
+        <form id="form-basic" method="post" action="/runs/quickie/jmeter" enctype="multipart/form-data" class="form-horizontal">
+          <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+          <div class="control-group">
+            <label class="control-label">Target URL</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="url" name="url" placeholder="http://altentee.com">
+              <p class="help-block">This basic test will target the nominated URL.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Threads</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="threads" name="threads" placeholder="50">
+              <p class="help-block">The number of threads (concurrent users) you will run per grid node.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Rampup</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="rampup" name="rampup" placeholder="60">
+              <p class="help-block">The time in seconds all threads will take to rampup.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Duration</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="duration" name="duration" placeholder="60">
+              <p class="help-block">The time in seconds all threads will run for after rampup.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Grid Nodes</label>
+            <div class="controls">
+              <p class="help-block">Select the grid nodes you want to distribute this test to.</p>
+              <%= render 'dashboard/nodes' %>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="advanced" style="display: none;">
+        <form id="form-advanced" method="post" action="/runs" enctype="multipart/form-data" class="form-horizontal">
+          <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+          <input type="hidden" id="source" name="source" value="jmeter">
+          <div class="control-group">
+            <label class="control-label">Test Plan</label>
+            <div class="controls">
+              <%= file_field_tag 'attachment' %>
+              <p class="help-block">Upload a <abbr title="Apache JMeter may be used to test performance both on static and dynamic resources (files, Servlets, Perl scripts, Java Objects, Data Bases and Queries, FTP Servers and more). It can be used to simulate a heavy load on a server, network or object to test its strength or to analyze overall performance under different load types."><strong>JMeter</strong></abbr> compatible test plan for execution.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Threads</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="threads" name="threads" placeholder="100">
+              <p class="help-block">The number of threads (concurrent users) you will run per grid node. Setting this will override the <abbr title="${__P(threads,100)}"><strong>threads</strong></abbr> property function if set in your testplan.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Rampup</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="rampup" name="rampup" placeholder="60">
+              <p class="help-block">The time in seconds all threads will take to rampup. Setting this will override the <abbr title="${__P(rampup,60)}"><strong>rampup</strong></abbr> property function if set in your testplan.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Duration</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="duration" name="duration" placeholder="60">
+              <p class="help-block">The time in seconds all threads will run for after rampup. Setting this will override the <abbr title="${__P(duration,60)}"><strong>duration</strong></abbr> property function if set in your testplan.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Host</label>
+            <div class="controls">
+              <input type="text" class="input-xlarge" id="host" name="host">
+              <p class="help-block">The host domain all threads will target. Setting this will override the <abbr title="${__P(host,altentee.com)}"><strong>host</strong></abbr> property function if set in your testplan.</p>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Grid Nodes</label>
+            <div class="controls">
+              <p class="help-block">Select the grid nodes you want to distribute this test to.</p>
+              <%= render 'dashboard/nodes' %>
+            </div>
+          </div>
+        </form> 
+      </div>
+      
+    </div>
+
+    <div class="modal-footer">
+      <a href="#" class="btn" data-dismiss="modal">Close</a>
+      <% if user_signed_in? %>
+        <a id="runtest" href="#" class="btn btn-success">Start Test</a>
+      <% else %>
+        <a href="#" class="btn disabled" data-dismiss="modal"><i class="icon-lock"></i> Please sign in</a>
+      <% end %>
+    </div>
+  </div>
+    <script>
+    $("#form-basic").validate({
+      rules: {
+        url: {
+          required: true,
+          url: true
+        },
+        threads: {
+          required: true,
+          max: <%= threads_limit %>
+        },
+        rampup: {
+          required: true,
+          max: <%= rampup_limit %>
+        },
+        duration: {
+          required: true,
+          max: <%= duration_limit %>
+        },
+        "nodes[]": { 
+          required: true, 
+          minlength: 1 
+        }
+      },
+      messages: { 
+        url: "You must provide a valid URL", 
+        threads: "You are limited to <%= threads_limit %> concurrent threads for your account",
+        rampup: "You are limited to <%= rampup_limit %> seconds rampup for your account",
+        duration: "You are limited to <%= duration_limit %> seconds duration for your account",
+        "nodes[]": "Please select at least one grid node."
+      }
+    });
+  </script>
+
+</div>

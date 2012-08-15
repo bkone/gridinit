@@ -1,0 +1,49 @@
+require 'rubygems'
+require 'watir-webdriver'
+require 'watir-webdriver-performance'
+require 'headless'
+require 'logger'
+module Watir
+  class Browser
+    def log(name='Transaction Name', measurement=:response_time)
+      @logger ||= Logger.new('/var/log/gridnode-watirwebdriver.log')
+      @logger.level = Logger::INFO
+      @logger.info "#{name},#{self.performance.summary[measurement.to_sym]},200,#{ARGV[1]}"
+    end
+  end
+end
+headless = Headless.new
+headless.start
+
+profile = Selenium::WebDriver::Firefox::Profile.new
+
+profile.add_extension "/var/firefox/addon-1843-latest.xpi"
+profile.add_extension "/var/firefox/netExport-0.8b21.xpi"
+profile.add_extension "/var/firefox/yslow-3.1.0-fx.xpi"
+
+profile['extensions.firebug.currentVersion']    = "1.9.2" 
+profile['extensions.firebug.allPagesActivation'] = "on"
+profile["extensions.firebug.previousPlacement"] = 1
+profile["extensions.firebug.onByDefault"]       = true
+profile["extensions.firebug.defaultPanelName"]  = "net"
+profile["extensions.firebug.net.enableSites"]   = true
+
+profile["extensions.firebug.netexport.defaultLogDir"]          = "/var/gridnode/current/har"
+profile["extensions.firebug.netexport.alwaysEnableAutoExport"] = true
+profile['extensions.firebug.netexport.autoExportToFile'] = false
+profile['extensions.firebug.netexport.autoExportToServer'] = true
+profile['extensions.firebug.netexport.beaconServerURL'] = "http://127.0.0.1/scores?testguid=#{ARGV[1]}"
+
+profile['extensions.yslow.autorun'] = true
+profile['extensions.yslow.beaconInfo'] = "grade"
+profile['extensions.yslow.beaconUrl'] = "http://127.0.0.1/scores?testguid=#{ARGV[1]}"
+profile['extensions.yslow.optinBeacon'] = true
+
+b = Watir::Browser.new :firefox, :profile => profile
+
+b.goto ARGV[0]
+b.driver.save_screenshot "/var/gridnode/current/public/uploads/#{ARGV[1]}.png"
+b.log "#{ARGV[0]}", :response_time
+sleep 5
+b.close
+headless.destroy

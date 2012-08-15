@@ -1,0 +1,49 @@
+input {
+  file {
+    type => "jmeter"
+    path => "/var/log/gridnode-jmeter.log"
+  }
+  file {
+    type => "watirwebdriver"
+    path => "/var/log/gridnode-watirwebdriver.log"
+  }
+  file {
+    type => "stdout"
+    path => "/var/log/gridnode-stdout.log"
+  }
+  file {
+    type => "stderr"
+    path => "/var/log/gridnode-stderr.log"
+  }
+  file {
+    type => "errors"
+    path => "/var/log/gridnode-errors.log"
+  }
+}
+
+filter {
+  grok {
+    type => "jmeter"
+    pattern => "%{JMETER}"
+    add_tag => [ "jmeter" ]  
+    keep_empty_captures => true
+  }
+  grok {
+    type => "errors"
+    pattern => "%{JMETER}"
+    add_tag => [ "errors" ]  
+    keep_empty_captures => false
+  }
+  grok {
+    type => "watirwebdriver"
+    pattern => "%{WATIRWEBDRIVER}"
+    add_tag => [ "watirwebdriver" ]
+  }
+}
+
+output {
+  stdout { debug => true debug_format => "json"}
+  elasticsearch {
+    host => "127.0.0.1"
+  }
+}

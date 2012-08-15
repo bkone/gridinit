@@ -1,0 +1,106 @@
+<div class="secondary-masthead">  
+  <div class="container">    
+    <ul class="breadcrumb">
+      <% if params[:testguid] %>
+        <li>
+          <a href="/dashboard">Dashboard</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Test Results : <%= params[:domain] %></li>
+      <% else %>
+        <li class="active">Dashboard</li>
+      <% end %>
+     </ul> 
+  </div> 
+</div>
+
+<div class="main-area dashboard">
+  <div class="container">
+
+    <% if flash[:notice] %>
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">I'm sorry Dave, I'm afraid I can't do that!</h4>
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+    
+    <% if params[:testguid] %>
+
+      <% if @total_hits > 0 %>
+        <div class="row"> 
+          <%= render 'stats' %>
+        </div>    
+        
+        <div class="row">
+          <%= render 'charts' %>
+        </div>
+      <% else %>
+        <div class="alert alert-info">
+          <a class="close" data-dismiss="alert" href="#">×</a>
+          <h4 class="alert-heading">Please wait <%= image_tag "spinner-info.gif", :style => "padding-bottom:3px;" %></h4>
+          Results are not yet available for this test run. Please wait for the results to be indexed or select a different test.
+          <script>
+          var auto_refresh = setInterval(
+            function() { 
+              $.getJSON("/charts/get_total_hits?testguid=<%= params[:testguid] %>", function(d) {
+                if(d>0){
+                  location.reload();
+                }
+             });
+            }, 5000);
+          </script>
+        </div>
+      <% end %>
+    <% elsif @runs.size > 0 %>
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Welcome to the grid</h4>
+        Please select from a recent test to view its results or launch a <strong><a data-toggle="modal" href="#runmodal" style="color:#3A87AD"><i class="icon-bolt"></i> New Test</a></strong>
+      </div>
+    <% else %>
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">No Tests</h4>
+        Looks like you haven't executed any tests yet.
+      </div>
+    <% end %>
+    
+    <div class="row">
+      <%= render 'recent' %>
+      <div class="span6">
+        <div class="slate">
+          <div class="page-header">
+            <div class="btn-group pull-right">
+              <button class="btn dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-sitemap"></i>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#cstack=sn~Gridnode|turl~https://s3.amazonaws.com/cf-templates-1obdh7vu7eos-us-east-1/20122282uH-bootstrap.json">Launch AWS Nodes</a></li>
+                <% if admin_user? %>
+                <li class="divider"></li>
+                <li><a href="/nodes/restart/all">Restart All Nodes</a></li>
+                <% end %>
+              </ul>
+            </div>
+            <h2>
+              Grid Nodes
+            </h2>
+          </div>
+          <%= render 'dashboard/nodes' %>
+        </div>  
+      </div>
+    </div>
+    
+    <!-- Footer -->
+    <div class="row">
+      <div class="span12 footer">
+        <p class="pull-left">Over <%= number_to_human(@total_threads + 42000000) %> users simulated</p>
+        <a href="/tos.html" class="track">Terms of Service</a> |
+        <a href="/privacy.html" class="track">Privacy</a> | 
+        <a href="/license.html" class="track">© 2012</a> <a href="http://altentee.com/" class="track">Altentee Pty Ltd</a>
+      </div>
+    </div> 
+
+  </div> 
+</div>

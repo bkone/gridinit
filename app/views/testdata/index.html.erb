@@ -1,0 +1,109 @@
+<div class="secondary-masthead">  
+  <div class="container">    
+    <ul class="breadcrumb">
+      <a href="/">Dashboard</a> <span class="divider">/</span>
+      <li class="active">Test Data</li>
+     </ul> 
+  </div> 
+</div>
+
+<div class="main-area dashboard">
+  <div class="container">
+
+    <div class="alert alert-info">
+      <a class="close" data-dismiss="alert" href="#">×</a>
+      <h4 class="alert-heading">Test Data</h4>
+      Most test plans will depend on some form of static data. We use an advanced key-value store called Redis. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets and sorted sets. You can upload and manage test data sets on this page. You can access test data sets from your test plans via our JSON API.
+    </div>
+
+    <div class="row">
+      <div class="span12">
+        <div class="slate">
+
+          <form id="testdata" method="post" action="/testdata" enctype="multipart/form-data" class="inline">
+            <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+            <input type="hidden" id="source" name="source" value="testdata">
+            <label class="control-label" for="testplan">Upload Test Data</label>
+            <input class="xlarge" id="key" name="key" size="30" type="text" placeholder="Key Name" />
+            <button type="submit" class="btn btn-success pull-right" id="submit">Upload Data</button>
+            <input id="file" name="file" type="file">            
+          </form>
+
+        </div>
+      </div>  
+    </div>
+
+    <div class="row">
+      <div class="span12">
+        <div class="slate">
+
+          <div class="page-header">
+            <div class="btn-group pull-right">
+              <button class="btn dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-wrench"></i>
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="/testdata/keys?command=flushall" data-method="delete">Delete All Keys</a></li>
+              </ul>
+            </div>
+            <h2>Keys</h2>
+          </div>
+
+          <table class="testdata-table table">
+            <thead>
+              <tr>
+                <th class="span1"></td>
+                <th>Key Name</th>
+                <th>Size / Example</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% if @keys.size > 0 %>
+              <% @keys_paginated.each_with_index do |key, index| %>
+                <tr>
+                  <td class="btn-group span1">
+                    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="/testdata/<%=key.split(':').first %>">View</a></li>
+                      <li class="divider"></li>
+                      <li><a href="/testdata/<%=key.split(':').first %>?command=del" data-method="delete">Delete</a></li>
+                      <li class="divider"></li>
+                      <li><a href="/testdata/<%=key.split(':').first%>.csv">Download CSV</a></li>
+                    </ul>
+                  </td>
+                  <td>
+                    <a href="/testdata/<%= key.split(':').first %>"><%= key.split(':').first %></a>
+                  </td>
+                  <td>
+                    <%= key.split(':').last %> members
+                    <br />
+                    <span class="meta">
+                      <%= JSON.parse($redis.srandmember key.split(':').first).join(',') %>
+                    </span>
+                  </td>
+                  <td>
+                    
+                  </td>
+                </tr>
+                <% end %>  
+            <% else %>
+              <tr>
+                <td colspan=3>No test data sets.</td>
+              </tr>
+            <% end %>      
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <%= paginate @keys_paginated, :param_name => :keys_page if @keys_paginated %>
+        </div>
+
+      </div>
+    </div>
+
+    
+
+  </div>
+</div>

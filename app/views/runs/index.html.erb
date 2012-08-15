@@ -1,0 +1,149 @@
+<div class="secondary-masthead">  
+  <div class="container">    
+    <ul class="breadcrumb">
+      <a href="/dashboard">Dashboard</a> <span class="divider">/</span>
+      <li class="active">Tests</li>
+     </ul> 
+  </div> 
+</div>
+
+<div class="main-area dashboard">
+  <div class="container">
+
+    <div class="alert alert-info">
+      <a class="close" data-dismiss="alert" href="#">×</a>
+      <h4 class="alert-heading">Tests</h4>
+      Click on an individual test to see its results.
+    </div>
+    <div class="row"> 
+      <div class="span12">
+          <div class="slate">
+            <div class="page-header">
+              
+              <div class="btn-group pull-right">
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                  <i class="icon-wrench"></i>
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a data-toggle="modal" href="#runmodal">Start New Test</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/runs/abort_running_tests">Abort Running Tests</a></li>
+                  <li><a href="/runs/delete_queued_tests">Delete Queued Tests</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/runs/delete_all_tests">Delete All Tests</a></li>  
+                </ul>
+              </div>
+              <span class="pull-right">&nbsp;</span>
+              <input type="text" class="input-xlarge .runs-filter pull-right" id="runs-filter" name="runs-filter" data-provide="typeahead" data-items="8" data-source="" placeholder="Filter by Target ..." style="height:19px">
+
+              <h2>All Tests</h2>
+              
+            </div>
+
+            <table class="runs-table table">
+            <thead>
+              <tr>
+                <th class="span1"></td>
+                <th><abbr title="Apdex values fall between 0 and 1 where, 0 means that no users are satisfied and 1 indicates that all user samples were in the satisfied zone.">Apdex</abbr></th>
+                <th>Target</th>
+                <th class="span2">Notes</th>
+                <th>Privacy</th>
+                <th>Duration</th>
+                <th>Users</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @runs_paginated.each_with_index do |run, index| %>
+                <% params = hash_keys_to_sym run.params %>
+                <tr>
+                  <td class="btn-group span1">
+                    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="/runs/<%= run.id %>">View</a></li>
+                      <li><a href="/runs/share/<%= run.id %>">Share</a></li>
+                      <li><a href="/runs/compare/<%= run.id %>" class="compare">Compare</a></li>
+                      <li class="divider"></li>
+                      <li><a href="/runs/retest/<%= run.id %>">Retest</a></li>
+                      <li><a href="/runs/<%= run.id %>" data-method="delete">Delete</a></li>
+                      <li class="divider"></li>
+                      <li><a href="/runs/<%= run.id %>.xml">Download JMX</a></li>
+                      <li class="divider"></li>
+                      <% if run.privacy_flag == 0 %>
+                        <li><a href="/runs/private/<%= run.id %>">Make Private</a></li>
+                      <% else %>
+                        <li><a href="/runs/public/<%= run.id %>">Make Public</a></li>
+                      <% end %>
+                    </ul>
+                  </td>
+
+                  <td id="<%= params[:testguid] %>" class="apdex">
+                    <% if run.status == 'queued' %>
+                      <span class="label">queued</span>
+                    <% elsif run.status == 'running' %>
+                      <span class="label label-info">running</span>
+                    <% else %>
+                      <script>
+                        var satisfied = getParameterByName('satisfied') ? getParameterByName('satisfied') : 4000;
+                        $.getJSON('/charts/get_response_times?testguid=<%= params[:testguid] %>&label=&satisfied='+satisfied, function(d) {
+                            if(d[0].apdex){
+                              $('#<%= params[:testguid] %>.apdex').html(d[0].apdex.stat).css('background-color', d[0].apdex.colour); 
+                            } else {
+                              $('#<%= params[:testguid] %>.apdex').html('n/a')
+                            }
+                        });
+                      </script>
+                    <% end %>
+                  </td>
+
+                  <td>
+                    <input type="checkbox" id="runs" name="runs[]" value="<%= run.id %>">
+                    <a href="/runs/<%= run.id %>"><%= params[:domain] ? truncate(params[:domain], :length=>23) : 'multiple domains' %></a>
+                    <br />
+                    <span class="meta">
+                      <%= run.status == 'completed' ? 'Completed' : 'Queued' %> 
+                      <%= distance_of_time_in_words(Time.now - (run.completed ? run.completed : run.updated_at)) %> ago
+                    </span>
+                  </td>
+
+                  <td class="span2 notes" id="<%= run.id %>">
+                    <%= run.notes ? run.notes : '...' %>
+                  </td>
+
+                  <td>
+                    <%= run.privacy_flag == 0 ? 'Public' : 'Private' %>
+                  </td>
+
+                  <td>
+                    <%= distance_of_time_in_words(run.completed - run.started) if run.completed %>
+                    <br />
+                    <span class="meta">
+                      Start : <%= run.started ? run.started.localtime.asctime : 'Not started' %><br/>Finish: <%= run.completed ? run.completed.localtime.asctime : 'Not completed' %>
+                    </span>
+                  </td>
+
+                  <td>
+                    <% nodes = (params[:nodes] ? params[:nodes].size : 1) %>
+                    <%= params[:threads].to_i * nodes.to_i %> users
+                    <br />
+                    <span class="meta">
+                      Using <%= pluralize nodes, 'node' %>
+                    </span>
+                  </td>
+                  
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <%= paginate @runs_paginated, :param_name => :runs_page if @runs_paginated %>
+        </div>
+
+      </div>
+    </div>
+    
+  </div> 
+</div>

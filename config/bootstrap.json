@@ -1,0 +1,131 @@
+{
+ "AWSTemplateFormatVersion": "2010-09-09",
+ "Description" : "Gridinit Node",
+
+ "Parameters" : {
+    "KeyName" : {
+      "Type" : "String",
+      "Default" : "",
+      "Description" : "EC2 key pair to allow SSH access to the instance"
+    },
+    "InstanceType" : {
+      "Type" : "String",
+      "Default" : "m1.large",
+      "Description" : "EC2 instance type, we recommend an m1.large"
+    }
+  },
+
+  "Mappings" : {
+    "AWSInstanceType2Arch" : {
+      "m1.small":     { "Arch" : "64" },
+      "m1.large":     { "Arch" : "64" },
+      "m1.xlarge":    { "Arch" : "64" },
+      "m2.xlarge":    { "Arch" : "64" },
+      "m2.2xlarge":   { "Arch" : "64" },
+      "m2.4xlarge":   { "Arch" : "64" },
+      "c1.xlarge":    { "Arch" : "64" },
+      "cc1.4xlarge":  { "Arch" : "64" }
+    },
+
+    "AWSRegionArch2AMI" : {
+      "us-east-1":      { "64" : "ami-013f9768" },
+      "us-west-1":      { "64" : "ami-db86a39e" },
+      "us-west-2":      { "64" : "ami-e666e9d6" },
+      "eu-west-1":      { "64" : "ami-e901069d" },
+      "ap-southeast-1": { "64" : "ami-8a7f3ed8" },
+      "ap-northeast-1": { "64" : "ami-7609bb77" },
+      "sa-east-1":      { "64" : "ami-0276a81f" }
+    }
+  },
+
+  "Resources" : {
+    "Ec2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "ImageId" : { "Fn::FindInMap" : [ "AWSRegionArch2AMI", { "Ref" : "AWS::Region" },
+                                          { "Fn::FindInMap" : [ "AWSInstanceType2Arch", { "Ref" : "InstanceType" }, "Arch" ] } ] },
+        "KeyName" : { "Ref" : "KeyName" },
+        "InstanceType" : { "Ref" : "InstanceType" },
+        "SecurityGroups" : [{ "Ref" : "InstanceSecurityGroup" }],
+        "UserData" : { "Fn::Base64" : { "Fn::Join" : ["",[
+          "#!/usr/bin/env bash", "\n",
+          "curl -L https://raw.github.com/altentee/gridinit/master/config/bootstrap.sh | bash","\n",
+          "curl -X PUT -H 'Content-Type:' --data-binary '{\"Status\" : \"SUCCESS\",",
+                          "\"Reason\" : \"The gridnode is ready\",",
+                          "\"UniqueId\" : \"gridnode\",",
+                          "\"Data\" : \"Done\"}' ",
+                          "\"", {"Ref" : "WaitForInstanceWaitHandle"},"\"\n"
+        ]]}}
+      }
+    },
+
+    "InstanceSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Enable TCP port access",
+        "SecurityGroupIngress" : [ 
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "22",
+          "ToPort" : "22",
+          "CidrIp" : "0.0.0.0/0"
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "80",
+          "ToPort" : "80",
+          "CidrIp" : "0.0.0.0/0"
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "443",
+          "ToPort" : "443",
+          "CidrIp" : "0.0.0.0/0"
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "5672",
+          "ToPort" : "5672",
+          "CidrIp" : "0.0.0.0/0"
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "2812",
+          "ToPort" : "2812",
+          "CidrIp" : "0.0.0.0/0"
+        }
+        ]
+      }
+    },
+
+    "WaitForInstanceWaitHandle" : {
+      "Type" : "AWS::CloudFormation::WaitConditionHandle",
+      "Properties" : {
+      }
+    },
+
+    "WaitForInstance" : {
+      "Type" : "AWS::CloudFormation::WaitCondition",
+      "DependsOn" : "Ec2Instance",
+      "Properties" : {
+        "Handle" : {"Ref" : "WaitForInstanceWaitHandle"},
+        "Timeout" : "1200"
+      }
+    }
+  },
+
+  "Outputs" : {
+    "PrivateIp" : {
+      "Description" : "Private IP",
+      "Value" : { "Fn::GetAtt" : [ "Ec2Instance", "PrivateIp" ] }
+    },
+    "PublicIp" : {
+      "Description" : "Public IP",
+      "Value" : { "Fn::GetAtt" : [ "Ec2Instance", "PublicIp" ] }
+    },
+    "SSH" : {
+      "Description" : "SSH",
+      "Value" : { "Fn::Join" : ["", [ "ssh ubuntu@", { "Fn::GetAtt" : [ "Ec2Instance", "PublicIp" ] } ]]}
+    }
+  }
+}

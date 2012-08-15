@@ -1,0 +1,1 @@
+Rails.application.config.version = `git describe --tags --always`.chomp

@@ -1,0 +1,16 @@
+/.bundle
+/db/*.sqlite3
+/log/*
+/tmp
+public/uploads
+public/assets
+.DS_Store
+.sass-cache/
+config/initializers/omniauth.rb
+config/initializers/basicauth.rb
+config/database.yml
+config/deploy.rb
+.rails_generators
+nohup.out
+config/logstash.conf
+spec/

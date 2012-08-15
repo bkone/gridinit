@@ -1,0 +1,12 @@
+<pre id="logs" class="prettyprint" data-scroll_id="0"></pre>
+
+<script>
+  $(function() {
+    if(getParameterByName('testguid')) init_logs(<%= @total_hits %>);
+
+    $('#filter-button').click(function(e){
+      e.preventDefault();
+      init_logs(<%= @total_hits %>);
+    });
+  });
+</script>
