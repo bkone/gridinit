@@ -165,4 +165,13 @@ $(function(){
   return $('a[data-toggle="tab"]').on('shown', function(e) {
     return location.hash = $(e.target).attr('href').substr(1);
   });
+
+  $.tablesorter.addParser({
+    id: 'fancyNumber',
+    is:function(s){return false;},
+    format: function(s) {return s.replace(/[\,\.]/g,'');},
+    type: 'numeric'
+  });
+  $(".nodes-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
+  $(".runs-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
 });

@@ -65,12 +65,6 @@ function chart_response_times_by_label(){
         graph: graph,
         element: $('#chart_response_times_by_label > div.smoother')
       } );
-      $.tablesorter.addParser({
-        id: 'fancyNumber',
-        is:function(s){return false;},
-        format: function(s) {return s.replace(/[\,\.]/g,'');},
-        type: 'numeric'
-      });
       $("#chart_response_times_by_label > div.legend > table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
       var annotator = new Rickshaw.Graph.Annotate( {
         graph: graph,
