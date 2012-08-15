@@ -17,7 +17,9 @@ Gridinit::Application.routes.draw do
   match '/dashboard/hits'             => 'dashboard#hits'
   match '/dashboard/stats'            => 'dashboard#stats'
   match '/shared'                     => 'dashboard#shared'
-  
+
+  match '_search'                     => 'searches#index'
+    
   match '/nodes/restart/:id'          => 'nodes#restart'
   
   resources :nodes, :constraints  => { :id => %r([^/;,?]+) }
@@ -31,6 +33,7 @@ Gridinit::Application.routes.draw do
   resources :attachments
   resources :runs
   resources :health
+
  
   match '/auth/:provider/callback' => 'sessions#create'
   match '/auth/failure' => 'sessions#failure'
