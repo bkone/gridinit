@@ -101,7 +101,7 @@ class RunsController < ApplicationController
 
   def quickie
     uri = URI.parse(params[:url])
-    params[:threads]    ||= 50
+    params[:threads]    ||= 100
     params[:rampup]     ||= 50
     params[:duration]   ||= 10
     params[:host]       = uri.host

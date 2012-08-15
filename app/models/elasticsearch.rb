@@ -169,7 +169,6 @@ class Elasticsearch
     search = Tire.search '*' do
       query do
         boolean do
-          # must { string "testguid:#{params[:testguid]}*" }
           must { text :testguid, params[:testguid] }
           must { text :label, params[:label] } if params[:label].size > 0
           must { string "@tags:#{params[:tags]}*"  }
