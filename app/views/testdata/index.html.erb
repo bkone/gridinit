@@ -111,10 +111,14 @@
       rules: {
         key: {
           required: true,
+        },
+        file: {
+          required: true
         }
       },
       messages: { 
-        key: "You must provide a key name to store data against"
+        key: "Please provide a key name for this data set",
+        file: "Please provide a CSV formatted file for this data set"
       }
     });
   </script>
