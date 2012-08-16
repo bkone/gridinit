@@ -49,7 +49,6 @@
            
             <script>
             <% ['logstash', 'elasticsearch', 'resque', 'redis'].each do |service| %>
-              <% next if service == 'redis' && node.role != 'master' %>
               $.ajax({
                 url: "http://<%= node.host %>:<%= request.port %>/health/<%= service %>",
                 timeout: 10000
