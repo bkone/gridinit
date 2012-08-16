@@ -11,7 +11,7 @@ class DashboardController < ApplicationController
   end
 
   def shared
-    @run = Run.find_by_id!(params[:run_id])
+    @run = Run.find_by_id!(params[:id])
     @total_hits = Elasticsearch.get_total_hits(params)
     render 'dashboard/shared', :layout => false
   end
