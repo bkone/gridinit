@@ -30,11 +30,15 @@ class NodesController < ApplicationController
     self.restart_elasticsearch
     self.restart_logstash
     self.reapply_mappings
+    self.restart_rails
   end
 
   def update_config(node)
-    logstash = File.read("#{Rails.root}/config/logstash-#{node.role}").gsub('gridinit.com', node.master ? node.master : '')
+    logstash = File.read("#{Rails.root}/config/logstash-#{node.role}").gsub('gridinit.com', node.master ? node.master : '127.0.0.1')
     File.open("#{Rails.root}/config/logstash.conf", 'w+'){|f| f << logstash } 
+    
+    redis = File.read("#{Rails.root}/config/redis.yml").gsub(/host:.+/, node.master ? "host: #{node.master}" : "host: localhost")
+    File.open("#{Rails.root}/config/redis.yml", 'w+'){|f| f << redis } 
   end
 
   def self.restart_redis
@@ -51,6 +55,10 @@ class NodesController < ApplicationController
 
   def self.reapply_mappings
     `curl -s -XPUT -d @#{Rails.root}/config/elasticsearch-mappings.json http://localhost:9200/_template/foo`
+  end
+
+  def self.restart_rails
+   `sudo /etc/init.d/apache2 restart`
   end
   
 end
