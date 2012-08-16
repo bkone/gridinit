@@ -1,3 +1,11 @@
+class AdminRestriction
+  def self.matches?(request)
+    user_id = request.env['rack.session'][:user_id]
+    user = User.find_by_id(user_id)
+    return user && user.role == 'admin'
+  end
+end
+
 Gridinit::Application.routes.draw do
 
   get 'pages/home'
@@ -43,7 +51,7 @@ Gridinit::Application.routes.draw do
   match '/signout' => 'sessions#destroy', :as => :signout
   match '/signin/:provider' => 'sessions#new', :as => :signin
 
-  mount Resque::Server, :at => "/resque"
+  mount Resque::Server => '/resque', :constraints => AdminRestriction
  
   root :to => 'pages#home'
 end
