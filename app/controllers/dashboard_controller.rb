@@ -10,8 +10,15 @@ class DashboardController < ApplicationController
     @total_hits = Elasticsearch.get_total_hits(params)
   end
 
-  def shared
+  def shortened
     @run = Run.find_by_id!(params[:id])
+    params = hash_keys_to_sym @run.params
+    redirect_to URI.escape "/shared?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}&run_id=#{params[:id]}"
+  end
+
+  def shared
+    @run = Run.find_by_id!(params[:run_id])
+    params = hash_keys_to_sym @run.params
     @total_hits = Elasticsearch.get_total_hits(params)
     render 'dashboard/shared', :layout => false
   end
