@@ -262,7 +262,10 @@ function webdis() { echo "==> Installing WebDis"
     git clone https://github.com/nicolasff/webdis.git /var/webdis
     cd /var/webdis
     make
-    ./webdis &
+    perl -pi -e 's|"daemonize":.+|"daemonize": true,|g' /var/webdis/webdis.json
+    perl -pi -e 's|"disabled":.+|"disabled": ["DEBUG", "FLUSHDB", "FLUSHALL"]|g' /var/webdis/webdis.json
+    perl -pi -e 's|"enabled":.+|"disabled": ["DEBUG", "FLUSHDB", "FLUSHALL"]|g' /var/webdis/webdis.json
+    ./webdis
   fi
 }
 function monit() { echo "==> Installing Monit"
@@ -296,7 +299,7 @@ function firewall() { echo "==> Update Firewall"
 function rclocal() { echo "==> Update rc.local"
   cat - << EOS > /etc/rc.local
 #!/bin/sh
-/var/webdis/webdis &
+/var/webdis/webdis
 chown -R ubuntu /var/firefox
 exit 0
 EOS
