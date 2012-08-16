@@ -13,7 +13,7 @@ class DashboardController < ApplicationController
   def shortened
     @run = Run.find_by_id!(params[:id])
     params = hash_keys_to_sym @run.params
-    redirect_to URI.escape "/shared?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}&run_id=#{params[:id]}"
+    redirect_to URI.escape "http://gridinit.com/shared?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}&run_id=#{params[:id]}"
   end
 
   def shared
