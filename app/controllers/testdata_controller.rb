@@ -33,7 +33,8 @@ class TestdataController < ApplicationController
 
   def destroy
     if params[:command] == 'flushall'
-      $redis.flushall
+      keys = $redis.keys('*').delete_if {|x| x =~ /resque/ || x.size == 0 }
+      keys.each {|key| $redis.del key }
       redirect_to :back
     elsif params[:command] == 'del'
       $redis.del params[:id]
