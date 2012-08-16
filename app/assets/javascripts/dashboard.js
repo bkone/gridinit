@@ -107,7 +107,14 @@ $(function(){
 
   $(".notes").editable("/runs/notes", {
     name : 'notes',
-    cssclass : 'input-small',
+    data: function(value, settings) {
+      var retval = value.replace(/.*/gi, '');
+      return retval;
+    }
+  });
+
+  $(".user-role").editable("/users/role", {
+    name : 'role',
     data: function(value, settings) {
       var retval = value.replace(/.*/gi, '');
       return retval;

@@ -10,4 +10,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def role
+    user = User.find_by_id!(params[:id])
+    user.update_attributes(:role => params[:role])
+    render :text => params[:role]
+  end
+
 end
