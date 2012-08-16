@@ -37,7 +37,6 @@ class RunsController < ApplicationController
     params = hash_keys_to_sym @run.params
     respond_to do |format|
       format.html {
-        # redirect_to URI.escape "http://gridin.it/shared?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}&run_id=#{run_id}"
         redirect_to URI.escape "http://gridin.it/#{run_id}"
       }
     end    

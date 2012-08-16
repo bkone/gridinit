@@ -115,6 +115,29 @@
     <div class="span2"></div>
   </div>
 
+  <hr class="soften">
+
+  <div class="row-fluid">
+    <div class="span1"></div>
+    <div class="span10 marketing">
+      <div class="pull-left">
+        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="funonrails">Tweet</a>
+        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+        <br/>
+        <fb:like href="" layout="button_count" show_faces="false" width="450" font=""></fb:like>
+      </div>
+      <div class="pull-right">
+        <i class="icon-group" rel="tooltip" title="<%= @total_threads + 42000000 %> users to be precise"></i> Over <%= number_to_human(@total_threads + 42000000) %> users simulated by <span style="font-family: 'Pacifico', cursive; font-size:18px;"><a href="http://gridinit.com">Gridinit</a></span>
+        <br/>
+        <a href="/tos.html" class="track">Terms of Service</a> |
+        <a href="/privacy.html" class="track">Privacy</a> | 
+        <a href="/license.html" class="track">© 2012</a> <a href="http://altentee.com/" class="track">Altentee Pty Ltd</a>
+      </div>
+    </div>
+    <div class="span1"></div>
+  </div>
+
 </div>
 
 <script>
