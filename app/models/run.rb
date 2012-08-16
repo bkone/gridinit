@@ -71,7 +71,7 @@ class Run < ActiveRecord::Base
       -Jtestguid=#{params[:testguid]} \
       2>>/var/log/gridnode-stderr.log"
     end
-    logger.warn cmd
+    logger.debug cmd
     `#{cmd}`
     testplan.close
     testplan.unlink

@@ -54,6 +54,13 @@ namespace :uploads do
   password: ""
 EOF
     put database, "#{release_path}/config/database.yml"
+
+    redis = <<-EOF
+#{rails_env}:
+  host: localhost
+  port: 6379
+EOF
+  put redis, "#{release_path}/config/redis.yml"
   end
 
   after       "deploy:finalize_update", "uploads:symlink", "uploads:writeconfig"

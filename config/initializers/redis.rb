@@ -1,1 +1,0 @@
-$redis = Redis.new(:host => 'gridinit.com', :port => 6379)

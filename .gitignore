@@ -9,6 +9,7 @@ public/assets
 config/initializers/omniauth.rb
 config/initializers/basicauth.rb
 config/database.yml
+config/redis.yml
 config/deploy.rb
 .rails_generators
 nohup.out

@@ -1,11 +1,11 @@
 class NodesController < ApplicationController
-  before_filter :require_admin!, :except => [:index, :update]
+  before_filter :require_admin!, :except => [:index]
   protect_from_forgery :except => [:update, :restart]
 
   def update
     node = Node.find_by_host!(params[:id])
     node.update_attributes(:role => params[:role], :master => params[:master])
-    write_config(node)
+    update_config(node)
     enqueue(node.host, :restart_services)
     redirect_to :back
   end
@@ -32,7 +32,7 @@ class NodesController < ApplicationController
     self.reapply_mappings
   end
 
-  def write_config(node)
+  def update_config(node)
     logstash = File.read("#{Rails.root}/config/logstash-#{node.role}").gsub('gridinit.com', node.master ? node.master : '')
     File.open("#{Rails.root}/config/logstash.conf", 'w+'){|f| f << logstash } 
   end
