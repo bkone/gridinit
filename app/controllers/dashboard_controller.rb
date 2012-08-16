@@ -1,5 +1,5 @@
 class DashboardController < ApplicationController
-  before_filter :require_admin!, :except => [:index, :shared]
+  before_filter :require_admin!, :except => [:index, :shortened, :shared]
   
   def index
     @runs   = Run.find(:all,
