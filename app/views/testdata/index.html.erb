@@ -20,7 +20,7 @@
       <div class="span12">
         <div class="slate">
 
-          <form id="testdata" method="post" action="/testdata" enctype="multipart/form-data" class="inline">
+          <form id="form-testdata" method="post" action="/testdata" enctype="multipart/form-data" class="inline">
             <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
             <input type="hidden" id="source" name="source" value="testdata">
             <label class="control-label" for="testplan">Upload Test Data</label>
@@ -103,7 +103,18 @@
       </div>
     </div>
 
-    
-
   </div>
 </div>
+
+<script>
+    $("#form-testdata").validate({
+      rules: {
+        key: {
+          required: true,
+        }
+      },
+      messages: { 
+        key: "You must provide a key name to store data against"
+      }
+    });
+  </script>

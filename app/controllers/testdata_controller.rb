@@ -23,7 +23,6 @@ class TestdataController < ApplicationController
   end
 
   def create
-    logger.debug $redis.keys('*')
     @key = params[:key].gsub(/[^0-9a-z]/i, '_')
     CSV.parse(params[:file].read) do |value| 
       $redis.sadd(@key, value.to_json)
