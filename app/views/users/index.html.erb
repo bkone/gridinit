@@ -22,11 +22,9 @@
               <tr>
                 <th></th>
                 <th>Provider</th>
-                <th>User ID</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Avatar URL</th>
-                <th><i class="icon-edit"></i> Role</th>
+                <th>Role</th>
               </tr>
             </thead>
             <tbody>
@@ -35,7 +33,7 @@
                   <td class="btn-group span1">
                     <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
                     <ul class="dropdown-menu">
-                      <li><a href="/users/delete/<%= user.id %>">Delete</a></li>
+                      <li><a href="/users/delete/<%= user.id %>">Delete User</a></li>
                     </ul>
                   </td>
 
@@ -43,16 +41,10 @@
                     <%= user.provider %>
                   </td>
                   <td>
-                    <%= user.uid %>
-                  </td>
-                  <td>
                     <%= user.name %>
                   </td>
                   <td>
                     <%= user.email %>
-                  </td>
-                  <td>
-                    <%= user.avatar_url %>
                   </td>
                   <td class="user-role">
                     <%= user.role %>

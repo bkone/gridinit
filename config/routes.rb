@@ -15,6 +15,7 @@ Gridinit::Application.routes.draw do
   match '/runs/notes'                 => 'runs#notes'
 
   match '/users/role'                 => 'users#role'
+  match '/users/delete/:id'           => 'users#destroy'
 
   match '/dashboard/hits'             => 'dashboard#hits'
   match '/dashboard/stats'            => 'dashboard#stats'

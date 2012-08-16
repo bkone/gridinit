@@ -16,4 +16,9 @@ class UsersController < ApplicationController
     render :text => params[:role]
   end
 
+  def destroy
+    User.delete(params[:id])
+    redirect_to :back
+  end
+
 end
