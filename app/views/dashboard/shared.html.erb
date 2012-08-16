@@ -39,7 +39,7 @@
       <ul class="breadcrumb">
           <li class="active">Test Results : <%= params[:domain] %></li>
        </ul>
-    </div> 
+    </div>
   </div>
 
   <div class="main-area dashboard">
@@ -61,9 +61,21 @@
       <!-- Footer -->
       <div class="row">
         <div class="span12 footer">
-          <h6 class="pull-left">TEST EXECUTED: <%= @run.completed ? @run.completed.localtime.asctime : @run.updated_at.localtime.asctime %></h6> Results munged by <span style="font-family: 'Pacifico', cursive; font-size:18px;"><a href="http://gridinit.com">Gridinit</a></span> 
+          <h6 class="pull-left">TEST EXECUTED: <%= @run.completed ? @run.completed.localtime.asctime : @run.updated_at.localtime.asctime %></h6>
+          <span class="pull-right">
+            Results munged by <span style="font-family: 'Pacifico', cursive; font-size:18px;"><a href="http://gridinit.com">Gridinit</a></span>
+          </span>
         </div>
       </div>
+      <div class="row pull-left" style="padding-left: 20px;">
+        <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="funonrails">Tweet</a>
+        <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+        <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
+        <br/>
+        <fb:like href="" layout="button_count" show_faces="false" width="450" font=""></fb:like>
+      </div>
+      
+      
 
     </div>
   </div>
