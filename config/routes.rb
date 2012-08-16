@@ -33,7 +33,7 @@ Gridinit::Application.routes.draw do
   resources :attachments
   resources :runs
   resources :health
-
+  resources :users
  
   match '/auth/:provider/callback' => 'sessions#create'
   match '/auth/failure' => 'sessions#failure'

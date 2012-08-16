@@ -1,0 +1,78 @@
+<div class="secondary-masthead">  
+  <div class="container">    
+    <ul class="breadcrumb">
+      <a href="/dashboard">Dashboard</a> <span class="divider">/</span>
+      <li class="active">Users</li>
+     </ul> 
+  </div> 
+</div>
+
+<div class="main-area dashboard">
+  <div class="container">
+
+    <div class="row"> 
+      <div class="span12">
+          <div class="slate">
+            <div class="page-header">
+              <h2>All Users</h2>
+            </div>
+
+            <table class="users-table table">
+            <thead>
+              <tr>
+                <th>Provider</th>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Avatar URL</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @users_paginated.each_with_index do |user, index| %>
+                <tr>
+                  <td class="btn-group span1">
+                    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <li><a href="/users/delete/<%= user.id %>">Delete</a></li>
+                    </ul>
+                  </td>
+
+                  <td>
+                    <%= user.provider %>
+                  </td>
+                  <td>
+                    <%= user.uid %>
+                  </td>
+                  <td>
+                    <%= user.name %>
+                  </td>
+                  <td>
+                    <%= user.email %>
+                  </td>
+                  <td>
+                    <%= user.avatar_url %>
+                  </td>
+                  <td>
+                    <%= user.role %>
+                  </td> 
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <%= paginate @users_paginated, :param_name => :users_page if @users_paginated %>
+        </div>
+
+      </div>
+    </div>
+    
+  </div> 
+</div>
+<script>
+$(function(){
+  $(".users-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
+});
+</script>
