@@ -51,7 +51,7 @@ class Run < ActiveRecord::Base
       #{params[:testguid]} 1\
       >>/var/log/gridnode-watirwebdriver.log 2>&1"
     when 'jmeter'
-      "timeout -k 120 java -server -XX:+HeapDumpOnOutOfMemoryError \
+      "java -server -XX:+HeapDumpOnOutOfMemoryError \
       -Xms#{heap_size} -Xmx#{heap_size} \
       -XX:NewSize=128m -XX:MaxNewSize=128m \
       -XX:MaxTenuringThreshold=2 \
