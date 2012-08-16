@@ -93,6 +93,12 @@
           "FromPort" : "2812",
           "ToPort" : "2812",
           "CidrIp" : "0.0.0.0/0"
+        },
+        {
+          "IpProtocol" : "tcp",
+          "FromPort" : "7379",
+          "ToPort" : "7379",
+          "CidrIp" : "0.0.0.0/0"
         }
         ]
       }

@@ -290,6 +290,7 @@ function firewall() { echo "==> Update Firewall"
   ufw allow 22    # ssh
   ufw allow 2812  # monit
   ufw allow 6379  # redis
+  ufw allow 7379  # webdis
   ufw enable      # only used on non-EC2 instances
 }
 function rclocal() { echo "==> Update rc.local"

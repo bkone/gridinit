@@ -28,9 +28,10 @@ class NodesController < ApplicationController
 
   def self.restart_services
     self.restart_elasticsearch
+    self.restart_redis
     self.restart_logstash
+    self.restart_worker
     self.reapply_mappings
-    self.restart_rails
   end
 
   def update_config(node)
@@ -57,8 +58,8 @@ class NodesController < ApplicationController
     `curl -s -XPUT -d @#{Rails.root}/config/elasticsearch-mappings.json http://localhost:9200/_template/foo`
   end
 
-  def self.restart_rails
-   `sudo /etc/init.d/apache2 restart`
+  def self.restart_worker
+   `sudo restart gridinit`
   end
   
 end
