@@ -28,6 +28,7 @@ Gridinit::Application.routes.draw do
   match '/dashboard/hits'             => 'dashboard#hits'
   match '/dashboard/stats'            => 'dashboard#stats'
   match '/shared'                     => 'dashboard#shared'
+  match "/:id"                        => 'dashboard#shared', :constraints => {:domain => "gridin.it"}
 
   match '_search'                     => 'searches#index'
     
