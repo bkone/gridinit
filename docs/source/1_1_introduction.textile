@@ -1,0 +1,33 @@
+!../images/logo.png!
+
+h1. Overview
+
+Welcome to the grid. The grid is a collection of performance test automation tools deployed on cloud resources, making them an inexpensive test asset for a wide variety of testing needs. 
+
+The grid can be used to execute basic URL load tests through to more advanced JMeter based test plans. The grid is an Australian solution hosted out of Sydney with a near zero latency network for our domestic clients. The grid also taps into the international cloud market offering distributed load tests across the globe. Pay for our managed services, or host your own grid for free.
+
+h1. Features
+
+h2. JMeter Based
+
+Execute JMeter test plans on the grid. Our innovative engine gets the most performance out of independent grid nodes without detriment to your results.
+
+h2. Live Results
+
+Get real time data from your tests. Don't mess with disparate results. Use canned charts or tap into real time search indexes using elasticsearch.
+
+h2. Tons of Users
+
+With each node running thousands of users and the ability to scale out with as many nodes as you like, the cloud is the limit on your load tests.
+
+h2. Test Data
+
+Most test plans depend on static data. We store key-values using redis so that test data can be accessed from your test plans via a simple API.
+
+h2. Open Source
+
+Don't like something? "Fork":https://github.com/altentee/gridinit our repository, contribute or let us know. All our code is open sourced under the Apache Software License.
+
+h2. All Budgets
+
+Use our hosted infrastructure or host your own grid nodes for free. We also offer a competitively priced managed subscription.

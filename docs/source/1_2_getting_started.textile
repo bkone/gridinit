@@ -1,0 +1,20 @@
+!../images/logo.png!
+
+h1. Getting Started
+
+h2. Dashboard
+
+Everything starts with the dashboard. The dashboard gives you access to things like test results, recent tests and grid node management. Click on the Dasboard link to get started.
+
+h3. Recent Tests
+
+Recent Tests gives you a quick overview of the last 5 tests, including their Apdex score, privacy status, targeted domain and run date. Use the drop down menu to manage, start, abort or delete test results.
+
+h3. Grid Nodes
+
+Grid Nodes shows you which grid nodes are connected including last known status in terms of CPU, services running and current role. Use the drop down menu to restart or launch additional grid nodes.
+
+h1. New Tests
+
+Click on the New Test link to get started. From here you can execute basic or advanced test plans.
+

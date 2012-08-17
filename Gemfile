@@ -57,7 +57,7 @@ group :test, :development do
   gem 'guard-bundler'
   gem 'guard-rails'       
   gem 'growl'
-  gem 'spork'     
+  gem 'spork'
 end
 
 platforms :jruby do
