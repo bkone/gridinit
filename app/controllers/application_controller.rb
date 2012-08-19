@@ -18,7 +18,8 @@ class ApplicationController < ActionController::Base
   protected
 
   def nodes
-    @node             = Node.find_or_create_by_host(ENV['PUBLIC_IPV4']) if ENV['PUBLIC_IPV4'].size > 0
+    
+    @node             = ENV['PUBLIC_IPV4'].size > 0 ? Node.find_or_create_by_host(ENV['PUBLIC_IPV4']) : Node.first
     @nodes            = Node.all
   end
 
