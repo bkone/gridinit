@@ -26,6 +26,7 @@ gem 'honeypot-captcha'
 gem 'tire'
 gem 'resque', :require => 'resque/server'
 gem 'foreman'
+gem 'RedCloth', :require => 'redcloth'
 
 group :assets do
   gem 'uglifier'

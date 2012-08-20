@@ -101,7 +101,8 @@
               </ul>
               <ul class="nav pull-right">
                 <li>
-                  <a href="javascript:UserVoice.showPopupWidget();"><i class="icon-heart-empty"></i> Feedback & Support</a>
+                  <!-- <a href="javascript:UserVoice.showPopupWidget();"><i class="icon-heart-empty"></i> Feedback & Support</a> -->
+                  <a data-toggle="modal" href="#supportmodal"><i class="icon-heart-empty"></i> Feedback & Support</a>
                 </li>
               </ul>
               </div>
@@ -116,6 +117,7 @@
 
     <%= render 'dashboard/node' %>
     <%= render 'dashboard/run' %>
+    <%= render 'dashboard/support' %>
 
     <script type="text/javascript">
       var uvOptions = {};

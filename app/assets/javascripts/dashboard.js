@@ -95,6 +95,22 @@ $(function(){
     $('#advanced').addClass('active');
   });
 
+  $('#support > a').click(function(){
+    $('.support').show('fast');
+    $('.knowledge').hide('fast');
+    $('#support').addClass('active');
+    $('#knowledge').removeClass('active');
+  });
+
+  $('#knowledge > li > a').click(function(e){
+    e.preventDefault();
+    console.log($(this));
+    $('.support').hide('fast');
+    $('.knowledge').show('fast').load($(this).attr('href'));
+    $('#support').removeClass('active');
+    $('#knowledge').addClass('active');
+  });
+
   $('#runtest').click(function(e){
     e.preventDefault();
     if($('.basic').is(":visible")) { 
