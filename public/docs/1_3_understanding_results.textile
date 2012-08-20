@@ -2,7 +2,7 @@
 
 h1. Understanding Results
 
-Each time you execute a test you will automatially be redirected to the results of that test when they become available. There is a slight delay between test start and when test results are available (normally about 20 seconds), with a prompt similar to the following.
+Each time you execute a test you will automatically be redirected to the results of that test when they become available. There is a slight delay between test start and when test results are available (normally about 20 seconds), with a prompt similar to the following.
 
 !../images/1_3_please_wait.png!
 

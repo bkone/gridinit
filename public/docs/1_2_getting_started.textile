@@ -34,7 +34,7 @@ h3. Advanced Test
 
 !../images/1_2_advanced_test.png!
 
-An advanced test will execute load from a user provider JMeter test plan which you must upload. Similar parameters for threads, rampup, duration and host can be overridden with user provided parameters. These parameters will ovveride relevant JMeter property functions if defined in your test plan. This lets you create _generic_ testplan templates which you can modify at run time with different parameters.
+An advanced test will execute load from a user provider JMeter test plan which you must upload. Similar parameters for threads, rampup, duration and host can be overridden with user provided parameters. These parameters will override relevant JMeter property functions if defined in your test plan. This lets you create _generic_ testplan templates which you can modify at run time with different parameters.
 
 A JMeter property can be defined like this:
 
