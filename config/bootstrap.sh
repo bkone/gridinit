@@ -50,7 +50,7 @@ Last built: `date`
 EOS
 }
 function essential() { echo "==> Installing essential packages"
-  apt-get install -y build-essential binutils-doc autoconf flex bison git-core git g++ vim zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake unzip openssl libreadline6 libreadline6-dev curl wget make rrdtool openjdk-6-jre libmysqlclient-dev libapache2-mod-passenger libcurl4-openssl-dev chkconfig apache2 apache2-dev multitail redis-server httping acl nodejs
+  apt-get install -y build-essential binutils-doc autoconf flex bison git-core git g++ vim zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-0 libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake unzip openssl libreadline6 libreadline6-dev curl wget make rrdtool openjdk-6-jre libmysqlclient-dev libapache2-mod-passenger libcurl4-openssl-dev chkconfig apache2 apache2-dev multitail redis-server httping acl nodejs sendmail
   file_touch /root/.ssh/known_hosts 0700
   cat - << EOS > /root/.ssh/known_hosts
 github.com,207.97.227.239 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
