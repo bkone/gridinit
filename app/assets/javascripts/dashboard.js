@@ -97,6 +97,7 @@ $(function(){
 
   $('#support > a').click(function(){
     $('.support').show('fast');
+    $('.modal-footer').show('fast');
     $('.knowledge').hide('fast');
     $('#support').addClass('active');
     $('#knowledge').removeClass('active');
@@ -106,6 +107,7 @@ $(function(){
     e.preventDefault();
     console.log($(this));
     $('.support').hide('fast');
+    $('.modal-footer').hide('fast');
     $('.knowledge').show('fast').load($(this).attr('href'));
     $('#support').removeClass('active');
     $('#knowledge').addClass('active');
