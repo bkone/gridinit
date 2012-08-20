@@ -26,7 +26,7 @@ h3. Basic Test
 
 !../images/1_2_basic_test.png! 
 
-A basic test will execute load against a target URL. Frome here you can specify the URL, target number of threads (concurrent users), rampup time (in seconds) and duration (in seconds). Casual use of gridinit.com will limit you to 50 threads per grid node, and 60 seconds each for rampup and duration time. The basic test will execute your parameters against a pre-defined JMeter template which you can "download from here":https://raw.github.com/altentee/gridinit/577e87a99b294cb9eca8c249205a50991bcdbd0f/config/jmeter
+A basic test will execute load against a target URL. Frome here you can specify the URL, target number of threads (concurrent users), rampup time (in seconds) and duration (in seconds). Casual use of gridinit.com will limit you to 50 threads per grid node, and 60 seconds each for rampup and duration time. The basic test will execute your parameters against a pre-defined JMeter template which you can "download from here":https://raw.github.com/altentee/gridinit/master/config/jmeter
 
 This template introduces conservative settings such as a gaussian random time between 5 - 10 seconds (think time) and 1 - 5 seconds (pacing) between each iteration. The script will also stop automatically if average response time is greater than 10 seconds or the error rate is greater than 50 failed transactions. This prevents the basic test from a becoming denial of service type test. 
 
