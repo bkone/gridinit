@@ -1,0 +1,10 @@
+In the response times by label chart you will get a visual representation of errors with small dots above the time line. If configured in your test plan these will show a snapshot of the response from the server for the request in error.
+
+To "snapshot on error" simply add a listener "Save Responses to a file" with the filename prefix as follows:
+<pre>
+public/uploads/${__log(snapshot_${__escapeHtml(${__samplerName()})}_${testguid}_${__counter(FALSE,)},ERR)}
+</pre>
+
+You will also need to tick the following defaults for the listener:
+
+!../images/1_3_snapshot_on_error.png!

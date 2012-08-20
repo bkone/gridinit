@@ -1,0 +1,31 @@
+!../images/logo.png!
+
+h1. Understanding Results
+
+Each time you execute a test you will automatially be redirected to the results of that test when they become available. There is a slight delay between test start and when test results are available (normally about 20 seconds), with a prompt similar to the following.
+
+!../images/1_3_please_wait.png!
+
+You will then be presented with results for the currently selected test on the dashboard.
+
+!../images/1_3_viewing_results.png!
+
+The results are split up between a statistics panel (top) and charts panel (bottom).
+
+h2. Statistics Panel
+
+!../images/1_3_stats_panel.png!
+
+The statistics panel gives you quick information about metrics such as response time, throughput, concurrency, Apdex and errors. Clicking on any of the individual panel items will cycle through various metrics for each type of measurement reported.
+
+h2. Charts Panel
+
+!../images/1_3_charts_panel.png!
+
+The charts panel presents various charts, the default being response times by label. Other charts include errors by label, response time, throughput and concurrency averages. You can cycle through these charts by selecting from the !../images/icon/chart.png! *chart* type drop down menu. 
+
+The granularity of results can be controlled from the !../images/icon/time.png! *interval* type drop down menu. Here you can select chart granularity by day, hour, minute or second. You can also _smooth_ any of the chart results by using the top horizontal slider, or _zoom_ in on a time range with the bottom horizontal slider bordering each chart.
+
+Features soon to be added will be the ability to !../images/icon/export.png! *export* chart data as a CSV or PDF file. We are also including a JSON HTTP API for access to test results indexed within elasticsearch.
+
+The !../images/icon/refresh.png! *refresh* drop down menu can be used to auto refresh or pause updating of the results. Auto refresh is disabled by default.
