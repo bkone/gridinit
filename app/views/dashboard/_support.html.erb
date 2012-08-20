@@ -25,15 +25,15 @@
           </div>
           <div class="control-group">
             <div class="controls">
-              <textarea class="input-xlarge" id="textarea" id="details" name="details" rows="5" placeholder="How can we help you?"></textarea>
+              <textarea class="input-xlarge" id="textarea" id="body" name="body" rows="5" placeholder="How can we help you?"></textarea>
             </div>
           </div>
           <div class="control-group">
             <div class="controls">
-              <input type="text" class="input-xlarge" id="email" name="email" placeholder="Your email address">
+              <input type="text" class="input-xlarge" id="from" name="from" placeholder="Your email address">
             </div>
           </div>
-        </form>
+        
       </div>
 
       <div class="knowledge" style="display: none;">
@@ -44,43 +44,28 @@
 
     <div class="modal-footer">
       <a href="#" class="btn" data-dismiss="modal">Close</a>
-      <% if user_signed_in? %>
-        <a id="runtest" href="#" class="btn btn-success">Send Message</a>
-      <% else %>
-        <a href="#" class="btn disabled" data-dismiss="modal"><i class="icon-lock"></i> Please sign in</a>
-      <% end %>
+      <button type="submit" class="btn btn-success">Send Message</button>
     </div>
+    
+    </form>
   </div>
     <script>
-    $("#form-basic").validate({
+    $("#form-support").validate({
       rules: {
-        url: {
-          required: true,
-          url: true
+        subject: {
+          required: true
         },
         threads: {
-          required: true,
-          max: <%= threads_limit %>
+          body: true
         },
-        rampup: {
-          required: true,
-          max: <%= rampup_limit %>
-        },
-        duration: {
-          required: true,
-          max: <%= duration_limit %>
-        },
-        "nodes[]": { 
-          required: true, 
-          minlength: 1 
+        from: {
+          required: true
         }
       },
       messages: { 
-        url: "You must provide a valid URL", 
-        threads: "You are limited to <%= threads_limit %> concurrent threads for your account",
-        rampup: "You are limited to <%= rampup_limit %> seconds rampup for your account",
-        duration: "You are limited to <%= duration_limit %> seconds duration for your account",
-        "nodes[]": "Please select at least one grid node."
+        subject: "Please provide a subject for your feedback", 
+        body: "Please provide some details for your feedback",
+        from: "Let us know how to contact you"
       }
     });
   </script>
