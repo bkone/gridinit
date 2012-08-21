@@ -93,7 +93,7 @@ In the "Errors by Label" chart you will get statistics for individual errors enc
 
 Think time, or time between individual samples in your test plan can be controlled with various timers. In our basic test plan we use the Gaussian Random Timer.
 
-This timer pauses each thread request for a random amount of time, with most of the time intervals ocurring near a particular value. The total delay is the sum of the Gaussian distributed value (with mean 0.0 and standard deviation 1.0) times the deviation value you specify, and the offset value.
+This timer pauses each thread request for a random amount of time, with most of the time intervals occurring near a particular value. The total delay is the sum of the Gaussian distributed value (with mean 0.0 and standard deviation 1.0) times the deviation value you specify, and the offset value.
 
 In our basic test plan we use a constant delay of 5 seconds with a deviation of 5 seconds. This prevents the test plan from generating unrealistic load in terms of user requests. However in advanced test plans you may wish to adjust these settings depending on your requirements.
 
@@ -101,7 +101,7 @@ In our basic test plan we use a constant delay of 5 seconds with a deviation of 
 
 Pacing, or the time between each iteration in your test plan can be controlled. In our basic test plan we use a Test Action to achieve this.
 
-The Test Action sampler is a sampler that is intended for use in a conditional controller. Rather than generate a sample, the test element eithers pauses or stops the selected target. This sampler can also be useful in conjunction with the Transaction Controller, as it allows pauses to be included without needing to generate a sample. For variable delays, set the pause time to zero, and add a Timer as a child.
+The Test Action sampler is a sampler that is intended for use in a conditional controller. Rather than generate a sample, the test element either pauses or stops the selected target. This sampler can also be useful in conjunction with the Transaction Controller, as it allows pauses to be included without needing to generate a sample. For variable delays, set the pause time to zero, and add a Timer as a child.
 
 In our basic test plan we use a variable delay between 1 and 5 seconds through the use of a JMeter property defined as follows:
 
@@ -129,6 +129,6 @@ This lets you create any type of test plan that you like. The key elements which
 ${__P(testguid,${__time(,)})}
 </pre>
 
-For best results we recommend including snapshot on error and error logs to help you interpret results. We also provide the ability to define custom paramters at run time including @${host}@, @${threads}@, @${rampup}@, @${duration}@ properties if defined in your test plan.
+For best results we recommend including snapshot on error and error logs to help you interpret results. We also provide the ability to define custom parameters at run time including @${host}@, @${threads}@, @${rampup}@, @${duration}@ properties if defined in your test plan.
 
 Our advanced test plans support use of "JMeter plugins":http://code.google.com/p/jmeter-plugins/ which provide useful additional features to JMeter.
