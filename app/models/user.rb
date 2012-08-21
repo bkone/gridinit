@@ -12,6 +12,7 @@ class User < ActiveRecord::Base
       if auth['provider'] == 'github'
         user.avatar_url = auth['extra']['raw_info']['avatar_url'][/avatar\/.+?\?/] || ""
       end
+      user.role = 'admin' if User.count == 0
     end
   end
 end

@@ -1,4 +1,5 @@
 class SessionsController < ApplicationController
+  skip_before_filter :init
   def create
     auth = request.env['omniauth.auth']
     case auth['provider']
@@ -9,7 +10,7 @@ class SessionsController < ApplicationController
     when 'twitter'
       user = User.where(:provider => auth['provider'], :uid => auth['oauth_token']).first || User.create_with_omniauth(auth)
     when 'developer'
-      user = User.where(:provider => auth['provider'], :uid => auth['email']).first || User.create_with_omniauth(auth)
+      user = User.where(:provider => auth['provider'], :uid => auth['uid']).first || User.create_with_omniauth(auth)
     end
     session[:user_id] = user.id
     redirect_to '/dashboard'

@@ -14,13 +14,19 @@ class ApplicationController < ActionController::Base
   # before_filter :authenticate if Rails.env.staging?
 
   before_filter :nodes
-
+  before_filter :init
+  
   protected
 
   def nodes
-    
     @node             = ENV['PUBLIC_IPV4'].size > 0 ? Node.find_or_create_by_host(ENV['PUBLIC_IPV4']) : Node.first
     @nodes            = Node.all
+  end
+
+  def init
+    if User.count == 0
+      render 'dashboard/init'
+    end
   end
 
   def master_node
