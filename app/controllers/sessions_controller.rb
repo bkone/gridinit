@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_filter :init
+  
   def create
     auth = request.env['omniauth.auth']
     case auth['provider']
