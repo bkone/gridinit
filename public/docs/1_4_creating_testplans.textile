@@ -1,10 +1,134 @@
-In the response times by label chart you will get a visual representation of errors with small dots above the time line. If configured in your test plan these will show a snapshot of the response from the server for the request in error.
+!../images/logo.png!
 
-To "snapshot on error" simply add a listener "Save Responses to a file" with the filename prefix as follows:
+h1. Creating Test Plans
+
+All tests executed on Gridinit currently use JMeter test plans. 
+
+h2. About JMeter
+
+The "Apache JMeter™":http://jmeter.apache.org/ desktop application is open source software, a 100% pure Java application designed to load test functional behavior and measure performance. It was originally designed for testing Web Applications but has since expanded to other test functions.
+
+h3. What can I do with it?
+
+Apache JMeter may be used to test performance both on static and dynamic resources (files, Servlets, Perl scripts, Java Objects, Data Bases and Queries, FTP Servers and more). It can be used to simulate a heavy load on a server, network or object to test its strength or to analyze overall performance under different load types. You can use it to make a graphical analysis of performance or to test your server/script/object behavior under heavy concurrent load.
+
+h1. Basic Test Plans
+
+A test plan can be "downloaded from here":https://raw.github.com/altentee/gridinit/master/config/jmeter as a template (JMX) to get you started. This is the same test plan that gets executed for basic tests on the grid.
+
+h2. Elements of a basic test plan
+
+There are a number of config elements, listeners, timers, thread groups and samplers that get used in a basic test plan. This is how we use them on the grid but they are also common to most many types of performance testing, if executing from JMeter without the grid.
+
+*HTTP Request Defaults*
+
+This config element lets us specify HTTP Request Defaults for things such as server name or IP and path. This is useful for parameterizing test plans so that you can create templates and then modify parameters at run time. We use this config element to set the @${host}@ property at runtime as follows:
+
+<pre>
+${__P(host,www.google.com)}
+</pre>
+
+Where "host" is the property name, and "www.google.com" is the default value if not defined.
+
+*HTTP Cookie Manager*
+
+The Cookie Manager element has two functions: 
+
+First, it stores and sends cookies just like a web browser. If you have an HTTP Request and the response contains a cookie, the Cookie Manager automatically stores that cookie and will use it for all future requests to that particular web site. Each JMeter thread has its own "cookie storage area". So, if you are testing a web site that uses a cookie for storing session information, each JMeter thread will have its own session. It's pretty common for most web sites to use cookies, so this config element is present in our basic test plan.
+
+Second, you can manually add a cookie to the Cookie Manager. However, if you do this, the cookie will be shared by all JMeter threads.
+
+In our basic test plan we don't clear cookies on each iteration, as this better suits the same user returning rather than potentially a new user session being established between each iteration. You can't override this setting in our basic test plan, but you can choose whatever setting you prefer in your own advanced test plans.
+
+*HTTP Cache Manager*
+
+The HTTP Cache Manager is used to add caching functionality to HTTP requests within its scope.
+
+If a sample is successful (i.e. has response code 2xx) then the Last-Modified and Etag (and Expired if relevant) values are saved for the URL. Before executing the next sample, the sampler checks to see if there is an entry in the cache, and if so, the If-Last-Modified and If-None-Match conditional headers are set for the request.
+
+Additionally, if the "Use Cache-Control/Expires header" option is selected, then the Cache-Control/Expires value is checked against the current time. If the request is a GET request, and the timestamp is in the future, then the sampler returns immediately, without requesting the URL from the remote server. This is intended to emulate browser behaviour. Note that the Cache-Control header must be "public" and only the "max-age" expiry option is processed.
+
+We don't clear the cache between each iteration in our basic test plan, as this better suits the same user returning with a _primed_ browser cache. You can't override this setting in our basic test plan, but you can choose whatever setting you prefer in your own advanced test plans.
+
+*HTTP Header Manager*
+
+The Header Manager lets you add or override HTTP request headers. This is not necessary for a lot of basic tests, however we use this to programatically set things like the User Agent (we use a custom UA so that targeted web sites can more easily identify the source of the load).
+
+It is common to use this config element to specify things like Accept-Encoding, Accept-Language and Accept headers amongst other things. We have provided some examples of this in our basic test plan.
+
+*User Defined Variables*
+
+The User Defined Variables element lets you define an initial set of variables. Note that all the UDV elements in a test plan - no matter where they are - are processed at the start. 
+
+Our basic and advanced test plans require you to define a JMeter property value called "testguid" as follows:
+
+<pre>
+${__P(testguid,${__time(,)})}
+</pre>
+
+The purpose of this is to uniquely identify your test results in a multi-tenanted (shared) environment. Without this variable you will not be able to see any results.
+
+*Snapshot on Error*
+
+In the "Response Times by Label" chart you will get a visual representation of errors with small dots above the time line. If configured in your test plan these will show a snapshot of the response from the server for the request in error.
+
+To "Snapshot on Error" simply add a listener "Save Responses to a File" with the filename prefix as follows:
 <pre>
 public/uploads/${__log(snapshot_${__escapeHtml(${__samplerName()})}_${testguid}_${__counter(FALSE,)},ERR)}
 </pre>
 
 You will also need to tick the following defaults for the listener:
 
-!../images/1_3_snapshot_on_error.png!
+!../images/1_4_snapshot_on_error.png!
+
+*Error Log*
+
+In the "Errors by Label" chart you will get statistics for individual errors encountered during testing. To capture an "Error Log" simply add a listener "Simple Data Writer" with *Log/Display only Errors* checked and the file name as follows:
+
+<pre>
+/var/log/gridnode-errors.log
+</pre>
+
+*Think Time*
+
+Think time, or time between individual samples in your test plan can be controlled with various timers. In our basic test plan we use the Gaussian Random Timer.
+
+This timer pauses each thread request for a random amount of time, with most of the time intervals ocurring near a particular value. The total delay is the sum of the Gaussian distributed value (with mean 0.0 and standard deviation 1.0) times the deviation value you specify, and the offset value.
+
+In our basic test plan we use a constant delay of 5 seconds with a deviation of 5 seconds. This prevents the test plan from generating unrealistic load in terms of user requests. However in advanced test plans you may wish to adjust these settings depending on your requirements.
+
+*Pacing*
+
+Pacing, or the time between each iteration in your test plan can be controlled. In our basic test plan we use a Test Action to achieve this.
+
+The Test Action sampler is a sampler that is intended for use in a conditional controller. Rather than generate a sample, the test element eithers pauses or stops the selected target. This sampler can also be useful in conjunction with the Transaction Controller, as it allows pauses to be included without needing to generate a sample. For variable delays, set the pause time to zero, and add a Timer as a child.
+
+In our basic test plan we use a variable delay between 1 and 5 seconds through the use of a JMeter property defined as follows:
+
+<pre>
+${__Random(1000,5000,)}
+</pre>
+
+h3. Thread Groups
+
+A Thread Group defines a pool of users that will execute a particular test case against your server. In the Thread Group GUI, you can control the number of users simulated (num of threads), the ramp up time (how long it takes to start all the threads), the number of times to perform the test, and optionally, a start and stop time for the test.
+
+In our basic test plan we use various JMeter properties to dynamically control thread group parameters such as number of threads (concurrent users), rampup and duration. An example of this is as follows:
+
+<pre>
+${__P(threads,50)}
+</pre>
+
+h1. Advanced Test Plans
+
+When you start a !../images/icon/new_test.png! *New Test*, you can execute basic or advanced test plans. The elements of a basic test plan have already been explained, and you can use the template "downloaded from here":https://raw.github.com/altentee/gridinit/master/config/jmeter as a basis for creating advanced test plans.
+
+This lets you create any type of test plan that you like. The key elements which must be present in your advanced test plans in order to be compatible with the grid are a @${testguid}@ property defined as a UDV:
+
+<pre>
+${__P(testguid,${__time(,)})}
+</pre>
+
+For best results we recommend including snapshot on error and error logs to help you interpret results. We also provide the ability to define custom paramters at run time including @${host}@, @${threads}@, @${rampup}@, @${duration}@ properties if defined in your test plan.
+
+Our advanced test plans support use of "JMeter plugins":http://code.google.com/p/jmeter-plugins/ which provide useful additional features to JMeter.
