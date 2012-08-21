@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120813063154) do
+ActiveRecord::Schema.define(:version => 20120821222100) do
 
   create_table "attachments", :force => true do |t|
     t.string "filename"
@@ -20,10 +20,12 @@ ActiveRecord::Schema.define(:version => 20120813063154) do
 
   create_table "nodes", :force => true do |t|
     t.string   "host"
-    t.string   "role",       :default => "standalone"
+    t.string   "role",        :default => "standalone"
     t.string   "master"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.string   "instance_id"
+    t.integer  "user_id"
   end
 
   create_table "runs", :force => true do |t|

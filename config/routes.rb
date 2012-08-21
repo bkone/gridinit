@@ -47,6 +47,7 @@ Gridinit::Application.routes.draw do
   resources :health
   resources :users
   resources :articles
+  resources :clouds
   resources :support
   resources :init
 
