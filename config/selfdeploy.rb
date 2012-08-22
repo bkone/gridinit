@@ -63,6 +63,15 @@ EOF
   put redis, "#{release_path}/config/redis.yml"
   end
 
+    fog = <<-EOF
+#{rails_env}:
+  provider: AWS
+  region: ap-southeast-1
+  aws_access_key_id: 
+  aws_secret_access_key: 
+EOF
+put fog, "#{release_path}/config/fog.yml"
+
   after       "deploy:finalize_update", "uploads:symlink", "uploads:writeconfig"
   on :start,  "uploads:register_dirs"
 end
