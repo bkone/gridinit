@@ -1,4 +1,5 @@
 config = YAML::load(File.open("#{Rails.root}/config/fog.yml"))[Rails.env]
+Fog.mock!
 $fog = Fog::Compute.new(
   :provider               => config['provider'],
   :region                 => config['region'],
