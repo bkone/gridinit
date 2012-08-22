@@ -41,5 +41,4 @@ class CloudsController < ApplicationController
     server = $fog.servers.get(node.instance_id)
     server.destroy
   end 
-
 end
