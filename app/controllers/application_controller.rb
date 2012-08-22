@@ -66,7 +66,7 @@ class ApplicationController < ActionController::Base
   def correct_user?
     @user = User.find(params[:id])
     unless current_user == @user
-      redirect_to :back, :notice => 'Access is denied.'
+      redirect_to :back, :alert => 'Access is denied.'
     end
   end
 
@@ -81,9 +81,9 @@ class ApplicationController < ActionController::Base
   def require_admin!
     if Rails.env.production?
       if !current_user 
-        redirect_to :back, :notice => 'Please sign in to use this functionality.'
+        redirect_to :back, :alert => 'Please sign in to use this functionality.'
       elsif current_user.role != 'admin'
-        redirect_to :back, :notice => 'Your account is not authorized for administative functions.'
+        redirect_to :back, :alert => 'Your account is not authorized for administative functions.'
       end
     end
   end
@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
   def authenticate_user!
     if Rails.env.production? or Rails.env.staging?
       if !current_user
-        redirect_to :back, :notice => 'Please sign in to use this functionality.'
+        redirect_to :back, :alert => 'Please sign in to use this functionality.'
       end
     end
   end

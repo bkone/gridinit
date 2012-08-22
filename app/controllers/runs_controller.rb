@@ -1,6 +1,4 @@
 class RunsController < ApplicationController
-  before_filter :require_admin!, :except => [:index, :show, :create, :quickie, :share, :compare, :retest, :notes, :status, :set_public, :set_private]
-
   def index
     @runs   = Run.find(:all,
       :conditions => ["privacy_flag IN(0,?)",
@@ -27,7 +25,7 @@ class RunsController < ApplicationController
         }
       end    
     else
-      redirect_to :root, :alert => "Access denied to test run"
+      redirect_to :back, :alert => 'Access to this test is denied.'
     end
   end
   
@@ -35,11 +33,7 @@ class RunsController < ApplicationController
     @run = Run.find_by_id!(params[:id])
     run_id = params[:id]
     params = hash_keys_to_sym @run.params
-    respond_to do |format|
-      format.html {
-        redirect_to URI.escape "http://gridin.it/#{run_id}"
-      }
-    end    
+    redirect_to URI.escape "http://gridin.it/#{run_id}"
   end
 
   def compare
@@ -54,15 +48,23 @@ class RunsController < ApplicationController
   end
 
   def set_public
-    run = Run.find_by_id!(params[:id])
-    run.update_attributes(:privacy_flag => 0)
-    redirect_to :back
+    @run = Run.find_by_id!(params[:id])
+    if permissions_on? @run
+      @run.update_attributes(:privacy_flag => 0)
+      redirect_to :back, :notice => 'Test was made public. Anyone can view its results.'
+    else
+      redirect_to :back, :alert => 'Access to this test is denied.'
+    end
   end
 
   def set_private
-    run = Run.find_by_id!(params[:id])
-    run.update_attributes(:privacy_flag => (user_signed_in? ? current_user.id : 0))
-    redirect_to :back
+    @run = Run.find_by_id!(params[:id])
+    if permissions_on? @run
+      @run.update_attributes(:privacy_flag => (user_signed_in? ? current_user.id : 0))
+      redirect_to :back, :notice => 'Test was made private. Only you can view its results.'
+    else
+      redirect_to :back, :alert => 'Access to this test is denied.'
+    end 
   end
 
   def create
@@ -78,30 +80,42 @@ class RunsController < ApplicationController
   def destroy
     @run = Run.find_by_id!(params[:id])
     params = hash_keys_to_sym @run.params
-    `rm -f /var/gridnode/shared/uploads/*#{params[:testguid]}*`
-    Run.delete(@run.id)
-    redirect_to :back
+    if permissions_on? @run
+      `rm -f /var/gridnode/shared/uploads/*#{params[:testguid]}*`
+      Run.delete(@run.id)
+      redirect_to :back, :notice => 'Test was successfully deleted.'
+    else
+      redirect_to :back, :alert => 'Access to this test is denied.'
+    end    
   end
 
   def notes
-    run = Run.find_by_id!(params[:id])
-    run.update_attributes(:notes => params[:notes])
-    render :text => params[:notes]
-    # render :nothing => true
+    @run = Run.find_by_id!(params[:id])
+    if permissions_on? @run
+      @run.update_attributes(:notes => params[:notes])
+      render :text => params[:notes]
+    else
+      render :nothing => true
+    end
   end
 
   def retest
     @run = Run.find_by_id!(params[:id])
     params = hash_keys_to_sym @run.params
-    params[:testguid]   = generate_guid
-    params[:user]       = (user_signed_in? ? current_user.id : 0)
-    Run.create! :params => params
-    redirect_to URI.escape "/dashboard?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}"
+    if permissions_on? @run
+      params[:testguid]   = generate_guid
+      params[:user]       = (user_signed_in? ? current_user.id : 0)
+      Run.create! :params => params
+      redirect_to URI.escape "/dashboard?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}"
+    else
+      redirect_to :back, :alert => 'Access to this test is denied.'
+    end
   end
 
   def quickie
     uri = URI.parse(params[:url])
-    params[:threads]    ||= 100
+    uri = URI.parse("http://#{params[:url]}") if uri.scheme.nil?
+    params[:threads]    ||= 50
     params[:rampup]     ||= 50
     params[:duration]   ||= 10
     params[:host]       = uri.host
@@ -120,14 +134,13 @@ class RunsController < ApplicationController
   end
 
   def delete_queued_tests
-    Run.delete_all('status = "queued"')
-    redirect_to :back
+    Run.delete_all("status = 'queued' and user_id = #{(user_signed_in? ? current_user.id : 0)}")
+    redirect_to :back, :notice => 'Your queued tests were successfully deleted.'
   end
 
   def delete_all_tests
-    Run.delete_all
-    `rm -f /var/gridnode/shared/uploads/error*`
-    redirect_to :back
+    Run.delete_all("user_id = #{(user_signed_in? ? current_user.id : 0)}")
+    redirect_to :back, :notice => 'Your tests were successfully deleted.'
   end
 
   def status
@@ -139,6 +152,11 @@ class RunsController < ApplicationController
   end
 
   private
+
+  def permissions_on?(run)
+    return true if admin_user?
+    (user_signed_in? ? current_user.id : 0) == run.user_id ? true : false
+  end
 
   def is_run_public?(params)
     if params.privacy_flag == 0

@@ -16,16 +16,7 @@
 <div class="main-area dashboard">
   <div class="container">
 
-    <% if flash[:notice] %>
-      <div class="alert alert-error">
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading">I'm sorry Dave, I'm afraid I can't do that!</h4>
-        <%= flash[:notice] %>
-      </div>
-    <% end %>
-    
     <% if params[:testguid] %>
-
       <% if @total_hits > 0 %>
         <div class="row"> 
           <%= render 'stats' %>
@@ -51,6 +42,12 @@
           </script>
         </div>
       <% end %>
+    <% elsif flash[:alert] %>
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">I'm sorry Dave, I'm afraid I can't do that!</h4>
+        <%= flash[:alert] %>
+      </div>
     <% elsif @runs.size > 0 %>
       <div class="alert alert-info">
         <a class="close" data-dismiss="alert" href="#">×</a>
@@ -61,7 +58,7 @@
       <div class="alert alert-info">
         <a class="close" data-dismiss="alert" href="#">×</a>
         <h4 class="alert-heading">No Tests</h4>
-        Looks like you haven't executed any tests yet.
+        Looks like you haven't executed any tests yet. Launch a <strong><a data-toggle="modal" href="#runmodal" style="color:#3A87AD"><i class="icon-bolt"></i> New Test</a></strong> to get started.
       </div>
     <% end %>
     
@@ -76,7 +73,7 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
-                <li><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#cstack=sn~Gridnode|turl~https://s3.amazonaws.com/cf-templates-1obdh7vu7eos-us-east-1/20122282uH-bootstrap.json">Launch AWS Nodes</a></li>
+                <!-- <li><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#cstack=sn~Gridnode|turl~https://s3.amazonaws.com/cf-templates-1obdh7vu7eos-us-east-1/20122282uH-bootstrap.json">Launch AWS Nodes</a></li> -->
                 <% if admin_user? %>
                 <li class="divider"></li>
                 <li><a href="/nodes/restart/all">Restart All Nodes</a></li>

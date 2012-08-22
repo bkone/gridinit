@@ -10,11 +10,20 @@
 <div class="main-area dashboard">
   <div class="container">
 
-    <div class="alert alert-info">
-      <a class="close" data-dismiss="alert" href="#">×</a>
-      <h4 class="alert-heading">Tests</h4>
-      Click on an individual test to see its results.
-    </div>
+    <% if flash[:alert] %>
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">I'm sorry Dave, I'm afraid I can't do that!</h4>
+        <%= flash[:alert] %>
+      </div>
+    <% else %>
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Tests</h4>
+        <%= flash[:notice] ? flash[:notice] : "Click on an individual test to see its results." %>
+      </div>
+    <% end %>
+
     <div class="row"> 
       <div class="span12">
           <div class="slate">
