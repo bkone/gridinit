@@ -66,8 +66,8 @@ EOF
 #{rails_env}:
   provider: AWS
   region: ap-southeast-1
-  aws_access_key_id: 
-  aws_secret_access_key: 
+  aws_access_key_id: ENTERYOURID
+  aws_secret_access_key: ENTERYOURKEY
 EOF
     put fog, "#{release_path}/config/fog.yml"
 
