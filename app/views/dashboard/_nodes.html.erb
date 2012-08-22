@@ -17,10 +17,7 @@
           </td>
 
           <td>
-            <%= get_monit(node.host) %> %CPU
-          </td>
-
-          <td>
+            <i class="icon-signal" title="<%= get_monit(node.host) %> %CPU" rel="tooltip"></i>
             <span data-host="<%= node.host %>" class="services">
               <% ['logstash', 'elasticsearch', 'resque', 'redis'].each do |service| %>
                 <%= image_tag service + ".png", 
