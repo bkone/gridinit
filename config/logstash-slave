@@ -23,7 +23,7 @@ input {
 
 output {
   redis { 
-    host => "gridinit.com" 
+    host => "gridinit.com"
     data_type => "list" key => "logstash" 
   }
 }
