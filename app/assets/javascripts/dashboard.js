@@ -1,26 +1,19 @@
 $(function(){
+
+  // CSRF TOKENS
   $.ajaxSetup({
     beforeSend: function(xhr) {
       xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'));
     }
   });
 
+  // TOOLTIPS
   $("img[rel=tooltip]").tooltip();
   $("span[rel=tooltip]").tooltip();
   $("i[rel=tooltip]").tooltip();
   $("input[rel=tooltip]").tooltip();
 
-  $('.compare').click(function(e) {
-    e.preventDefault();
-    // console.log($(this));
-    // console.log($('input#runs:checked'));
-    alert("This feature is coming soon");
-  });
-
-  $('input#checkallnodes').click(function() {
-    $('input:checkbox:not(:disabled)').attr('checked', this.checked);
-  });
-
+  // CHARTS PANEL CONFIGURATION
   $('ul#interval li > a').click(function(e) {
     e.preventDefault();
     window.location.href = $.param.querystring(window.location.href, 
@@ -36,6 +29,7 @@ $(function(){
 
   $('div.chart-container:not(.active)').hide();
 
+  // STATS PANEL CONFIGURATION
   $('a.stat-column:not(.active)').hide();
   $('a.stat-column').click(function(e) {
     $(this).toggle().removeClass('active');
@@ -44,43 +38,33 @@ $(function(){
     } else { 
       $(this).next().addClass('active').toggle();
     }
+  }); 
+
+  // NODE CONFIGURATION
+  $(".node-role").click(function(){
+    $("input#host").val($(this).data('host'));
+    $("input#master").val($(this).data('master'));
+    $('input:radio').filter('[value='+$(this).data('role')+']').attr('checked', true);
+    $("#form-nodeconfig").attr("action", "/nodes/"+$("#host").val());
   });
 
-  $('div.roles:not(.active)').hide();
-  
-  $('ul#roles li > a').click(function(e) {
-    var role = $(this).parent().attr('data-role');
-    console.log(role);
-    $('div.roles.active').toggle().removeClass('active');
-    $('div.' + role).toggle().addClass('active');
-    $('ul#roles li.active').removeClass('active');
-    $(this).parent().addClass('active');
-    $('input#role').val(role);
-  });
-
-  $('.btn-nodeconfig').click(function(e) {
+  $('.btn-nodeupdate').click(function(e) {
     e.preventDefault();
-    
-    $("#form-nodeconfig").attr("action","http://" + 
-      $("#host").val() +
-      ":" + window.document.location.port +
-      "/nodes/"+$("#host").val());
-
     $('#form-nodeconfig').submit();
   });
 
-  $(".node-role").click(function(){
-    $("#host").val($(this).data('host'));
-    $("input#role").val($(this).data('role'));
-
-    var role = $(this).data('role');
-    $('div.roles.active').toggle().removeClass('active');
-    $('div.' + role).toggle().addClass('active');
-    $('ul#roles li.active').removeClass('active');
-    $('ul#roles li[data-role="'+role+'"]').addClass('active')
-    $('div.roles:not(.active)').hide();
+  $('.btn-nodedelete').click(function(e) {
+    e.preventDefault();
+    $("input[name=_method]").val('delete');
+    $('#form-nodeconfig').submit();
   });
 
+  // CHECK ALL GRID NODES
+  $('input#checkallnodes').click(function() {
+    $('input:checkbox:not(:disabled)').attr('checked', this.checked);
+  });
+
+  // RUN CONFIGURATION
   $('#basic > a').click(function(){
     $('.basic').show('fast');
     $('.advanced').hide('fast');
@@ -95,6 +79,32 @@ $(function(){
     $('#advanced').addClass('active');
   });
 
+  $('#runtest').click(function(e){
+    e.preventDefault();
+    if($('.basic').is(":visible")) { 
+      $('#form-basic').submit();    
+    }
+    if($('.advanced').is(":visible")) { 
+      $('#form-advanced').submit();
+    } 
+  });
+
+  $("#form-advanced").validate({
+    rules: {
+      attachment: {
+        required: true
+      },
+      "nodes[]": { 
+        required: true, 
+        minlength: 1 
+      }
+    },
+    messages: { 
+      "nodes[]": "Please select at least one grid node."
+    } 
+  });
+
+  // FEEDBACK & SUPPORT
   $('#support > a').click(function(){
     $('.support').show('fast');
     $('.modal-footer').show('fast');
@@ -113,16 +123,7 @@ $(function(){
     $('#knowledge').addClass('active');
   });
 
-  $('#runtest').click(function(e){
-    e.preventDefault();
-    if($('.basic').is(":visible")) { 
-      $('#form-basic').submit();    
-    }
-    if($('.advanced').is(":visible")) { 
-      $('#form-advanced').submit();
-    } 
-  });
-
+  // EDIT RUN NOTES
   $(".notes").editable("/runs/notes", {
     name : 'notes',
     data: function(value, settings) {
@@ -131,6 +132,7 @@ $(function(){
     }
   });
 
+  // EDIT USER ROLE
   $(".user-role").editable("/users/role", {
     name : 'role',
     data: function(value, settings) {
@@ -139,21 +141,15 @@ $(function(){
     }
   });
 
-  $("#form-advanced").validate({
-    rules: {
-      attachment: {
-        required: true
-      },
-      "nodes[]": { 
-        required: true, 
-        minlength: 1 
-      }
-    },
-    messages: { 
-      "nodes[]": "Please select at least one grid node."
-    } 
+  // COMPARE RUNS
+  $('.compare').click(function(e) {
+    e.preventDefault();
+    // console.log($(this));
+    // console.log($('input#runs:checked'));
+    alert("This feature is coming soon");
   });
 
+  // FILTER RUNS
   $('#runs-filter').typeahead().on('keyup', function(ev){
     ev.stopPropagation();
     ev.preventDefault();
@@ -186,11 +182,13 @@ $(function(){
     }
   });
 
+  // REMEMBER TAB
   if (location.hash !== '') $('a[href="' + location.hash + '"]').tab('show');
   return $('a[data-toggle="tab"]').on('shown', function(e) {
     return location.hash = $(e.target).attr('href').substr(1);
   });
 
+  // TABLE SORTER
   $.tablesorter.addParser({
     id: 'fancyNumber',
     is:function(s){return false;},

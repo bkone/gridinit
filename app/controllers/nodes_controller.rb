@@ -1,32 +1,44 @@
 class NodesController < ApplicationController
-  before_filter :require_admin!, :except => [:index]
-  protect_from_forgery :except => [:update, :restart]
-
+ 
   def update
     node = Node.find_by_host!(params[:id])
-    node.update_attributes(:role => params[:role], :master => params[:master])
-    update_config(node)
-    enqueue(node.host, :restart_services)
+    if permissions_on(node)
+      node.update_attributes(:role => params[:role], :master => (params[:role] == 'slave' ? params[:master] : nil) )
+      enqueue(node.host, :update_config)
+      enqueue(node.host, :restart_services)
+    end
     redirect_to :back
   end
 
-  def restart
-    nodes = params[:id] == 'all' ? Node.all : Node.find_all_by_id(params[:id])
-    nodes.each { |node| enqueue(node.host, :restart_services) }
+  def destroy
+    node = Node.find_by_host!(params[:id])
+    if permissions_on(node)
+      enqueue(node.host, :delete_node)
+    end
     redirect_to :back
   end
 
   def enqueue(queue, action)
-    Resque::Job.create(queue, NodesController, action)
+    Resque::Job.create(queue, NodesController, action, params)
   end
 
-  def self.perform(action)
-    self.send(action.to_sym)
+  def self.perform(action, params)
+    params = Hash[params.map{ |k, v| [k.to_sym, v] }]
+    self.send(action.to_sym, params)
   end
 
   private
 
-  def self.restart_services
+  def permissions_on(node)
+    case node.user_id
+    when 0
+      admin_user? ? true : false
+    else
+      current_user.id == node.user_id ? true : false
+    end
+  end
+
+  def self.restart_services(params)
     self.restart_elasticsearch
     self.restart_redis
     self.restart_logstash
@@ -34,11 +46,15 @@ class NodesController < ApplicationController
     self.reapply_mappings
   end
 
-  def update_config(node)
-    logstash = File.read("#{Rails.root}/config/logstash-#{node.role}").gsub('gridinit.com', node.master ? node.master : '127.0.0.1')
+  def self.delete_node(params)
+
+  end
+
+  def self.update_config(params)
+    logstash = File.read("#{Rails.root}/config/logstash-#{node.role}").gsub('gridinit.com', params[:master] ? params[:master] : '127.0.0.1')
     File.open("#{Rails.root}/config/logstash.conf", 'w+'){|f| f << logstash } 
     
-    redis = File.read("#{Rails.root}/config/redis.yml").gsub(/host:.+/, node.master ? "host: #{node.master}" : "host: localhost")
+    redis = File.read("#{Rails.root}/config/redis.yml").gsub(/host:.+/, params[:master] ? "host: #{params[:master]}" : "host: localhost")
     File.open("#{Rails.root}/config/redis.yml", 'w+'){|f| f << redis } 
   end
 

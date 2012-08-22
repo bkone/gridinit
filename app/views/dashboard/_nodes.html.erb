@@ -1,24 +1,6 @@
 <table class="nodes-table table">
   <tbody>
-    <% unless @nodes.blank? %>
-      <tr>
-        <th>
-          <input type="checkbox" id="checkallnodes">
-        </th>
-        <th>
-          Host
-        </th>
-        <th>
-          CPU
-        </th>
-        <th>
-          Services
-        </th>
-        <th>
-          Role
-        </th>
-      </tr>
-      
+    <% unless @nodes.blank? %>     
       <% @nodes.each do |node| %>
         <tr>
           <td>
@@ -26,16 +8,16 @@
           </td>
           
           <td>
-            <% if node.user_id == 0 %>
-              <i class="icon-unlock" title="Public node" rel="tooltip"></i>
-            <% else %>
+            <% if node.user_id && node.user_id > 0 %>
               <i class="icon-lock" title="Private node" rel="tooltip"></i>
+            <% else %>
+              <i class="icon-unlock" title="Public node" rel="tooltip"></i>
             <% end %>
             <a href="http://<%= node.host %>/dashboard"><%= node.host %></a>
           </td>
 
           <td>
-            <%= get_monit(node.host) %>
+            <%= get_monit(node.host) %> %CPU
           </td>
 
           <td>
@@ -61,7 +43,7 @@
                   $('.services[data-host="<%= node.host %>"] > img.<%= service %>').show();
                 })
                 .fail(function() {
-                  $('#role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', '<%= service %> is not running');
+                  $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', '<%= service %> is not running');
                 })
             <% end %>
             </script>
@@ -69,7 +51,7 @@
           </td>
 
           <td>
-            <span data-host="<%= node.host %>" data-role="<%= node.role %>"class="label node-role" id="role" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
+            <span data-host="<%= node.host %>" data-role="<%= node.role %>" data-master="<%= node.master %>" class="label node-role" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
               <%= node.role %>
             </span>
           </td>

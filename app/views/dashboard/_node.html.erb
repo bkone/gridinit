@@ -1,61 +1,55 @@
 <div id="modal-node" class="modal hide fade" style="display: none; ">
-
   <div class="modal-header">
-      <a class="close" data-dismiss="modal">×</a>
-      <ul id="roles" class="nav nav-pills">
-        
-        <li data-role="standalone"><a href="#">Standalone</a></li>
-        <li data-role="master"><a href="#">Master</a></li>
-        <li data-role="slave"><a href="#" >Slave</a></li>
-      </ul>
-    </div>
-    <div class="modal-body">
-
-    <form id="form-nodeconfig" method="post" action="/nodes/<%= @node.host %>" enctype="multipart/form-data">
-      <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
-      <input name="_method" type="hidden" value="put" />
-      <input id="role" name="role" type="hidden" value="<%= @node.role %>" />
-      <input id="host" name="host" type="hidden" value="<%= @node.host %>" />
-
-      <div class="roles standalone">
+    <a class="close" data-dismiss="modal">×</a>
+    <ul class="nav nav-pills">
+      <li class="active"><a href="#">Node Configuration</a></li>
+    </ul>
+  </div>
+  <form id="form-nodeconfig" class="form-horizontal" method="post" action="/nodes/<%= @node.host %>" enctype="multipart/form-data">
+    <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+    <input name="_method" type="hidden" value="put" />   
+    <div class="modal-body"> 
+      <div class="nodesummary">
         <div class="control-group">
-          <div class="controls">
-            <label class="radio">
-               Run this as a standalone node.
-            </label>
-          </div>
-        </div>
-      </div>
-
-      <div class="roles master">
-        <div class="control-group">
-          <div class="controls">
-            <label class="radio">
-              Run this as a master node. A master node can control many slave nodes.
-            </label>
+          <div class="control-group">
+            <label class="control-label">Host</label>
+            <div class="controls">
+              <input id="owner" type="hidden" />
+              <input id="host" class="input-xlarge" type="text" value="<%= @node.host %>" disabled />
             </div>
-        </div>
-      </div>
-
-      <div class="roles slave">
-        <div class="control-group">
-          <div class="controls">
-            <label class="radio">
-              Run this as a slave node. You must provide the IP of the master node to slave to.<br/>
-              <input id="master" name="master" type="text" placeholder="Master Node IP">
-            </label>
           </div>
-        </div>   
-      </div>
-
-    </div>
-    <div class="modal-footer">
-      <a href="#" class="btn" data-dismiss="modal">Close</a>
-      <% if admin_user? %>
-        <a href="#" class="btn-nodeconfig btn btn-info">Submit Changes</a>
-      <% else %>
-        <a href="#" class="btn disabled" data-dismiss="modal"><i class="icon-lock"></i> Please sign in</a>
-      <% end %>
+          <div class="control-group">
+            <label class="control-label">Role</label>
+            <div class="controls">
+              <label class="radio">
+                <input type="radio" name="role" value="standalone" <%= 'disabled' unless admin_user? %>>
+                Run this as a standalone node.
+              </label>
+              <label class="radio">
+                <input type="radio" name="role" value="master" <%= 'disabled' unless admin_user? %>>
+                Run this as a <abbr title="A master node can control many slave nodes.">master</abbr> node.
+              </label>
+              <label class="radio">
+                <input type="radio" name="role" value="slave" <%= 'disabled' unless admin_user? %>>
+                Run this as a <abbr title="You must provide the IP of the master node to slave to.">slave</abbr> node.
+              </label>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Master Node</label>
+            <div class="controls">
+              <input id="master" name="master" type="text" placeholder="Master Node IP" <%= 'disabled' unless admin_user? %>>
+            </div>
+          </div>
+        </div>
+      </div> 
     </div>
   </form>
+  <div class="modal-footer">     
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    <% if admin_user? %>
+      <a href="#" class="btn-nodedelete btn btn-danger">Delete</a>
+      <a href="#" class="btn-nodeupdate btn btn-success">Update & Restart</a>
+    <% end %>
+  </div>
 </div>
