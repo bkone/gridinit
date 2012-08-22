@@ -28,8 +28,9 @@ class CloudsController < ApplicationController
       :flavor_id  => 't1.micro'
     )
     server.wait_for { ready? }
+    p server.inspect
     node = Node.new do |n|
-      n.host        = server.dns_name
+      n.host        = server.public_ip_address
       n.instance_id = server.id
       n.user_id     = params[:user]
     end
