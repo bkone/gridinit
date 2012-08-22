@@ -160,7 +160,9 @@ class RunsController < ApplicationController
 
   def get_domain
     if params[:url]
-      URI.parse(params[:url]).host
+      uri = URI.parse(params[:url])
+      uri = URI.parse("http://#{params[:url]}") if uri.scheme.nil?
+      uri.host
     elsif params[:host].size > 0
       params[:host]
     elsif parse_testplan('stringProp[name="HTTPSampler.domain"]')
