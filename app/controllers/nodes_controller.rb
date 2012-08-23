@@ -13,9 +13,11 @@ class NodesController < ApplicationController
   def destroy
     node = Node.find_by_host!(params[:id])
     if permissions_on(node)
-      enqueue(node.host, :delete_node)
+      Resque::Job.create(@node.host, GridController, :destroy_on_aws, params)
+      redirect_to :back, :notice => 'Node has been deleted.'
+    else
+      redirect_to :back, :alert => 'Access to this node is denied.'
     end
-    redirect_to :back
   end
 
   def enqueue(queue, action)
@@ -44,10 +46,6 @@ class NodesController < ApplicationController
     self.restart_logstash
     self.restart_worker
     self.reapply_mappings
-  end
-
-  def self.delete_node(params)
-
   end
 
   def self.update_config(params)

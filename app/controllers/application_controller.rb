@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   def nodes
     @node    = ENV['PUBLIC_IPV4'].size > 0 ? Node.find_or_create_by_host(ENV['PUBLIC_IPV4']) : Node.first
     @nodes   = Node.find(:all,
-      :conditions => ["user_id IN(?)",
+      :conditions => ["user_id IN(?) and stopped IS NULL",
       (user_signed_in? ? [0,current_user.id] : 0)])
   end
 

@@ -26,10 +26,9 @@ class GridController < ApplicationController
   def self.create_on_aws(params)
     server = $fog.servers.create(
       :image_id   => 'ami-8a7f3ed8',
-      :flavor_id  => 't1.micro'
+      :flavor_id  => 'm1.large'
     )
     server.wait_for { ready? }
-    p server.inspect
     node = Node.new do |n|
       n.host        = server.public_ip_address
       n.instance_id = server.id
@@ -38,7 +37,7 @@ class GridController < ApplicationController
     if node.save
       transaction = Transaction.new do |t|
         t.instance_id   = node.instance_id
-        t.instance_type = 'c1.medium'
+        t.instance_type = 'm1.large'
         t.user_id       = node.user_id
         t.node_id       = node.id
       end
@@ -52,5 +51,13 @@ class GridController < ApplicationController
     node = Node.find_by_host!(params[:id])
     server = $fog.servers.get(node.instance_id)
     server.destroy
+    node.stopped = Time.now
+    if node.save
+      transaction = Transaction.find_by_instance_id(node.instance_id)
+      hours = ( (node.stopped - node.created_at).to_i / 3600 ).round
+      p "Elapsed hours #{hours}"
+      transaction.hours = hours
+      transaction.save!
+    end
   end 
 end
