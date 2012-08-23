@@ -4,7 +4,7 @@ class GridController < ApplicationController
   def create
     params[:user]     = (user_signed_in? ? current_user.id : 0)
     params[:quantity].to_i.times {|i| enqueue(@node.host, :create_on_aws) }
-    redirect_to :back, :notice => "#{params[:quantity]} new node(s) queued. Please wait for them to startup in Grid Nodes."
+    redirect_to :back, :notice => "#{params[:quantity]} node(s) started."
   end
 
   def destroy
@@ -48,14 +48,10 @@ class GridController < ApplicationController
   def self.destroy_on_aws(params)
     node = Node.find_by_host!(params[:id])
     server = $fog.servers.get(node.instance_id)
-    server.destroy if server
-    node.stopped = Time.now
-    if node.save
-      transaction = Transaction.find_by_instance_id(node.instance_id)
-      hours = ( (node.stopped - node.created_at).to_i / 3600 ).round
-      p "Elapsed hours #{hours}"
-      transaction.hours = hours
-      transaction.save!
-    end
+    server.destroy if server    
+    transaction = Transaction.find_by_instance_id(node.instance_id)
+    hours = ( (node.stopped - node.created_at).to_i / 3600 ).round
+    transaction.hours = hours
+    transaction.save!
   end 
 end

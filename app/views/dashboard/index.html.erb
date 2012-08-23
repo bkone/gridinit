@@ -45,13 +45,13 @@
     <% elsif flash[:alert] %>
       <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading">I'm sorry Dave, I'm afraid I can't do that!</h4>
+        <h4 class="alert-heading">Error</h4>
         <%= flash[:alert] %>
       </div>
     <% elsif flash[:notice] %>
-      <div class="alert alert-info">
+      <div class="alert alert-success">
         <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading">Welcome to the grid</h4>
+        <h4 class="alert-heading">Notice</h4>
         <%= flash[:notice] %>
       </div>
     <% elsif @runs.size > 0 %>

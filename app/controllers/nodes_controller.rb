@@ -13,8 +13,10 @@ class NodesController < ApplicationController
   def destroy
     node = Node.find_by_host!(params[:id])
     if permissions_on(node)
+      node.stopped = Time.now
+      node.save!
       Resque::Job.create(@node.host, GridController, :destroy_on_aws, params)
-      redirect_to :back, :notice => 'Node will be deleted.'
+      redirect_to '/dashboard', :notice => 'Node was deleted.'
     else
       redirect_to :back, :alert => 'Access to this node is denied.'
     end
