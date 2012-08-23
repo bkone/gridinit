@@ -48,8 +48,10 @@ class GridController < ApplicationController
   def self.destroy_on_aws(params)
     node = Node.find_by_host!(params[:id])
     server = $fog.servers.get(node.instance_id)
-    server.destroy
-    node.stopped = Time.now
+    if server
+      server.destroy
+      node.stopped = Time.now
+    end
     if node.save
       transaction = Transaction.find_by_instance_id(node.instance_id)
       hours = ( (node.stopped - node.created_at).to_i / 3600 ).round
