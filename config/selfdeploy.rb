@@ -60,7 +60,7 @@ EOF
   host: localhost
   port: 6379
 EOF
-  put redis, "#{release_path}/config/redis.yml"
+    put redis, "#{release_path}/config/redis.yml"
 
     fog = <<-EOF
 #{rails_env}:
@@ -70,6 +70,11 @@ EOF
   aws_secret_access_key: ENTERYOURKEY
 EOF
     put fog, "#{release_path}/config/fog.yml"
+
+    procfile = <<-EOF
+worker: bundle exec rake resque:work QUEUE=`curl -s ifconfig.me` RAILS_ENV=#{rails_env}
+EOF
+    put procfile, "#{release_path}/Procfile"
 
     run "cp #{release_path}/config/logstash-standalone #{release_path}/config/logstash.conf"
 

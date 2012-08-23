@@ -16,3 +16,4 @@ config/deploy.rb
 nohup.out
 config/logstash.conf
 spec/
+Profile
