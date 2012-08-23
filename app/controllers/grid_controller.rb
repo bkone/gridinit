@@ -42,8 +42,6 @@ class GridController < ApplicationController
         t.node_id       = node.id
       end
       transaction.save!
-    else
-
     end
   end
 
