@@ -53,7 +53,7 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> Sign In<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <% unless Rails.env.production? or Rails.env.staging? %>
+                  <% if Rails.env.development? %>
                     <li><a href="/signin/developer"><i class="icon-sign-blank"></i>Developer</a></li>
                   <% end %>
                   <li><a href="/signin/github" class="track"><i class="icon-github"></i>Github</a></li>

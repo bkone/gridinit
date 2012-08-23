@@ -36,7 +36,7 @@ end
 
 gem 'jquery-rails'
 
-gem 'omniauth-github' #, :git => 'git://github.com/intridea/omniauth-github.git'
+gem 'omniauth-github'
 gem 'omniauth-google'
 gem 'omniauth-twitter'
 
@@ -44,10 +44,6 @@ gem 'grizzled-rails-logger'
 
 group :production do
   gem 'rack-google_analytics', :require => 'rack/google_analytics'
-  gem 'airbrake'
-end
-
-group :staging do
   gem 'airbrake'
 end
 
