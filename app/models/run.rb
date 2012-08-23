@@ -29,6 +29,11 @@ class Run < ActiveRecord::Base
   end
 
   def self.execute(params)
+    SupportMailer.send_feedback({
+      :from => 'no-reply@gridinit.com', 
+      :subject => "Test executing for #{params[:domain]}", 
+      :details => params}).deliver if Rails.env.production?
+    
     testplan = Tempfile.new('testplan')
     if params[:testplan]
       file = "http://#{params[:master]}/attachments/#{params[:testplan]}"
