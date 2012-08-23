@@ -34,7 +34,7 @@
             <% ['logstash', 'elasticsearch', 'resque', 'redis'].each do |service| %>
               $.ajax({
                 url: "http://<%= node.host %>:<%= request.port %>/health/<%= service %>",
-                timeout: 10000
+                timeout: 1000
               })
                 .done(function() { 
                   $('.services[data-host="<%= node.host %>"] > img.<%= service %>').show();
