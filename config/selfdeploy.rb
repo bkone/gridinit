@@ -71,6 +71,8 @@ EOF
 EOF
     put fog, "#{release_path}/config/fog.yml"
 
+    run "cp #{release_path}/config/logstash-standalone #{release_path}/config/logstash.conf"
+
   end
 
   after       "deploy:finalize_update", "uploads:symlink", "uploads:writeconfig"
