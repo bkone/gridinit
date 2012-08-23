@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many   :transactions
   attr_protected :provider, :uid, :name, :email, :avatar_url, :role
 
   def self.create_with_omniauth(auth)

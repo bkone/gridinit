@@ -1,9 +1,10 @@
-class CloudsController < ApplicationController
-  before_filter :require_admin!
+class GridController < ApplicationController
+  before_filter :authenticate_paying_user!
 
   def create
     params[:user]     = (user_signed_in? ? current_user.id : 0)
-    enqueue(@node.host, :create_on_aws)
+    params[:quantity].to_i.times {|i| enqueue(@node.host, :create_on_aws) }
+    redirect_to :back, :notice => "#{params[:quantity]} new node(s) queued. Please wait for them to startup in Grid Nodes."
   end
 
   def destroy
@@ -14,7 +15,7 @@ class CloudsController < ApplicationController
   private
 
   def enqueue(queue, action)
-    Resque::Job.create(queue, CloudsController, action, params)
+    Resque::Job.create(queue, GridController, action, params)
   end
 
   def self.perform(action, params)
@@ -34,7 +35,17 @@ class CloudsController < ApplicationController
       n.instance_id = server.id
       n.user_id     = params[:user]
     end
-    node.save!
+    if node.save
+      transaction = Transaction.new do |t|
+        t.instance_id   = node.instance_id
+        t.instance_type = 'c1.medium'
+        t.user_id       = node.user_id
+        t.node_id       = node.id
+      end
+      transaction.save!
+    else
+
+    end
   end
 
   def self.destroy_on_aws(params)

@@ -1,17 +1,15 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  helper_method :authenticate_user!
+  helper_method :authenticate_paying_user!
   helper_method :current_user
   helper_method :user_signed_in?
   helper_method :correct_user?
   helper_method :admin_user?
-
   helper_method :generate_guid
   helper_method :hash_keys_to_sym
-
   helper_method :master_node
-
-  # before_filter :authenticate if Rails.env.staging?
 
   before_filter :nodes
   before_filter :init
@@ -33,12 +31,6 @@ class ApplicationController < ActionController::Base
 
   def master_node
     return true if Node.find_by_host_and_role(ENV['PUBLIC_IPV4'], 'master')
-  end
-
-  def authenticate
-    authenticate_or_request_with_http_basic do |username, password|
-      username == ENV['BASIC_AUTH_USR'] && password == ENV['BASIC_AUTH_PWD']
-    end
   end
 
   private
@@ -79,20 +71,25 @@ class ApplicationController < ActionController::Base
   end
 
   def require_admin!
-    if Rails.env.production?
-      if !current_user 
-        redirect_to :back, :alert => 'Please sign in to use this functionality.'
-      elsif current_user.role != 'admin'
-        redirect_to :back, :alert => 'Your account is not authorized for administative functions.'
-      end
+    if !current_user 
+      redirect_to :back, :alert => 'Please sign in to use this functionality.'
+    elsif current_user.role != 'admin'
+      redirect_to :back, :alert => 'Your account is not authorized for administative functions.'
     end
   end
   
   def authenticate_user!
-    if Rails.env.production? or Rails.env.staging?
-      if !current_user
-        redirect_to :back, :alert => 'Please sign in to use this functionality.'
-      end
+    if !current_user
+      redirect_to :back, :alert => 'Please sign in to use this functionality.'
+    end
+  end
+
+  def authenticate_paying_user!
+    if !current_user
+      redirect_to :back, :alert => 'Please sign in to use this functionality.'
+    end
+    if !@current_user.card_token
+      redirect_to :back, :alert => 'Your account is not setup for payment processing.'
     end
   end
 end

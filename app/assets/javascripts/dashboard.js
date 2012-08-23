@@ -40,6 +40,24 @@ $(function(){
     }
   }); 
 
+  // GRID CONFIGURATION
+  $("#form-gridconfig").validate({
+    rules: {
+      quantity: {
+        required: true,
+        max: 2
+      }
+    },
+    messages: { 
+      quantity: "You must provide the number of grid nodes you wish to start. Maximum 2 nodes during beta."
+    }
+  });
+
+  $('.btn-gridconfig').click(function(e) {
+    e.preventDefault();
+    $('#form-gridconfig').submit();
+  });
+
   // NODE CONFIGURATION
   $(".node-role").click(function(){
     $("input#host").val($(this).data('host'));

@@ -3,16 +3,7 @@ class SessionsController < ApplicationController
   
   def create
     auth = request.env['omniauth.auth']
-    case auth['provider']
-    when 'github'
-      user = User.where(:provider => auth['provider'], :uid => auth['uid']).first || User.create_with_omniauth(auth)
-    when 'google'
-      user = User.where(:provider => auth['provider'], :uid => auth['token']).first || User.create_with_omniauth(auth)
-    when 'twitter'
-      user = User.where(:provider => auth['provider'], :uid => auth['oauth_token']).first || User.create_with_omniauth(auth)
-    when 'developer'
-      user = User.where(:provider => auth['provider'], :uid => auth['uid']).first || User.create_with_omniauth(auth)
-    end
+    user = User.where(:provider => auth['provider'], :uid => auth['uid']).first || User.create_with_omniauth(auth)
     session[:user_id] = user.id
     redirect_to '/dashboard'
   end

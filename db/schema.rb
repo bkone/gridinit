@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120821222100) do
+ActiveRecord::Schema.define(:version => 20120823073604) do
 
   create_table "attachments", :force => true do |t|
     t.string "filename"
@@ -41,6 +41,21 @@ ActiveRecord::Schema.define(:version => 20120821222100) do
     t.datetime "completed"
   end
 
+  create_table "transactions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "node_id"
+    t.string   "instance_id"
+    t.string   "instance_type"
+    t.integer  "hours"
+    t.integer  "rate"
+    t.integer  "amount"
+    t.string   "card_token"
+    t.boolean  "success"
+    t.string   "purchase_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "provider"
     t.string   "uid"
@@ -50,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20120821222100) do
     t.string   "role"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "card_token"
   end
 
 end

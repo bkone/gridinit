@@ -47,8 +47,8 @@ Gridinit::Application.routes.draw do
   resources :health
   resources :users
   resources :articles
-  resources :clouds
   resources :support
+  resources :grid
   resources :init
 
   match '/auth/:provider/callback' => 'sessions#create'
