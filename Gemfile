@@ -28,6 +28,7 @@ gem 'resque', :require => 'resque/server'
 gem 'foreman'
 gem 'RedCloth', :require => 'redcloth'
 gem 'fog', :require => 'fog'
+gem 'geocoder'
 
 group :assets do
   gem 'uglifier'
