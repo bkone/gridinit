@@ -1,7 +1,7 @@
 module DashboardHelper
   def get_monit(host=nil)
     begin
-      Timeout::timeout(0.5) do
+      Timeout::timeout(1) do
         monit = Nokogiri::HTML(open("http://#{host}:2812/")).css('table:last-child > tr').to_s[/\d+\.\d+%us.+?wa/].split(',').collect {|x| x[/[\d\.]+/].to_f}.reduce(:+).round(1)
       end
     rescue => e 
