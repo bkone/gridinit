@@ -6,9 +6,9 @@ export DEBIAN_PRIORITY=critical
 function file_update() { sed -i '\|$1|d' $2; echo $1 >> $2; }
 function file_touch() { mkdir -p `dirname $1`; touch $1; chmod $2 $1; }
 function apt() { echo "==> Updating packages" 
-  file_update 'deb http://archive.ubuntu.com/ubuntu/ precise main restricted universe multiverse' /etc/apt/sources.list
-  file_update 'deb http://archive.ubuntu.com/ubuntu/ precise-updates main restricted universe multiverse' /etc/apt/sources.list
-  file_update 'deb http://archive.canonical.com/ubuntu/ precise partner' /etc/apt/sources.list
+  file_update 'deb http://archive.ubuntu.com/ubuntu/ `cat /etc/lsb-release | grep CODENAME | cut -d= -f2` main restricted universe multiverse' /etc/apt/sources.list
+  file_update 'deb http://archive.ubuntu.com/ubuntu/ `cat /etc/lsb-release | grep CODENAME | cut -d= -f2`-updates main restricted universe multiverse' /etc/apt/sources.list
+  file_update 'deb http://archive.canonical.com/ubuntu/ `cat /etc/lsb-release | grep CODENAME | cut -d= -f2` partner' /etc/apt/sources.list
   apt-get update -y 2>&1 >> /dev/null
   apt-get upgrade -y 2>&1 >> /dev/null
 }
