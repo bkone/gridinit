@@ -97,7 +97,7 @@ ErrorLog /var/log/apache2/error.log
 LogLevel warn
 CustomLog /var/log/apache2/access.log combined
 ServerName 127.0.0.1
-RailsEnv production
+RailsEnv slave
 <VirtualHost *:80>
   DocumentRoot /var/gridnode/current/public
   <Directory /var/gridnode/current/public>

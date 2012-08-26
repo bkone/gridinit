@@ -1,6 +1,6 @@
 require 'bundler/capistrano'
 load 'deploy/assets'
-set :rails_env, 'production'
+set :rails_env, 'slave'
 set :user, 'root'
 
 set :applicationdir, '/var/gridnode'
