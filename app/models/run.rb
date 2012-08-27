@@ -45,10 +45,7 @@ class Run < ActiveRecord::Base
 
     Dir['/var/log/gridnode-*'].map {|a| `cat /dev/null > /var/log/#{File.basename(a)}` }
 
-    heap_size = '512m' if Rails.env.development?
-    heap_size = '2048m' if Rails.env.production?
-    heap_size = '2048m' if Rails.env.staging?
-
+    heap_size =  Rails.env.development? ? '512m' : '2048m'
     cmd = case params[:source]
     when 'watirwebdriver'
       "/usr/bin/ruby #{testplan.path} \
