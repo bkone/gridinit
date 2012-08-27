@@ -68,6 +68,7 @@ class NodesController < ApplicationController
   end
 
   def self.update_config(params)
+    node = Node.find_by_host!(params[:id])
     logstash = File.read("#{Rails.root}/config/logstash-#{node.role}").gsub('gridinit.com', params[:master] ? params[:master] : '127.0.0.1')
     File.open("#{Rails.root}/config/logstash.conf", 'w+'){|f| f << logstash } 
     
