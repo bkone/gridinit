@@ -266,6 +266,7 @@ function webdis() { echo "==> Installing WebDis"
     perl -pi -e 's|"daemonize":.+|"daemonize": true,|g' /var/webdis/webdis.json
     perl -pi -e 's|"disabled":.+|"disabled": ["DEBUG", "FLUSHDB", "FLUSHALL"]|g' /var/webdis/webdis.json
     perl -pi -e 's|"enabled":.+|"disabled": ["DEBUG", "FLUSHDB", "FLUSHALL"]|g' /var/webdis/webdis.json
+    perl -pi -e 's|bind 127.0.0.1|#bind 127.0.0.1|g' /etc/redis/redis.conf
     ./webdis
   fi
 }
