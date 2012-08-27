@@ -127,7 +127,7 @@ class Elasticsearch
       host = Rails.env.development? ? "/" : "http://#{item["@source_host"]}/"
       errors << { 
         :timestamp => Time.parse(item["@timestamp"]).to_i, 
-        :message => "<a href='#{host}#{error}.html'><img class='snapshot' src='#' data-png='#{host}#{error}.png'></a>"
+        :message => "<a href='#{host}#{error}?format=html'><img class='snapshot' src='#' data-png='#{host}#{error}?format=png'></a>"
       } 
     end
     errors.to_json
