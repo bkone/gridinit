@@ -5,6 +5,7 @@ class NodesController < ApplicationController
     node = Node.new do |n|
       n.host        = params[:slave]
       n.user_id     = current_user.id
+      n.role        = 'slave'
     end
     if node.save!
       redirect_to :back, :notice => "Slave node registered."
