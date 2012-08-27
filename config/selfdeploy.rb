@@ -76,6 +76,14 @@ worker: bundle exec rake resque:work QUEUE=`curl -s ifconfig.me` RAILS_ENV=#{rai
 EOF
     put procfile, "#{release_path}/Procfile"
 
+    omniauth = <<-EOF
+Rails.application.config.middleware.use OmniAuth::Builder do
+  provider :developer
+end
+
+EOF
+    put omniauth, "#{release_path}/config/initializers/omniauth.rb"
+
     run "cp #{release_path}/config/logstash-standalone #{release_path}/config/logstash.conf"
 
   end
