@@ -17,7 +17,6 @@
           </td>
 
           <td>
-           
             <script>
               $.ajax({
                 url: "http://<%= node.host %>:<%= request.port %>/health",
@@ -26,11 +25,10 @@
                   $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).errors);
                 })
             </script>
-            
           </td>
 
           <td>
-            <span data-use="<%= node.user_id && node.user_id > 0 ? 'private' : 'public' %>" data-host="<%= node.host %>" data-role="<%= node.role %>" data-master="<%= node.master %>" class="label node-role" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
+            <span data-use="<%= node.user_id && node.user_id > 0 ? 'private' : 'public' %>" data-host="<%= node.host %>" data-role="<%= node.role %>" data-master="<%= node.master %>" class="label node-role pull-right" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
               <%= node.role %>
             </span>
           </td>

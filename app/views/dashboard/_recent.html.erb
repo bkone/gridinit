@@ -29,11 +29,7 @@
       <% params = hash_keys_to_sym run.params %>
         <tr>
           <td id="<%= params[:testguid] %>" class="apdex" style="width:1px">
-            <% if run.status == 'queued' %>
-              <span class="label">queued</span>
-            <% elsif run.status == 'running' %>
-              <span class="label label-info">running</span>
-            <% else %>
+            <% if run.status == 'completed' %>
               <script>
                 var satisfied = getParameterByName('satisfied') ? getParameterByName('satisfied') : 4000;
                 $.getJSON('/charts/get_response_times?testguid=<%= params[:testguid] %>&label=&satisfied='+satisfied, function(d) {
@@ -55,8 +51,14 @@
             <a class="track" href="/runs/<%= run.id %>"><%= params[:domain] ? truncate(params[:domain], :length=>15) : 'multiple domains' %></a> 
           </td>
           <td class="date">
-            <%= run.status == 'completed' ? 'Completed' : 'Queued' %> 
-            <%= distance_of_time_in_words(Time.now - (run.completed ? run.completed : run.updated_at)) %> ago
+            <% if run.status == 'queued' %>
+              <span class="label pull-right">queued</span>
+            <% elsif run.status == 'running' %>
+              <span class="label label-info pull-right">running</span>
+            <% else %>
+              <%= run.status == 'completed' ? 'Completed' : 'Queued' %> 
+              <%= distance_of_time_in_words(Time.now - (run.completed ? run.completed : run.updated_at)) %> ago
+            <% end %>
           </td>
         </tr>
       <% end %>
