@@ -79,11 +79,12 @@
                 <span class="caret"></span>
               </button>
               <ul class="dropdown-menu">
-                <!-- <li><a href="https://console.aws.amazon.com/cloudformation/home?region=us-east-1#cstack=sn~Gridnode|turl~https://s3.amazonaws.com/cf-templates-1obdh7vu7eos-us-east-1/20122282uH-bootstrap.json">Launch AWS Nodes</a></li> -->
                 <% if admin_user? %>
-                <li><a data-toggle="modal" href="#modal-grid">Launch Grid Nodes</a></li>
-                <li class="divider"></li>
-                <li><a href="/nodes/restart/all">Restart All Nodes</a></li>
+                  <li><a data-toggle="modal" href="#modal-grid">Add Grid Nodes</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/nodes/restart/all">Restart All Nodes</a></li>
+                <% else %>
+                  <li><a href="javascript:alert('This paid feature is coming soon!');">Add Grid Nodes</a></li>
                 <% end %>
               </ul>
             </div>

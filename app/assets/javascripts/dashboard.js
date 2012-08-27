@@ -41,7 +41,25 @@ $(function(){
   }); 
 
   // GRID CONFIGURATION
-  $("#form-gridconfig").validate({
+  $('#gridnew > a').click(function(){
+    $('.gridnew').show('fast');
+    $('.btn-gridnew').show('fast');
+    $('.gridexist').hide('fast');
+    $('.btn-gridexist').hide('fast');
+    $('#gridnew').addClass('active');
+    $('#gridexist').removeClass('active');
+  });
+
+  $('#gridexist > a').click(function(){
+    $('.gridnew').hide('fast');
+    $('.btn-gridnew').hide('fast');
+    $('.gridexist').show('fast');
+    $('.btn-gridexist').show('fast');
+    $('#gridnew').removeClass('active');
+    $('#gridexist').addClass('active');
+  });
+
+  $("#form-gridnew").validate({
     rules: {
       quantity: {
         required: true,
@@ -53,16 +71,33 @@ $(function(){
     }
   });
 
-  $('.btn-gridconfig').click(function(e) {
+  $("#form-gridexist").validate({
+    rules: {
+      slave: {
+        required: true,
+      }
+    },
+    messages: { 
+      slave: "You must provide the IP of the slave grid node."
+    }
+  });
+
+  $('.btn-gridnew').click(function(e) {
     e.preventDefault();
-    $('#form-gridconfig').submit();
+    $('#form-gridnew').submit();
+  });
+
+  $('.btn-gridexist').click(function(e) {
+    e.preventDefault();
+    $('#form-gridexist').submit();
   });
 
   // NODE CONFIGURATION
   $(".node-role").click(function(){
     $("input#host").val($(this).data('host'));
     $("input#master").val($(this).data('master'));
-    $('input:radio').filter('[value='+$(this).data('role')+']').attr('checked', true);
+    $('input:radio[name=role]').filter('[value='+$(this).data('role')+']').attr('checked', true);
+    $('input:radio[name=use]').filter('[value='+$(this).data('use')+']').attr('checked', true);
     $("#form-nodeconfig").attr("action", "/nodes/"+$("#host").val());
   });
 

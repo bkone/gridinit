@@ -33,6 +33,7 @@ Gridinit::Application.routes.draw do
   match '_search'                     => 'searches#index'
     
   match '/nodes/restart/:id'          => 'nodes#restart'
+  match '/nodes/slave'                => 'nodes#slave'
   
   resources :nodes, :constraints  => { :id => %r([^/;,?]+) }
   resources :scores

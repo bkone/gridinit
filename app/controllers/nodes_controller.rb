@@ -1,9 +1,25 @@
 class NodesController < ApplicationController
+
+  def slave
+    require_admin!
+    node = Node.new do |n|
+      n.host        = params[:slave]
+      n.user_id     = current_user.id
+    end
+    if node.save!
+      redirect_to :back, :notice => "Slave node registered."
+    else 
+      redirect_to :back, :alert => 'Unable to register slave node.'
+    end
+  end
  
   def update
     node = Node.find_by_host!(params[:id])
     if permissions_on(node)
-      node.update_attributes(:role => params[:role], :master => (params[:role] == 'slave' ? params[:master] : nil) )
+      node.update_attributes(
+        :role => params[:role],
+        :user_id => (params[:use] == 'public' ? 0 : current_user.id),
+        :master => (params[:role] == 'slave' ? params[:master] : nil) )
       enqueue(node.host, :update_config)
       enqueue(node.host, :restart_services)
     end

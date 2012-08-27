@@ -2,15 +2,15 @@
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
     <ul class="nav nav-pills">
-      <li class="active"><a href="#">Grid Configuration</a></li>
+      <li id="gridnew" class="active"><a href="#">Launch New Nodes</a></li>
+      <li id="gridexist"><a href="#">Add Existing Nodes</a></li>
     </ul>
   </div>
-  <form id="form-gridconfig" class="form-horizontal" method="post" action="/grid" enctype="multipart/form-data">
+  <form id="form-gridnew" class="form-horizontal" method="post" action="/grid" enctype="multipart/form-data">
     <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
     <input name="_method" type="hidden" value="post" />   
     <div class="modal-body"> 
-      <div class="gridsummary">
-
+      <div class="gridnew">
         <div class="control-group">
           <div class="control-group">
             <label class="control-label">Quantity</label>
@@ -52,13 +52,27 @@
               </label>
             </div>
           </div>
-          
         </div>
-      </div> 
+      </div>
+    </form>
+    <form id="form-gridexist" class="form-horizontal" method="post" action="/nodes/slave" enctype="multipart/form-data">
+      <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
+      <input name="_method" type="hidden" value="post" /> 
+      <div class="gridexist" style="display: none;">
+        <div class="control-group">
+          <div class="control-group">
+            <label class="control-label">Existing Node</label>
+            <div class="controls">
+              <input id="slave" name="slave" type="text" placeholder="Add existing slave node IP">
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </form>
   <div class="modal-footer">     
     <a href="#" class="btn" data-dismiss="modal">Close</a>
-    <a href="#" class="btn btn-gridconfig btn-success">Start Nodes</a>
+    <a href="#" class="btn btn-gridnew btn-success">Start Nodes</a>
+    <a href="#" class="btn btn-gridexist btn-success" style="display: none;">Add Node</a>
   </div>
 </div>

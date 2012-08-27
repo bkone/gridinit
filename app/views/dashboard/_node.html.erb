@@ -36,6 +36,19 @@
             </div>
           </div>
           <div class="control-group">
+            <label class="control-label">Use</label>
+            <div class="controls">
+              <label class="radio">
+                <input type="radio" name="use" value="public" <%= 'disabled' unless admin_user? %>>
+                Run this a <abbr title="Public nodes are free for anyone to use.">public</abbr> node.
+              </label>
+              <label class="radio">
+                <input type="radio" name="use" value="private" <%= 'disabled' unless admin_user? %>>
+                Run this a <abbr title="Private nodes are for your use only.">private</abbr> node.
+              </label>
+            </div>
+          </div>
+          <div class="control-group">
             <label class="control-label">Master Node</label>
             <div class="controls">
               <input id="master" name="master" type="text" placeholder="Master Node IP" <%= 'disabled' unless admin_user? %>>
