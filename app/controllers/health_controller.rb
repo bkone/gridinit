@@ -1,13 +1,13 @@
 class HealthController < ApplicationController
   skip_before_filter :init
   
-  def show
+  def index
   	headers['Access-Control-Allow-Origin'] = "*"
-    healthy = `ps aux | grep #{params[:id][0..-2]}[#{params[:id][-1]}]` != ''
-    if healthy
-      render :json => { :message => "#{params[:id]} running" }
+    services = ['logstash', 'elasticsearch', 'resque', 'redis']
+    if services.reject {|s| p s; `ps aux | grep #{s[0..-2]}[#{s[-1]}]` == '' }
+      render :json => { :errors => "#{services.to_sentence} are not running" }, :status => 500
     else
-      render :json => { :errors => "#{params[:id]} not running" }, :status => 500
+      render :json => { :message => "All services running" }
     end
   end
 end

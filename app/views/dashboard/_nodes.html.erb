@@ -17,31 +17,14 @@
           </td>
 
           <td>
-            <span data-host="<%= node.host %>" class="services">
-              <% ['logstash', 'elasticsearch', 'resque', 'redis'].each do |service| %>
-                <%= image_tag service + ".png", 
-                  :class  => service, 
-                  :size   => '10x10',
-                  :style  => "display:none;", 
-                  :rel    => "tooltip", 
-                  :title  => service
-                %>
-              <% end %>    
-           </span>
            
             <script>
-            <% ['logstash', 'elasticsearch', 'resque', 'redis'].each do |service| %>
               $.ajax({
-                url: "http://<%= node.host %>:<%= request.port %>/health/<%= service %>",
-                timeout: 2000
-              })
-                .done(function() { 
-                  $('.services[data-host="<%= node.host %>"] > img.<%= service %>').show();
+                url: "http://<%= node.host %>:<%= request.port %>/health",
+                timeout: 4000
+              }).fail(function(data) {
+                  $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).errors);
                 })
-                .fail(function() {
-                  $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', '<%= service %> is not running');
-                })
-            <% end %>
             </script>
             
           </td>
