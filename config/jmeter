@@ -42,7 +42,7 @@
         <collectionProp name="HeaderManager.headers">
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">User-Agent</stringProp>
-            <stringProp name="Header.value">Mozilla/5.0 (Altentee.com; ${__machineName()}; Gridinit:VU1.0) Gecko/20100101 Firefox/11.0</stringProp>
+            <stringProp name="Header.value">Mozilla/5.0 (Gridinit.com; ${__machineName()}; Gridinit:VU1.0) Gecko/20100101 Firefox/11.0</stringProp>
           </elementProp>
           <elementProp name="" elementType="Header">
             <stringProp name="Header.name">Accept-Encoding</stringProp>
