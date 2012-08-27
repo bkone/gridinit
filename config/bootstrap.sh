@@ -169,6 +169,7 @@ function elasticsearch() { echo "==> Installing Elasticsearch"
   /opt/elasticsearch/bin/service/elasticsearch install
   /opt/elasticsearch/bin/plugin -install mobz/elasticsearch-head # http://127.0.0.1:9200/_plugin/head/
   perl -pi -e 's|# path.data.*|path.data: /opt/elasticsearch/data|g' /opt/elasticsearch/config/elasticsearch.yml
+  perl -pi -e 's|# cluster.name.*|cluster.name: elasticsearch-gridinit|g' /opt/elasticsearch/config/elasticsearch.yml 
   /etc/init.d/elasticsearch start
 }
 function grok() { echo "==> Installing Grok"
