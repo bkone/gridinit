@@ -37,7 +37,7 @@ Gridinit::Application.routes.draw do
   
   resources :nodes, :constraints  => { :id => %r([^/;,?]+) }
   resources :scores
-  resources :errors, :constraints => {:id => /[\w.]+?/, :format => /html|json|png/}
+  resources :errors, :constraints => {:id => %r([^/;,?]+), :format => /html|json|png/}
   resources :indices
   resources :testdata
   resources :dashboard
