@@ -39,7 +39,7 @@ class Run < ActiveRecord::Base
     
     contents = File.open(file) { |f| f.read }
     contents = parse_testplan!(contents)
-    testplan.write(open(file) { |f| contents } )
+    testplan.write(contents)
 
     Dir['/var/log/gridnode-*'].map {|a| `cat /dev/null > /var/log/#{File.basename(a)}` }
 
