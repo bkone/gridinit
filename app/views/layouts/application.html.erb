@@ -52,7 +52,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> Your Account<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><%= link_to('Sign Out', signout_path) %></li>
-                  <% if Rails.env.production? %>
+                  <% if Rails.env.production? || Rails.env.development? %>
                     <li><a href="/payments/new">Payment Details</a></li>
                   <% end %>
                 </ul>
