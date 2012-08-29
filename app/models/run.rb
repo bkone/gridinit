@@ -41,7 +41,7 @@ class Run < ActiveRecord::Base
     end
     # testplan.write(open(file) { |f| f.read } )
     
-    contents = File.open(file) { |f| f.read }
+    contents = open(file) { |f| f.read }
     contents = parse_testplan!(contents)
     testplan.write(contents)
 
