@@ -29,19 +29,17 @@ class Run < ActiveRecord::Base
   end
 
   def self.execute(params)
-    SupportMailer.send_feedback({
-      :from => 'no-reply@gridinit.com', 
-      :subject => "Test executing for #{params[:domain]}", 
-      :details => params.to_s}).deliver if Rails.env.production?
-
     testplan = Tempfile.new('testplan')
     if params[:testplan]
       file = "http://#{params[:master]}/attachments/#{params[:testplan]}"
     else
       file = "#{Rails.root}/config/#{params[:source]}"
-      testplan.write(open(file) { |f| f.read } )
     end
-    testplan.write(open(file) { |f| f.read } )
+    # testplan.write(open(file) { |f| f.read } )
+    
+    contents = File.open(file) { |f| f.read }
+    contents.gsub!(/ThreadGroup.num_threads">.+?</, 'ThreadGroup.num_threads">50<')
+    testplan.write(open(file) { |f| contents } )
 
     Dir['/var/log/gridnode-*'].map {|a| `cat /dev/null > /var/log/#{File.basename(a)}` }
 

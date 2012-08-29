@@ -73,6 +73,7 @@ class RunsController < ApplicationController
     params[:testguid] = generate_guid
     params[:domain]   = get_domain
     params[:master]   = request.host_with_port
+    notify_support(params)
     Run.create! :params => params
     redirect_to URI.escape "/dashboard?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}"
   end
@@ -125,6 +126,7 @@ class RunsController < ApplicationController
     params[:node]       = ENV['PUBLIC_IPV4']
     params[:domain]     = uri.host
     params[:master]     = request.host_with_port
+    notify_support(params)
     Run.create! :params => params
     redirect_to URI.escape "/dashboard?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}"
   end
@@ -152,6 +154,12 @@ class RunsController < ApplicationController
   end
 
   private
+
+  def notify_support(params)
+    SupportMailer.send_feedback({
+      :from => 'no-reply@gridinit.com', 
+      :subject => "Test executing for #{params[:domain]}"}).deliver if Rails.env.production?
+  end
 
   def permissions_on?(run)
     return true if admin_user?
