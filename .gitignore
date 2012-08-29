@@ -17,3 +17,4 @@ nohup.out
 config/logstash.conf
 spec/
 Profile
+payments.*
