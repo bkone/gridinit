@@ -31,7 +31,11 @@ class Run < ActiveRecord::Base
   def self.execute(params)
     testplan = Tempfile.new('testplan')
     if params[:testplan]
-      file = "#{'http://' + params[:master] if params[:master]}/attachments/#{params[:testplan]}"
+      if params[:master]
+        file = "http://#{params[:master]}/attachments/#{params[:testplan]}"
+      else
+        file = "http://127.0.0.1:#{Rails.env.development? ? 3000 : 80}/attachments/#{params[:testplan]}"
+      end
     else
       file = "#{Rails.root}/config/#{params[:source]}"
     end
