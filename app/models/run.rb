@@ -94,7 +94,7 @@ class Run < ActiveRecord::Base
           <stringProp name="48">0</stringProp>
         </collectionProp>
       }
-      doc.to_xml
     end
+    doc.to_xml
   end
 end
