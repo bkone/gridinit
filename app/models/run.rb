@@ -85,20 +85,21 @@ class Run < ActiveRecord::Base
     contents.gsub!(/ThreadGroup.num_threads">.+?</, 'ThreadGroup.num_threads">50<')
     contents.gsub!(/ThreadGroup.ramp_time">.+?</, 'ThreadGroup.ramp_time">60<')
     contents.gsub!(/ThreadGroup.duration">.+?</, 'ThreadGroup.num_threads">60<')
-
-    doc = Nokogiri::XML(contents)
-    doc.search('//collectionProp[name="ultimatethreadgroupdata"]').each do |node|
-      node.children.remove
-      node.content = %{
-        <collectionProp name="1624893689">
-          <stringProp name="326657651">50</stringProp>
-          <stringProp name="0">0</stringProp>
-          <stringProp name="138319285">60</stringProp>
-          <stringProp name="1726402173">60</stringProp>
-          <stringProp name="48">0</stringProp>
-        </collectionProp>
-      }
-    end
-    doc.to_xml
+    # doc = Nokogiri::XML(contents)
+    # doc.search('//collectionProp[name="ultimatethreadgroupdata"]').each do |node|
+    #   node.children.remove
+    #   node.content = %{
+    #     <collectionProp name="1624893689">
+    #       <stringProp name="326657651">50</stringProp>
+    #       <stringProp name="0">0</stringProp>
+    #       <stringProp name="138319285">60</stringProp>
+    #       <stringProp name="1726402173">60</stringProp>
+    #       <stringProp name="48">0</stringProp>
+    #     </collectionProp>
+    #   }
+    # end
+    # doc.to_xml
+    # contents = "" if doc.search('//kg.apc.jmeter.threads.UltimateThreadGroup')
+    contents
   end
 end

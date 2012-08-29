@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?
   helper_method :correct_user?
   helper_method :admin_user?
+  helper_method :paying_user?
   helper_method :generate_guid
   helper_method :hash_keys_to_sym
   helper_method :master_node
@@ -70,6 +71,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def paying_user?
+    if current_user
+      return true if current_user.card_token
+    else
+      false
+    end
+  end
+
   def require_admin!
     if !current_user 
       redirect_to :back, :alert => 'Please sign in to use this functionality.'
@@ -85,11 +94,9 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_paying_user!
-    if !current_user
-      redirect_to :back, :alert => 'Please sign in to use this functionality.'
-    end
+    authenticate_user!
     if !@current_user.card_token
-      redirect_to :back, :alert => 'Your account is not setup for payment processing.'
+      redirect_to :back, :alert => 'This feature is reserved for paid accounts only.'
     end
   end
 end
