@@ -10,7 +10,14 @@
 <div class="main-area dashboard">
   <div class="container">
 
-    <% if flash[:alert] %>
+    <% if !paying_user? %>
+      <div class="alert alert-info">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please Provide Payment Details</h4>
+        You currently have no payment details registered for your account. For access to paid features, including launching your own private grid nodes, please provide a payment method below. For security, we do not store your credit/debit card information and use a secure payment gateway protected by industry standard measures for payment processing.
+        <%= flash[:notice] %>
+      </div>
+    <% elsif flash[:alert] %>
       <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">×</a>
         <h4 class="alert-heading">Error</h4>
@@ -25,8 +32,8 @@
     <% else %>
       <div class="alert alert-info">
         <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading">Payment Information</h4>
-        Changes to this payment information will apply to your Gridinit account and will affect your future purchases of grid node hours. For security, we do not store your credit/debit card information and use a secure payment gateway protected by industry standard measures for payment processing.
+        <h4 class="alert-heading">Update Your Payment Details</h4>
+        Changes to these payment details will apply to your Gridinit account and will affect your future purchases of grid node hours. For security, we do not store your credit/debit card information and use a secure payment gateway protected by industry standard measures for payment processing.
       </div>
     <% end %>
     <div class="row"> 
@@ -71,7 +78,7 @@
               <div class="controls">
                 <p><a href="#" class="btn-payments btn btn-success">Save Details</a></p>
                 <p>
-                  Pay only for what you use. There is no minimum fee.  You pay for grid nodes by the hour with no long-term commitments. Grid nodes are charged at $3.99 per grid node per hour. Pricing is per grid node hour consumed for each grid node, from the time a node is launched until it is terminated by you. Each partial grid node hour consumed will be billed as a full hour. Grid node hours are invoiced daily and may take 48 hours to be be processed.
+                  Pay only for what you use. There is no minimum fee.  You pay for grid nodes by the hour with no long-term commitments. Grid nodes are charged at <strong>$3.99 per grid node per hour</strong>. Pricing is per grid node hour consumed for each grid node, from the time a node is launched until it is terminated by you. Each partial grid node hour consumed will be billed as a full hour. Grid node hours are invoiced daily and may take 48 hours to be be processed.
                 </p>
               </div>
             </div>
