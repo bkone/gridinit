@@ -108,6 +108,7 @@ $(function(){
       url: "http://"+$("input#host").val()+"/health",
       timeout: 4000
     }).done(function(data) {
+      console.log($.parseJSON(data.responseText));
       $('.nodestats').html($.parseJSON(data.responseText).health);
     }).fail(function(data) {
       $('.nodestats').html($.parseJSON(data.responseText).health);
