@@ -111,10 +111,12 @@ $(function(){
       $('.nodestats-health').html(data.health);
       $('.nodestats-started').html(data.started);
       $('.nodestats-stopped').html(data.stopped);
+      $('.nodestats').hide('fast');
     }).fail(function(data) {
       $('.nodestats-health').html(data.health);
       $('.nodestats-started').html(data.started);
       $('.nodestats-stopped').html(data.stopped);
+      $('.nodestats').hide('fast');
     });
   });
 
