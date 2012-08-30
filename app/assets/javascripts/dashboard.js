@@ -100,29 +100,36 @@ $(function(){
     $('input:radio[name=use]').filter('[value='+$(this).data('use')+']').attr('checked', true);
     $("#form-nodeconfig").attr("action", "/nodes/"+$("input#host").val());
     $('.nodeconfig').show('fast');
+    $('.nodestats').children().hide();
     $('.nodestats').hide('fast');
     $('#nodeconfig').addClass('active');
     $('#nodestats').removeClass('active');
 
     $.ajax({
-      url: "http://"+$("input#host").val()+"/health",
+      url: "http://"+$(this).data('host')+":"+$(this).data('port')+"/health",
       timeout: 4000
     }).done(function(data) {
-      $('.nodestats-health').html(data.health);
+      $('.nodestats-services').html('<a class="close" data-dismiss="alert" href="#">×</a>'+
+        '<h4 class="alert-heading">Notice</h4>'+data.services).addClass('alert-success').removeClass('alert-error');
       $('.nodestats-started').html(data.started);
       $('.nodestats-stopped').html(data.stopped);
-      $('.nodestats').hide('fast');
-    }).fail(function(data) {
-      $('.nodestats-health').html(data.health);
+      $('.nodestats-duration').html(data.duration);
+      $('.nodestats-cost').html(data.cost);
+    }).fail(function(error) {
+      data = $.parseJSON(error.responseText);
+      $('.nodestats-services').html('<a class="close" data-dismiss="alert" href="#">×</a>'+
+        '<h4 class="alert-heading">Error</h4>'+data.services).removeClass('alert-success').addClass('alert-error');
       $('.nodestats-started').html(data.started);
       $('.nodestats-stopped').html(data.stopped);
-      $('.nodestats').hide('fast');
+      $('.nodestats-duration').html(data.duration);
+      $('.nodestats-cost').html(data.cost);
     });
   });
 
   $('#nodeconfig > a').click(function(){
     $('.nodeconfig').show('fast');
     $('.nodestats').hide('fast');
+    $('.nodestats').children().hide();
     $('#nodeconfig').addClass('active');
     $('#nodestats').removeClass('active');
   });
@@ -130,6 +137,7 @@ $(function(){
   $('#nodestats > a').click(function(){
     $('.nodeconfig').hide('fast');
     $('.nodestats').show('fast');
+    $('.nodestats').children().show();
     $('#nodeconfig').removeClass('active');
     $('#nodestats').addClass('active');
 

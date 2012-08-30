@@ -21,14 +21,16 @@
               $.ajax({
                 url: "http://<%= node.host %>:<%= request.port %>/health",
                 timeout: 4000
+              }).done(function(data) {
+                $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
               }).fail(function(data) {
-                $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).health);
+                $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).services);
               });
             </script>
           </td>
 
           <td>
-            <span data-use="<%= node.user_id && node.user_id > 0 ? 'private' : 'public' %>" data-host="<%= node.host %>" data-role="<%= node.role %>" data-master="<%= node.master %>" class="label node-role pull-right" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
+            <span data-use="<%= node.user_id && node.user_id > 0 ? 'private' : 'public' %>" data-host="<%= node.host %>" data-port="<%= request.port %>" data-role="<%= node.role %>" data-master="<%= node.master %>" class="label node-role pull-right" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
               <%= node.role %>
             </span>
           </td>

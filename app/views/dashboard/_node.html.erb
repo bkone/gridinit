@@ -2,8 +2,8 @@
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
     <ul class="nav nav-pills">
-      <li id="nodeconfig" class="active"><a href="#">Node Configuration</a></li>
-      <li id="nodestats"><a href="#">Node Statistics</a></li>
+      <li id="nodeconfig" class="active"><a href="#">Configuration</a></li>
+      <li id="nodestats"><a href="#">Statistics</a></li>
     </ul>
   </div>
   <form id="form-nodeconfig" class="form-horizontal" method="post" action="/nodes/<%= @node.host %>" enctype="multipart/form-data">
@@ -11,11 +11,11 @@
     <input name="_method" type="hidden" value="put" />   
     <div class="modal-body"> 
       <div class="nodeconfig">
+        <div class="nodestats-services alert"></div>
         <div class="control-group">
           <div class="control-group">
             <label class="control-label">Host</label>
             <div class="controls">
-              <input id="owner" type="hidden" />
               <input id="host" class="input-xlarge" type="text" value="<%= @node.host %>" disabled />
             </div>
           </div>
@@ -58,17 +58,39 @@
         </div>
       </div>
       <div class="nodestats" style="display: none;">
-        <span class="nodestats-health"></span><br/>
-        <span class="nodestats-started"></span><br/>
-        <span class="nodestats-stopped"></span><br/>
-        <span class="nodestats-duration"></span><br/>
+        <div class="form-horizontal">
+          <div class="control-group">
+            <label class="control-label">Started</label>
+            <div class="controls">
+              <span class="nodestats-started input-xlarge uneditable-input"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Stopped</label>
+            <div class="controls">
+              <span class="nodestats-stopped input-xlarge uneditable-input"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Duration</label>
+            <div class="controls">
+              <span class="nodestats-duration input-xlarge uneditable-input"></span>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label">Estimated Cost</label>
+            <div class="controls">
+              <span class="nodestats-cost input-xlarge uneditable-input"></span>
+            </div>
+          </div>
+        </div>
       </div> 
     </div>
   </form>
   <div class="modal-footer">     
     <a href="#" class="btn" data-dismiss="modal">Close</a>
     <% if admin_user? %>
-      <a href="#" class="btn-nodedelete btn btn-danger">Delete</a>
+      <a href="#" class="btn-nodedelete btn btn-danger">Stop</a>
       <a href="#" class="btn-nodeupdate btn btn-success">Update & Restart</a>
     <% end %>
   </div>
