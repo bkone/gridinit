@@ -107,18 +107,19 @@ $(function(){
 
     $.ajax({
       url: "http://"+$(this).data('host')+":"+$(this).data('port')+"/health",
-      timeout: 4000
+      timeout: 4000,
+      xhrFields: {
+        withCredentials: true
+      }
     }).done(function(data) {
-      $('.nodestats-services').html('<a class="close" data-dismiss="alert" href="#">×</a>'+
-        '<h4 class="alert-heading">Notice</h4>'+data.services).addClass('alert-success').removeClass('alert-error');
+      $('.nodestats-services').html('<h4 class="alert-heading">Notice</h4>'+data.services).addClass('alert-info').removeClass('alert-error').show();
       $('.nodestats-started').html(data.started);
       $('.nodestats-stopped').html(data.stopped);
       $('.nodestats-duration').html(data.duration);
       $('.nodestats-cost').html(data.cost);
     }).fail(function(error) {
       data = $.parseJSON(error.responseText);
-      $('.nodestats-services').html('<a class="close" data-dismiss="alert" href="#">×</a>'+
-        '<h4 class="alert-heading">Error</h4>'+data.services).removeClass('alert-success').addClass('alert-error');
+      $('.nodestats-services').html('<h4 class="alert-heading">Error</h4>'+data.services).removeClass('alert-success').addClass('alert-error').show();
       $('.nodestats-started').html(data.started);
       $('.nodestats-stopped').html(data.stopped);
       $('.nodestats-duration').html(data.duration);
