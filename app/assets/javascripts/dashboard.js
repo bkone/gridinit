@@ -104,7 +104,6 @@ $(function(){
     $('#nodeconfig').addClass('active');
     $('#nodestats').removeClass('active');
 
-    $('.nodestats').empty();
     $.ajax({
       url: "http://"+$("input#host").val()+"/health",
       timeout: 4000
