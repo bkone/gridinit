@@ -108,10 +108,13 @@ $(function(){
       url: "http://"+$("input#host").val()+"/health",
       timeout: 4000
     }).done(function(data) {
-      console.log($.parseJSON(data.responseText));
-      $('.nodestats').html($.parseJSON(data.responseText).health);
+      $('.nodestats-health').html(data.health);
+      $('.nodestats-started').html(data.started);
+      $('.nodestats-stopped').html(data.stopped);
     }).fail(function(data) {
-      $('.nodestats').html($.parseJSON(data.responseText).health);
+      $('.nodestats-health').html(data.health);
+      $('.nodestats-started').html(data.started);
+      $('.nodestats-stopped').html(data.stopped);
     });
   });
 
