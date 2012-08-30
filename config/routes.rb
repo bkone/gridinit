@@ -34,8 +34,6 @@ Gridinit::Application.routes.draw do
     
   match '/nodes/restart/:id'          => 'nodes#restart'
   match '/nodes/slave'                => 'nodes#slave'
-
-  match '/health', :controller => 'health', :action => 'index', :constraints => {:method => 'OPTIONS'}
   
   resources :nodes, :constraints  => { :id => %r([^/;,?]+) }
   resources :scores
