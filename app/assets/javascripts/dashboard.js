@@ -98,7 +98,35 @@ $(function(){
     $("input#master").val($(this).data('master'));
     $('input:radio[name=role]').filter('[value='+$(this).data('role')+']').attr('checked', true);
     $('input:radio[name=use]').filter('[value='+$(this).data('use')+']').attr('checked', true);
-    $("#form-nodeconfig").attr("action", "/nodes/"+$("#host").val());
+    $("#form-nodeconfig").attr("action", "/nodes/"+$("input#host").val());
+    $('.nodeconfig').show('fast');
+    $('.nodestats').hide('fast');
+    $('#nodeconfig').addClass('active');
+    $('#nodestats').removeClass('active');
+
+    $.ajax({
+      url: "http://"+$("input#host").val()+"/health",
+      timeout: 4000
+    }).done)function(data) {
+      $('.nodestats').html($.parseJSON(data.responseText).health);
+    }).fail(function(data) {
+      $('.nodestats').html($.parseJSON(data.responseText).health);
+    });
+  });
+
+  $('#nodeconfig > a').click(function(){
+    $('.nodeconfig').show('fast');
+    $('.nodestats').hide('fast');
+    $('#nodeconfig').addClass('active');
+    $('#nodestats').removeClass('active');
+  });
+
+  $('#nodestats > a').click(function(){
+    $('.nodeconfig').hide('fast');
+    $('.nodestats').show('fast');
+    $('#nodeconfig').removeClass('active');
+    $('#nodestats').addClass('active');
+
   });
 
   $('.btn-nodeupdate').click(function(e) {

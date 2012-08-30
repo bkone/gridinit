@@ -5,9 +5,15 @@ class HealthController < ApplicationController
   	headers['Access-Control-Allow-Origin'] = "*"
     services = ['logstash', 'elasticsearch', 'resque', 'redis']
     if services.reject! {|s| `ps aux | grep #{s[0..-2]}[#{s[-1]}]` != '' }.size > 0
-      render :json => { :errors => "#{services.to_sentence} are not running" }, :status => 500
+      render :json => { 
+        :health => "#{services.to_sentence} are not running", 
+        :started => @node.created_at, 
+        :stopped => @node.stopped }, :status => 500
     else
-      render :json => { :message => "All services running" }
+      render :json => { 
+        :health => "All services running", 
+        :started => @node.created_at, 
+        :stopped => @node.stopped }
     end
   end
 end

@@ -4,7 +4,7 @@ class GridController < ApplicationController
   def create
     params[:user]     = (user_signed_in? ? current_user.id : 0)
     params[:quantity].to_i.times {|i| enqueue(@node.host, :create_on_aws) }
-    redirect_to :back, :notice => "#{params[:quantity]} node(s) started."
+    redirect_to :back, :notice => "#{params[:quantity]} node(s) started. The will appear in your grid nodes shortly."
   end
 
   def destroy

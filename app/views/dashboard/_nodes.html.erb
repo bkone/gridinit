@@ -22,8 +22,8 @@
                 url: "http://<%= node.host %>:<%= request.port %>/health",
                 timeout: 4000
               }).fail(function(data) {
-                  $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).errors);
-                })
+                $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).health);
+              });
             </script>
           </td>
 

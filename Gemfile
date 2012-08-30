@@ -45,9 +45,11 @@ gem 'grizzled-rails-logger'
 group :production do
   gem 'rack-google_analytics', :require => 'rack/google_analytics'
   gem 'airbrake'
+  gem 'fat_zebra', :require => 'fat_zebra'
 end
 
 group :test, :development do
+  gem 'fat_zebra', :require => 'fat_zebra'
   gem 'rspec'				      
   gem 'rspec-rails'
   gem 'guard'         

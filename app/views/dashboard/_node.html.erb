@@ -2,14 +2,15 @@
   <div class="modal-header">
     <a class="close" data-dismiss="modal">×</a>
     <ul class="nav nav-pills">
-      <li class="active"><a href="#">Node Configuration</a></li>
+      <li id="nodeconfig" class="active"><a href="#">Node Configuration</a></li>
+      <li id="nodestats"><a href="#">Node Statistics</a></li>
     </ul>
   </div>
   <form id="form-nodeconfig" class="form-horizontal" method="post" action="/nodes/<%= @node.host %>" enctype="multipart/form-data">
     <input id="tokentag" type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>" />
     <input name="_method" type="hidden" value="put" />   
     <div class="modal-body"> 
-      <div class="nodesummary">
+      <div class="nodeconfig">
         <div class="control-group">
           <div class="control-group">
             <label class="control-label">Host</label>
@@ -55,6 +56,9 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="nodestats" style="display: none;">
+        
       </div> 
     </div>
   </form>
