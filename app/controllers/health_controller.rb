@@ -5,6 +5,7 @@ class HealthController < ApplicationController
   
   def index
   	headers['Access-Control-Allow-Origin'] = "*"
+    headers['Access-Control-Allow-Methods'] = 'POST, GET, OPTIONS'
     services  = ['logstash', 'elasticsearch', 'resque', 'redis']
     duration  = @node.stopped ? @node.stopped - @node.created_at : Time.now - @node.created_at
     cost      = duration/60/60 * 3.99
