@@ -20,36 +20,18 @@
           </div>
 
           <div class="control-group">
-            <label class="control-label">Location</label>
+            <label class="control-label">Region</label>
             <div class="controls">
-              <label class="radio">
-                <input type="radio" name="location" value="us-east-1" disabled>
-                <%= image_tag "aws.png", :rel => "tooltip", :title => 'AWS' %> US East (Northern Virginia)
-              </label>
-              <label class="radio">
-                <input type="radio" name="location" value="us-west-1" disabled>
-                <%= image_tag "aws.png", :rel => "tooltip", :title => 'AWS' %> US West (Oregon)
-              </label>
-              <label class="radio">
-                <input type="radio" name="location" value="us-west-2" disabled>
-                <%= image_tag "aws.png", :rel => "tooltip", :title => 'AWS' %> US West (Northern California)
-              </label>
-              <label class="radio">
-                <input type="radio" name="location" value="eu-west-1" disabled>
-                <%= image_tag "aws.png", :rel => "tooltip", :title => 'AWS' %> EU (Ireland)
-              </label>
-              <label class="radio">
-                <input type="radio" name="location" value="ap-southeast-1" checked>
-                <%= image_tag "aws.png", :rel => "tooltip", :title => 'AWS' %> Asia Pacific (Singapore)
-              </label>
-              <label class="radio">
-                <input type="radio" name="location" value="ap-northeast-1" disabled>
-                <%= image_tag "aws.png", :rel => "tooltip", :title => 'AWS' %> Asia Pacific (Tokyo)
-              </label>
-              <label class="radio">
-                <input type="radio" name="location" value="sa-east-1" disabled>
-                <%= image_tag "aws.png", :rel => "tooltip", :title => 'AWS' %> South America (Sao Paulo)
-              </label>
+              <select name="region">
+                <option value="au-nsw" disabled>Australia (Sydney)</option>
+                <option value="us-east-1" disabled>US East (Northern Virginia)</option>
+                <option value="us-west-1" disabled>US West (Oregon)</option>
+                <option value="us-west-2" disabled>US West (Northern California)</option>
+                <option value="eu-west-1" disabled>EU (Ireland)</option>
+                <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+                <option value="ap-northeast-1" disabled>Asia Pacific (Tokyo)</option>
+                <option value="sa-east-1" disabled>South America (Sao Paulo)</option>
+              </select>
             </div>
           </div>
 

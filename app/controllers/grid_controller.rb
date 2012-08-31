@@ -4,7 +4,7 @@ class GridController < ApplicationController
   def create
     params[:user]     = (user_signed_in? ? current_user.id : 0)
     params[:quantity].to_i.times {|i| enqueue(@node.host, :create_on_aws) }
-    redirect_to :back, :notice => "#{params[:quantity]} node(s) started. They will appear in your grid nodes shortly."
+    redirect_to :back, :notice => "#{params[:quantity]} node(s) started. They will appear as private grid nodes shortly."
   end
 
   def destroy
@@ -26,12 +26,14 @@ class GridController < ApplicationController
   def self.create_on_aws(params)
     server = $fog.servers.create(
       :image_id   => 'ami-8a7f3ed8',
-      :flavor_id  => 'm1.large'
+      :flavor_id  => 'm1.large',
+      :region     => params[:region]
     )
     server.wait_for { ready? }
     node = Node.new do |n|
       n.host        = server.public_ip_address
       n.instance_id = server.id
+      n.region      = params[:region]
       n.user_id     = params[:user]
     end
     if node.save

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120831032911) do
+ActiveRecord::Schema.define(:version => 20120831034157) do
 
   create_table "attachments", :force => true do |t|
     t.string "filename"
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(:version => 20120831032911) do
     t.datetime "updated_at",                            :null => false
     t.string   "instance_id"
     t.integer  "user_id"
-    t.datetime "stopped"
     t.string   "location"
     t.string   "region"
   end
