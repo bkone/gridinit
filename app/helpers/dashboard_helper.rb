@@ -33,47 +33,32 @@ module DashboardHelper
   end
 
   def threads_limit
-    if current_user
-      case current_user.role
-      when 'admin'
-        1000
-      when 'paid'
-        500
-      else
-        50
-      end
-    else
+    if paying_user? || admin_user?
+      1000
+    elsif current_user
       50
+    else
+      0
     end
   end
 
   def rampup_limit
-    if current_user
-      case current_user.role
-      when 'admin'
-        7200
-      when 'paid'
-        3600
-      else
-        60
-      end
-    else
+    if paying_user? || admin_user?
+      3600*3
+    elsif current_user
       60
+    else
+      0
     end
   end
 
   def duration_limit
-    if current_user
-      case current_user.role
-      when 'admin'
-        7200
-      when 'paid'
-        3600
-      else
-        60
-      end
-    else
+    if admin_user?
+      3600*8
+    elsif current_user
       60
+    else
+      0
     end
   end
 end

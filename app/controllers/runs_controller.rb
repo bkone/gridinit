@@ -68,14 +68,18 @@ class RunsController < ApplicationController
   end
 
   def create
-    params[:testplan] = save_attachment
-    params[:user]     = (user_signed_in? ? current_user.id : 0)
-    params[:testguid] = generate_guid
-    params[:domain]   = get_domain
-    params[:master]   = request.host_with_port
-    notify_support(params)
-    Run.create! :params => params
-    redirect_to URI.escape "/dashboard?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}"
+    if paying_user?
+      params[:testplan] = save_attachment
+      params[:user]     = (user_signed_in? ? current_user.id : 0)
+      params[:testguid] = generate_guid
+      params[:domain]   = get_domain
+      params[:master]   = request.host_with_port
+      notify_support(params)
+      Run.create! :params => params
+      redirect_to URI.escape "/dashboard?tags=#{params[:source]}&testguid=#{params[:testguid]}&domain=#{params[:domain]}"
+    else
+      redirect_to :back, :alert => 'Advanced test plans are reserved for paid accounts only.'
+    end
   end
 
   def destroy

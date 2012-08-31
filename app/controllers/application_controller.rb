@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :correct_user?
   helper_method :admin_user?
   helper_method :paying_user?
+  helper_method :user_has_private_nodes?
   helper_method :generate_guid
   helper_method :hash_keys_to_sym
   helper_method :master_node
@@ -73,7 +74,17 @@ class ApplicationController < ActionController::Base
 
   def paying_user?
     if current_user
-      return true if current_user.card_token
+      current_user.card_token ? true : false
+    else
+      false
+    end
+  end
+
+  def user_has_private_nodes?
+    if admin_user?
+      true
+    elsif current_user
+      Node.count(:conditions =>  ["user_id =(?)", current_user.id]) > 0 ? true : false
     else
       false
     end

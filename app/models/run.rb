@@ -39,10 +39,8 @@ class Run < ActiveRecord::Base
     else
       file = "#{Rails.root}/config/#{params[:source]}"
     end
-    # testplan.write(open(file) { |f| f.read } )
     
     contents = open(file) { |f| f.read }
-    contents = parse_testplan!(contents)
     testplan.write(contents)
 
     Dir['/var/log/gridnode-*'].map {|a| `cat /dev/null > /var/log/#{File.basename(a)}` }
@@ -79,27 +77,5 @@ class Run < ActiveRecord::Base
     `#{cmd}`
     testplan.close
     testplan.unlink
-  end
-
-  def self.parse_testplan!(contents)
-    contents.gsub!(/ThreadGroup.num_threads">.+?</, 'ThreadGroup.num_threads">50<')
-    contents.gsub!(/ThreadGroup.ramp_time">.+?</, 'ThreadGroup.ramp_time">60<')
-    contents.gsub!(/ThreadGroup.duration">.+?</, 'ThreadGroup.num_threads">60<')
-    # doc = Nokogiri::XML(contents)
-    # doc.search('//collectionProp[name="ultimatethreadgroupdata"]').each do |node|
-    #   node.children.remove
-    #   node.content = %{
-    #     <collectionProp name="1624893689">
-    #       <stringProp name="326657651">50</stringProp>
-    #       <stringProp name="0">0</stringProp>
-    #       <stringProp name="138319285">60</stringProp>
-    #       <stringProp name="1726402173">60</stringProp>
-    #       <stringProp name="48">0</stringProp>
-    #     </collectionProp>
-    #   }
-    # end
-    # doc.to_xml
-    # contents = "" if doc.search('//kg.apc.jmeter.threads.UltimateThreadGroup')
-    contents
   end
 end
