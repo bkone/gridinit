@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120823101308) do
+ActiveRecord::Schema.define(:version => 20120831032911) do
 
   create_table "attachments", :force => true do |t|
     t.string "filename"
@@ -27,6 +27,8 @@ ActiveRecord::Schema.define(:version => 20120823101308) do
     t.string   "instance_id"
     t.integer  "user_id"
     t.datetime "stopped"
+    t.string   "location"
+    t.string   "region"
   end
 
   create_table "runs", :force => true do |t|
@@ -55,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20120823101308) do
     t.string   "purchase_id"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
+    t.datetime "stopped_at"
   end
 
   create_table "users", :force => true do |t|

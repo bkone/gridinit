@@ -9,6 +9,29 @@ module DashboardHelper
     monit ||= '--'
   end
 
+  def get_flag(node)
+    case node.region
+    when "us-east-1"
+      "icon_flag_us.png"
+    when "us-west-1"
+      "icon_flag_us.png"
+    when "us-west-2"
+      "icon_flag_us.png"
+    when "eu-west-1"
+      "icon_flag_eu.png"
+    when "ap-southeast-1"
+      "icon_flag_ap.png"
+    when "ap-northeast-1"
+      "icon_flag_jp.png"
+    when "sa-east-1"
+      "icon_flag_br.png"
+    when "au-nsw"
+      "icon_flag_au.png"
+    else
+      "icon_flag_au.png"
+    end
+  end
+
   def threads_limit
     if current_user
       case current_user.role

@@ -8,10 +8,11 @@
           </td>
           
           <td>
+            <%= image_tag get_flag(node), :rel => "tooltip", :title => node.location %>
             <% if node.user_id && node.user_id > 0 %>
-              <i class="icon-lock" title="Private node" rel="tooltip"></i>
+              <i class="icon-eye-close" title="This node is private" rel="tooltip"></i>
             <% else %>
-              <i class="icon-unlock" title="Public node" rel="tooltip"></i>
+              <i class="icon-eye-open" title="This node is public" rel="tooltip"></i>
             <% end %>
             <a href="http://<%= node.host %>/dashboard"><%= node.host %></a>
           </td>
