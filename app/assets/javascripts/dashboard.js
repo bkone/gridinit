@@ -105,27 +105,20 @@ $(function(){
     $('#nodeconfig').addClass('active');
     $('#nodestats').removeClass('active');
 
-    $.getJSON("http://"+$(this).data('host')+":"+$(this).data('port')+"/health?callback=?").error(function(d) { console.log(d); });
-    // .success(function(d) {
-    //   console.log(d);
-    //   // data = $.parseJSON(d.responseText);
-    //   // $('.nodestats-services').html('<h4 class="alert-heading">Notice</h4>'+data.services).addClass('alert-info').removeClass('alert-error').show();
-    //   $('.nodestats-started').html(data.started);
-    //   $('.nodestats-stopped').html(data.stopped);
-    //   $('.nodestats-duration').html(data.duration);
-    //   $('.nodestats-cost').html(data.cost);
-    // }).error(function(d) {
-    //   data = $.parseJSON(d.responseText);
-    //   $('.nodestats-services').html('<h4 class="alert-heading">Error</h4>'+data.services).removeClass('alert-info').addClass('alert-error').show();
-    //   $('.nodestats-started').html(data.started);
-    //   $('.nodestats-stopped').html(data.stopped);
-    //   $('.nodestats-duration').html(data.duration);
-    //   $('.nodestats-cost').html(data.cost);
-    // });
+    $('.nodestats-services').html('<h4 class="alert-heading">Node Health</h4>'+$(this).attr('title')).show();
+    $('.nodestats-started').html($(this).data('started'));
+    $('.nodestats-stopped').html($(this).data('stopped'));
+    $('.nodestats-duration').html($(this).data('duration'));
+    $('.nodestats-cost').html($(this).data('cost'));
+
+    if( $(this).data('started') == '200' ) {
+      $('.nodestats-services').addClass('alert-info').removeClass('alert-error');
+    } else {
+      $('.nodestats-services').addClass('alert-error').removeClass('alert-info');
+    }
+
 
   });
-
-
 
   $('#nodeconfig > a').click(function(){
     $('.nodeconfig').show('fast');

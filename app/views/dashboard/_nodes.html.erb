@@ -23,8 +23,19 @@
                 timeout: 4000
               }).done(function(data) {
                 $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
-              }).fail(function(data) {
-                $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).services);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-stopped', data.stopped);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', data.status);
+              }).fail(function(error) {
+                data = $.parseJSON(error.responseText)
+                $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', data.services);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-stopped', data.stopped);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', data.status);
               });
             </script>
           </td>
