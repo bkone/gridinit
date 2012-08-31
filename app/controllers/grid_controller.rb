@@ -55,7 +55,7 @@ class GridController < ApplicationController
   end 
 
   def self.location(region)
-    case
+    case region
     when "au-nsw" 
       "Australia (Sydney)"
     when "us-east-1" 
