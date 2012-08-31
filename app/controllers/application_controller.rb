@@ -73,7 +73,9 @@ class ApplicationController < ActionController::Base
   end
 
   def paying_user?
-    if current_user
+    if admin_user?
+      true
+    elsif current_user
       current_user.card_token ? true : false
     else
       false
