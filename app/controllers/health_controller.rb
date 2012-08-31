@@ -6,11 +6,10 @@ class HealthController < ApplicationController
   def index
   	headers['Access-Control-Allow-Origin'] = "*"
     services  = ['logstash', 'elasticsearch', 'resque', 'redis']
-    duration  = @node.stopped ? @node.stopped - @node.created_at : Time.now - @node.created_at
-    cost      = duration/60/60 * 3.99
+    duration  = Time.now - @node.created_at
+    cost      = duration/60 * 0.06
     stats = {
       :started  => @node.created_at, 
-      :stopped  => @node.stopped ? @node.stopped : 'still running ...',
       :duration => distance_of_time_in_words(duration),
       :cost     => number_to_currency(cost)
     }

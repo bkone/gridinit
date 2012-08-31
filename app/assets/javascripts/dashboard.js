@@ -107,7 +107,6 @@ $(function(){
 
     $('.nodestats-services').html('<h4 class="alert-heading">Node Health</h4>'+$(this).attr('title')).show();
     $('.nodestats-started').html($(this).data('started'));
-    $('.nodestats-stopped').html($(this).data('stopped'));
     $('.nodestats-duration').html($(this).data('duration'));
     $('.nodestats-cost').html($(this).data('cost'));
 
@@ -116,8 +115,6 @@ $(function(){
     } else {
       $('.nodestats-services').addClass('alert-error').removeClass('alert-info');
     }
-
-
   });
 
   $('#nodeconfig > a').click(function(){
