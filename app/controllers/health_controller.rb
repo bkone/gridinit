@@ -7,7 +7,7 @@ class HealthController < ApplicationController
   	headers['Access-Control-Allow-Origin'] = "*"
     services  = ['logstash', 'elasticsearch', 'resque', 'redis']
     duration  = Time.now - @node.created_at
-    cost      = duration/60 * 0.06
+    cost      = duration/3600 * 3.99
     stats = {
       :started  => @node.created_at, 
       :duration => distance_of_time_in_words(duration),

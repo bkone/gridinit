@@ -59,7 +59,7 @@
                     <li class="divider"></li>
                     <li><a href="javascript:alert('This paid feature is coming soon!');">Add Grid Nodes</a></li>
                   <% end %>
-                  <% if Rails.env.development? %>
+                  <% if Rails.env.development? || Rails.env.staging? %>
                     <li class="divider"></li>
                     <li><a href="/payments/new">Payment Details</a></li>
                     <li><a href="/payments">Payment History</a></li>
