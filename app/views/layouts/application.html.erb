@@ -52,8 +52,15 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> Your Account<b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><%= link_to('Sign Out', signout_path) %></li>
-                  <% if Rails.env.production? || Rails.env.development? %>
+                  <% if Rails.env.production? %>
+                    <li><a href="javascript:alert('This paid feature is coming soon!');">Payment Details</a></li>
+                    <li><a href="javascript:alert('This paid feature is coming soon!');">Payment History</a></li>
+                    <li><a href="javascript:alert('This paid feature is coming soon!');">Add Grid Nodes</a></li>
+                  <% end %>
+                  <% Rails.env.development? %>
                     <li><a href="/payments/new">Payment Details</a></li>
+                    <li><a href="/payments">Payment History</a></li>
+                    <li><a href="javascript:alert('This paid feature is coming soon!');">Add Grid Nodes</a></li>
                   <% end %>
                 </ul>
               </li>

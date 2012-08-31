@@ -8,7 +8,7 @@
           </td>
           
           <td>
-            <%= image_tag get_flag(node), :rel => "tooltip", :title => node.location %>
+            <%= image_tag get_flag(node), :rel => "tooltip", :title => node.location, :size => '10x10' %>
             <% if node.user_id && node.user_id > 0 %>
               <i class="icon-eye-close" title="This node is private" rel="tooltip"></i>
             <% else %>
