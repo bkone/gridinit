@@ -111,7 +111,7 @@ $(function(){
     $('.nodestats-duration').html($(this).data('duration'));
     $('.nodestats-cost').html($(this).data('cost'));
 
-    if( $(this).data('started') == '200' ) {
+    if( $(this).data('status') == 'healthy' ) {
       $('.nodestats-services').addClass('alert-info').removeClass('alert-error');
     } else {
       $('.nodestats-services').addClass('alert-error').removeClass('alert-info');

@@ -27,15 +27,15 @@
                 $('.node-role[data-host="<%= node.host %>"]').attr('data-stopped', data.stopped);
                 $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
                 $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', data.status);
-              }).fail(function(error) {
-                data = $.parseJSON(error.responseText)
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', 'healthy');
+              }).fail(function(jqXHR, status) {
+                data = $.parseJSON(jqXHR.responseText);
                 $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', data.services);
                 $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
                 $('.node-role[data-host="<%= node.host %>"]').attr('data-stopped', data.stopped);
                 $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
                 $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', data.status);
+                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', status);
               });
             </script>
           </td>
