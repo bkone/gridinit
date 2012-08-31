@@ -34,6 +34,7 @@ class GridController < ApplicationController
       n.host        = server.public_ip_address
       n.instance_id = server.id
       n.region      = params[:region]
+      n.location    = location(params[:region])
       n.user_id     = params[:user]
     end
     if node.save
@@ -52,4 +53,25 @@ class GridController < ApplicationController
     server = $fog.servers.get(node.instance_id)
     server.destroy if server
   end 
+
+  def self.location(region)
+    case
+    when "au-nsw" 
+      "Australia (Sydney)"
+    when "us-east-1" 
+      "US East (Northern Virginia)"
+    when "us-west-1" 
+      "US West (Oregon)"
+    when "us-west-2" 
+      "US West (Northern California)"
+    when "eu-west-1" 
+      "EU (Ireland)"
+    when "ap-southeast-1"
+      "Asia Pacific (Singapore)"
+    when "ap-northeast-1" 
+      "Asia Pacific (Tokyo)"
+    when "sa-east-1"
+      "South America (Sao Paulo)"
+    end
+  end
 end
