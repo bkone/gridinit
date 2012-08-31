@@ -107,7 +107,8 @@ $(function(){
 
     $.getJSON("http://"+$(this).data('host')+":"+$(this).data('port')+"/health?callback=?")
     .success(function(d) {
-      data = $.parseJSON(d.responseText);
+      console.log(d)
+      // data = $.parseJSON(d.responseText);
       $('.nodestats-services').html('<h4 class="alert-heading">Notice</h4>'+data.services).addClass('alert-info').removeClass('alert-error').show();
       $('.nodestats-started').html(data.started);
       $('.nodestats-stopped').html(data.stopped);
