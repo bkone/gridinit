@@ -105,24 +105,27 @@ $(function(){
     $('#nodeconfig').addClass('active');
     $('#nodestats').removeClass('active');
 
-    $.getJSON("http://"+$(this).data('host')+":"+$(this).data('port')+"/health?callback=?")
-    .success(function(d) {
-      console.log(d)
-      // data = $.parseJSON(d.responseText);
-      $('.nodestats-services').html('<h4 class="alert-heading">Notice</h4>'+data.services).addClass('alert-info').removeClass('alert-error').show();
-      $('.nodestats-started').html(data.started);
-      $('.nodestats-stopped').html(data.stopped);
-      $('.nodestats-duration').html(data.duration);
-      $('.nodestats-cost').html(data.cost);
-    }).error(function(d) {
-      data = $.parseJSON(d.responseText);
-      $('.nodestats-services').html('<h4 class="alert-heading">Error</h4>'+data.services).removeClass('alert-success').addClass('alert-error').show();
-      $('.nodestats-started').html(data.started);
-      $('.nodestats-stopped').html(data.stopped);
-      $('.nodestats-duration').html(data.duration);
-      $('.nodestats-cost').html(data.cost);
-    });
+    $.getJSON("http://"+$(this).data('host')+":"+$(this).data('port')+"/health?callback=?").error(function(d) { console.log(d); });
+    // .success(function(d) {
+    //   console.log(d);
+    //   // data = $.parseJSON(d.responseText);
+    //   // $('.nodestats-services').html('<h4 class="alert-heading">Notice</h4>'+data.services).addClass('alert-info').removeClass('alert-error').show();
+    //   $('.nodestats-started').html(data.started);
+    //   $('.nodestats-stopped').html(data.stopped);
+    //   $('.nodestats-duration').html(data.duration);
+    //   $('.nodestats-cost').html(data.cost);
+    // }).error(function(d) {
+    //   data = $.parseJSON(d.responseText);
+    //   $('.nodestats-services').html('<h4 class="alert-heading">Error</h4>'+data.services).removeClass('alert-info').addClass('alert-error').show();
+    //   $('.nodestats-started').html(data.started);
+    //   $('.nodestats-stopped').html(data.stopped);
+    //   $('.nodestats-duration').html(data.duration);
+    //   $('.nodestats-cost').html(data.cost);
+    // });
+
   });
+
+
 
   $('#nodeconfig > a').click(function(){
     $('.nodeconfig').show('fast');

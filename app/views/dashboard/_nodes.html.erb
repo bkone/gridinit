@@ -22,7 +22,7 @@
                 url: "http://<%= node.host %>:<%= request.port %>/health",
                 timeout: 4000
               }).done(function(data) {
-                $('.node-role[data-host="<%= node.host %>"]').attr('title', $.parseJSON(data.responseText).services);
+                $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
               }).fail(function(data) {
                 $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', $.parseJSON(data.responseText).services);
               });
