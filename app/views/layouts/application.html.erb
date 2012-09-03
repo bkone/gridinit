@@ -41,9 +41,11 @@
 
         <div class="masthead-top clearfix">        
           <ul class="nav nav-pills pull-right">
+            <% unless params[:controller] == 'payments'  %>
             <li>
               <a data-toggle="modal" href="#runmodal" style="color:#6ECBE2"><i class="icon-bolt"></i> New Test</a>
             </li>
+            <% end %>
             
             <% if current_user %>
               <li class="dropdown">
@@ -132,9 +134,9 @@
     
     <%= yield %>
 
-    <%= render 'dashboard/grid' %>
-    <%= render 'dashboard/node' %>
-    <%= render 'dashboard/run' %>
+    <%= render 'dashboard/grid' unless params[:controller] == 'payments' %>
+    <%= render 'dashboard/node' unless params[:controller] == 'payments' %>
+    <%= render 'dashboard/run' unless params[:controller] == 'payments' %>
     <%= render 'dashboard/support' %>
   </body>
 </html>
