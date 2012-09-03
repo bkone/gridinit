@@ -80,10 +80,13 @@
               </button>
               <ul class="dropdown-menu">
                 <% if admin_user? %>
-                  <li class="divider"></li>
                   <li><a href="/nodes/restart/all">Restart All Nodes</a></li>
-                <% else %>
+                  <li class="divider"></li>
+                <% end %>
+                <% if Rails.env.production? %>
                   <li><a href="javascript:alert('This paid feature is coming soon!');">Add Grid Nodes</a></li>
+                <% elsif Rails.env.development? || Rails.env.staging? %>
+                  <li><a data-toggle="modal" href="#modal-grid">Add Grid Nodes</a></li>
                 <% end %>
               </ul>
             </div>

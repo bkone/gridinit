@@ -14,37 +14,48 @@
             <% else %>
               <i class="icon-eye-open" title="This node is public" rel="tooltip"></i>
             <% end %>
-            <a href="http://<%= node.host %>/dashboard"><%= node.host %></a>
+            <% if node.host =~ /node starting/ %>
+              node starting ...
+            <% else %>
+              <a href="http://<%= node.host %>/dashboard"><%= node.host %></a>
+            <% end %>
           </td>
 
-          <td>
-            <script>
-              $.ajax({
-                // url: "<%= request.scheme %>://<%= node.host %>:<%= request.port %>/health",
-                url: "http://<%= node.host %>/health",
-                timeout: 4000
-              }).done(function(data) {
-                $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', 'healthy');
-              }).fail(function(jqXHR, status) {
-                data = $.parseJSON(jqXHR.responseText);
-                $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', data.services);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
-                $('.node-role[data-host="<%= node.host %>"]').attr('data-status', status);
-              });
-            </script>
-          </td>
+          <% if node.host =~ /node starting/ %>
+            <td></td>
+            <td>
+              <span class="label pull-right">slave</span>
+            </td>
+          <% else %>
+            <td>
+              <script>
+                $.ajax({
+                  // url: "<%= request.scheme %>://<%= node.host %>:<%= request.port %>/health",
+                  url: "http://<%= node.host %>/health",
+                  timeout: 4000
+                }).done(function(data) {
+                  $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-status', 'healthy');
+                }).fail(function(jqXHR, status) {
+                  data = $.parseJSON(jqXHR.responseText);
+                  $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', data.services);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
+                  $('.node-role[data-host="<%= node.host %>"]').attr('data-status', status);
+                });
+              </script>
+            </td>
 
-          <td>
-            <span data-use="<%= node.user_id && node.user_id > 0 ? 'private' : 'public' %>" data-host="<%= node.host %>" data-port="<%= request.port %>" data-role="<%= node.role %>" data-master="<%= node.master %>" class="label node-role pull-right" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
-              <%= node.role %>
-            </span>
-          </td>
+            <td>
+              <span data-use="<%= node.user_id && node.user_id > 0 ? 'private' : 'public' %>" data-host="<%= node.host %>" data-port="<%= request.port %>" data-role="<%= node.role %>" data-master="<%= node.master %>" class="label node-role pull-right" rel="tooltip" data-toggle="modal" href="#modal-node" style="cursor:pointer;">
+                <%= node.role %>
+              </span>
+            </td>
+          <% end %>
 
         </tr>
       <% end %>

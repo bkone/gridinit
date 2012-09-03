@@ -35,6 +35,18 @@
             </div>
           </div>
 
+          <div class="control-group">
+            <label class="control-label">Auto Stop</label>
+            <div class="controls">
+              <select id="auto_stop" name="auto_stop">
+                <% 1.upto 12 do |i| %>
+                  <option value="<%= i %>">After <%= pluralize i, 'hour' %></option>
+                <% end %>
+                <option value="0">Disable auto stop, stop manually.</option>
+              </select>
+            </div>
+          </div>
+
         </div>
       </div>
     </form>

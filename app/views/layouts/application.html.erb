@@ -19,7 +19,7 @@
       <meta name="keywords" content="Load testing, Performance Testing, JMeter, JMeter Cloud, JMeter Scripting, Cloud Testing, Website Testing, Stress Testing, Free Testing" />
       <meta name="description" content="Gridinit &raquo; Performance Testing for Everyone. The grid is a collection of performance test automation tools deployed on cloud resources, making them an inexpensive test asset for a wide variety of testing needs. The grid can be used to execute basic URL load tests through to more advanced JMeter based test plans. The grid taps into the international cloud market offering distributed load tests across the globe. Pay for our managed services, or host your own grid for free." />
       <meta name="abstract" content="Gridinit &raquo; Performance Testing for Everyone" />
-      <title><%= request.subdomain %> Gridinit &raquo; <%= controller.controller_name == 'pages' ? 'Performance Testing for Everyone' : controller.controller_name.capitalize %></title>
+      <title>Gridinit &raquo; <%= controller.controller_name == 'pages' ? 'Performance Testing for Everyone' : controller.controller_name.capitalize %></title>
       <%= stylesheet_link_tag    "application", :media => "all" %>
       <%= stylesheet_link_tag    "bootstrap", :media => "all" %>
       <%= stylesheet_link_tag    "rickshaw", :media => "all" %>
@@ -41,12 +41,12 @@
 
         <div class="masthead-top clearfix">        
           <ul class="nav nav-pills pull-right">
-            <% unless params[:controller] == 'payments'  %>
+            <% if params[:controller] !~ /payments|pages/  %>
             <li>
               <a data-toggle="modal" href="#runmodal" style="color:#6ECBE2"><i class="icon-bolt"></i> New Test</a>
             </li>
             <% end %>
-            
+
             <% if current_user %>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i> Your Account<b class="caret"></b></a>
