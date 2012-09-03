@@ -1,0 +1,93 @@
+<div class="secondary-masthead">  
+  <div class="container">    
+    <ul class="breadcrumb">
+      <a href="/dashboard">Dashboard</a> <span class="divider">/</span>
+      <li class="active">Nodes</li>
+     </ul> 
+  </div> 
+</div>
+
+<div class="main-area dashboard">
+  <div class="container">
+
+    <div class="row"> 
+      <div class="span12">
+          <div class="slate">
+            <div class="page-header">
+              <h2>Grid Nodes</h2>
+            </div>
+
+            <table class="nodes-table table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Host</th>
+                <th>Role</th>
+                <th>Master</th>
+                <th>Instance ID</th>
+                <th>User ID</th>
+                <th>Location</th>
+                <th>Region</th>
+                <th>Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @nodes_paginated.each_with_index do |node, index| %>
+                <tr>
+                  <td class="btn-group span1">
+                    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <% if admin_user? %>
+                        <li><a href="/nodes/stop?node_id=<%= node.id %>">Stop Node</a></li>
+                      <% end %>
+                    </ul>
+                  </td>
+
+                  <td>
+                    <%= node.id %>
+                  </td>
+                  <td>
+                    <%= node.host %>
+                  </td>
+                  <td>
+                    <%= node.role %>
+                  </td>
+                  <td>
+                    <%= node.master %>
+                  </td>
+                  <td>
+                    <%= node.instance_id %>
+                  </td>
+                  <td>
+                    <%= node.user_id %>
+                  </td>
+                  <td>
+                    <%= node.location %>
+                  </td>
+                  <td>
+                    <%= node.region %>
+                  </td>
+                  <td class="meta">
+                    <%= node.created_at %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <%= paginate @nodes_paginated, :param_name => :nodes_page if @nodes_paginated %>
+        </div>
+
+      </div>
+    </div>
+    
+  </div> 
+</div>
+<script>
+$(function(){
+  $(".nodes-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
+});
+</script>

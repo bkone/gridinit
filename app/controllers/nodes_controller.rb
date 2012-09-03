@@ -1,5 +1,11 @@
 class NodesController < ApplicationController
 
+  def index
+    require_admin!
+    @nodes   = Node.all
+    @nodes_paginated = Kaminari.paginate_array(@nodes).page(params[:nodes_page]).per(10)
+  end
+
   def slave
     require_admin!
     node = Node.new do |n|
@@ -28,7 +34,11 @@ class NodesController < ApplicationController
   end
 
   def destroy
-    node = Node.find_by_host!(params[:id])
+    if params[:node_id]
+      node = Node.find(params[:node_id])
+    else
+      node = Node.find_by_host!(params[:id])
+    end
     if permissions_on(node)
       Node.destroy(node.id)
       transaction = Transaction.find_by_node_id(node.id)

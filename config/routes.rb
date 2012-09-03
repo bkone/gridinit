@@ -34,6 +34,9 @@ Gridinit::Application.routes.draw do
     
   match '/nodes/restart/:id'          => 'nodes#restart'
   match '/nodes/slave'                => 'nodes#slave'
+  match '/nodes/stop'                 => 'nodes#destroy'
+
+  match '/transactions/delete/:id'    => 'transactions#destroy'
   
   resources :nodes, :constraints  => { :id => %r([^/;,?]+) }
   resources :scores
@@ -48,6 +51,7 @@ Gridinit::Application.routes.draw do
   resources :health
   resources :users
   resources :payments
+  resources :transactions
   resources :articles
   resources :support
   resources :grid

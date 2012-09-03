@@ -1,0 +1,94 @@
+<div class="secondary-masthead">  
+  <div class="container">    
+    <ul class="breadcrumb">
+      <a href="/dashboard">Dashboard</a> <span class="divider">/</span>
+      <li class="active">Transactions</li>
+     </ul> 
+  </div> 
+</div>
+
+<div class="main-area dashboard">
+  <div class="container">
+
+    <div class="row"> 
+      <div class="span12">
+          <div class="slate">
+            <div class="page-header">
+              <h2>Grid Transactions</h2>
+            </div>
+
+            <table class="transactions-table table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>ID</th>
+                <th>UserID</th>
+                <th>NodeID</th>
+                <th>InstanceID</th>
+                <th>Amount</th>
+                <th>Success</th>
+                <th>Stop After</th>
+                <th>Created At</th>
+                <th>Stopped At</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @transactions_paginated.each_with_index do |transaction, index| %>
+                <tr>
+                  <td class="btn-group span1">
+                    <button class="btn btn-mini dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                      <% if admin_user? %>
+                        <li><a href="/transactions/delete/<%= transaction.id %>">Delete Transaction</a></li>
+                        <li class="divider"></li>
+                      <% end %>
+                    </ul>
+                  </td>
+
+                  <td>
+                    <%= transaction.id %>
+                  </td>
+                  <td>
+                    <%= transaction.user_id %>
+                  </td>
+                  <td>
+                    <%= transaction.node_id %>
+                  </td>
+                  <td>
+                    <%= transaction.instance_id %>
+                  </td>
+                  <td>
+                    <%= transaction.amount %>
+                  </td>
+                  <td>
+                    <%= transaction.success %>
+                  </td>
+                  <td>
+                    <%= transaction.stop_after %>
+                  </td>
+                  <td class="meta">
+                    <%= transaction.created_at %>
+                  </td>
+                  <td class="meta">
+                    <%= transaction.stopped_at %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div>
+          <%= paginate @transactions_paginated, :param_name => :transactions_page if @transactions_paginated %>
+        </div>
+
+      </div>
+    </div>
+    
+  </div> 
+</div>
+<script>
+$(function(){
+  $(".transactions-table").tablesorter({headers: {0: {sorter: 'fancyNumber'}}});
+});
+</script>
