@@ -20,7 +20,8 @@
           <td>
             <script>
               $.ajax({
-                url: "<%= request.scheme %>://<%= node.host %>:<%= request.port %>/health",
+                // url: "<%= request.scheme %>://<%= node.host %>:<%= request.port %>/health",
+                url: "http://<%= node.host %>/health",
                 timeout: 4000
               }).done(function(data) {
                 $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
