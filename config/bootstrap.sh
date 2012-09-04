@@ -298,14 +298,15 @@ function firewall() { echo "==> Update Firewall"
   ufw allow 7379  # webdis
   ufw enable      # only used on non-EC2 instances
 }
-function rclocal() { echo "==> Update rc.local"
-  cat - << EOS > /etc/rc.local
-#!/bin/sh
-/var/webdis/webdis
-chown -R ubuntu /var/firefox
-exit 0
-EOS
-}
+## TODO: create init scripts for webdis, this is causing some instances to fail boot
+# function rclocal() { echo "==> Update rc.local"
+#   cat - << EOS > /etc/rc.local
+# #!/bin/sh
+# /var/webdis/webdis
+# chown -R ubuntu /var/firefox
+# exit 0
+# EOS
+# }
 function cleanup() { echo "==> Cleanup Install" 
   apt-get autoremove -y
   updatedb
@@ -333,7 +334,5 @@ wkhtmltoimage
 webdis
 monit
 firewall
-rclocal
+# rclocal
 cleanup
-# sed -ie 's/Port 22/Port 443/' /etc/ssh/sshd_config
-# service ssh restart
