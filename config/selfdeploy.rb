@@ -71,11 +71,6 @@ EOF
 EOF
     put fog, "#{release_path}/config/fog.yml"
 
-    procfile = <<-EOF
-worker: bundle exec rake resque:work QUEUE=`curl -s ifconfig.me` RAILS_ENV=#{rails_env}
-EOF
-    put procfile, "#{release_path}/Procfile"
-
     omniauth = <<-EOF
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :developer
@@ -85,6 +80,13 @@ EOF
     put omniauth, "#{release_path}/config/initializers/omniauth.rb"
 
     run "cp #{release_path}/config/logstash-standalone #{release_path}/config/logstash.conf"
+
+    procfile = <<-EOF
+worker: bundle exec rake resque:work QUEUE=`curl -s ifconfig.me` RAILS_ENV=#{rails_env}
+EOF
+    put procfile, "#{release_path}/Procfile"
+    run "cd #{release_path} && sudo bundle exec foreman export upstart /etc/init -a #{application} -u ubuntu -l #{release_path}/log/foreman"
+    run "sudo start #{application} || sudo restart #{application}"
 
   end
 

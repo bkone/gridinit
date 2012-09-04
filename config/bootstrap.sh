@@ -215,6 +215,7 @@ function logstash() { echo "==> Installing Logstash"
     perl -pi -e 's|RUN_AS_USER=.*|RUN_AS_USER="ubuntu"|g' $file
     chmod +x /opt/logstash/bin/logstash
     /opt/logstash/bin/logstash install
+    /etc/init.d/logstash start
   fi
 }
 function xvfb() { echo "==> Installing Xvfb" 
