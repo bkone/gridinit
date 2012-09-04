@@ -5,13 +5,14 @@ class GridController < ApplicationController
   def create
     params[:user]     = (user_signed_in? ? current_user.id : 0)
     params[:quantity].to_i.times do |i| 
-      enqueue(@node.host, :create_on_aws)
-      Node.create!(
+      node = Node.create!(
         :host        => 'node starting',
         :region      => params[:region],
         :location    => location_in_region(params[:region]),
         :user_id     => params[:user]
       )
+      params[:node_id] = node.id
+      enqueue(@node.host, :create_on_aws)
     end
     redirect_to :back, :notice => "#{pluralize params[:quantity], 'node'} started."
   end
@@ -25,21 +26,21 @@ class GridController < ApplicationController
 
   def location_in_region(region)
     case region
-    when "au-nsw" 
+    when "au_nsw" 
       "Australia (Sydney)"
-    when "us-east-1" 
+    when "us_east_1" 
       "US East (Northern Virginia)"
-    when "us-west-1" 
+    when "us_west_1" 
       "US West (Oregon)"
-    when "us-west-2" 
+    when "us_west-2" 
       "US West (Northern California)"
-    when "eu-west-1" 
+    when "eu_west_1" 
       "EU (Ireland)"
-    when "ap-southeast-1"
+    when "ap_southeast_1"
       "Asia Pacific (Singapore)"
-    when "ap-northeast-1" 
+    when "ap_northeast_1" 
       "Asia Pacific (Tokyo)"
-    when "sa-east-1"
+    when "sa_east_1"
       "South America (Sao Paulo)"
     end
   end
@@ -60,10 +61,9 @@ class GridController < ApplicationController
       # :region     => params[:region]
     )
     server.wait_for { ready? }
-    node = Node.new do |n|
-      n.host        = server.public_ip_address
-      n.instance_id = server.id
-    end
+    node = Node.find(params[:node_id])
+    node.host        = server.public_ip_address
+    node.instance_id = server.id
     if node.save
       transaction = Transaction.new do |t|
         t.instance_id   = node.instance_id
@@ -77,8 +77,7 @@ class GridController < ApplicationController
   end
 
   def self.destroy_on_aws(params)
-    node = Node.find_by_host!(params[:id])
-    server = $fog.servers.get(node.instance_id)
+    server = $fog.servers.get(params[:instance_id])
     server.destroy if server
   end 
 end

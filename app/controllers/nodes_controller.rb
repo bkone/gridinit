@@ -1,4 +1,5 @@
 class NodesController < ApplicationController
+  include ActionView::Helpers::NumberHelper
 
   def index
     require_admin!
@@ -45,9 +46,12 @@ class NodesController < ApplicationController
       if transaction
         transaction.stopped_at = Time.now
         transaction.save!
+        params[:instance_id] = node.instance_id
         Resque::Job.create(@node.host, GridController, :destroy_on_aws, params)
+        redirect_to '/dashboard', :notice => 'Node was stopped. Total cost was ' + total_cost(transaction)
+      else
+        redirect_to '/dashboard', :notice => 'Node was stopped.'
       end
-      redirect_to '/dashboard', :notice => 'Node was stopped.'
     else
       redirect_to :back, :alert => 'Access to this node is denied.'
     end
@@ -63,6 +67,11 @@ class NodesController < ApplicationController
   end
 
   private
+
+  def total_cost(transaction)
+    duration = (transaction.stopped_at - transaction.created_at)/3600
+    number_to_currency duration.ceil * 3.99
+  end
 
   def permissions_on(node)
     case node.user_id

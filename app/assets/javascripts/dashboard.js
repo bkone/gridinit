@@ -105,7 +105,11 @@ $(function(){
     $('#nodeconfig').addClass('active');
     $('#nodestats').removeClass('active');
 
-    $('.nodestats-services').html('<h4 class="alert-heading">Node Health</h4>'+$(this).attr('title')).show();
+    if($(this).attr('title')){
+      $('.nodestats-services').html('<h4 class="alert-heading">Node Health</h4>'+$(this).attr('title')).show();
+    } else {
+      $('.nodestats-services').html('<h4 class="alert-heading">Node Health</h4>'+$(this).data('originalTitle')).show();
+    }
     $('.nodestats-started').html($(this).data('started'));
     $('.nodestats-duration').html($(this).data('duration'));
     $('.nodestats-cost').html($(this).data('cost'));
