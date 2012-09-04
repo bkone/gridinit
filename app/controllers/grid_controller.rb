@@ -55,9 +55,9 @@ class GridController < ApplicationController
 
   def self.create_on_aws(params)
     server = $fog.servers.create(
-      :image_id   => 'ami-8a7f3ed8',
-      :flavor_id  => 'm1.large',
-      :region     => params[:region]
+      :image_id   => $image_ids[params[:region]],
+      :flavor_id  => $flavor_id
+      # :region     => params[:region]
     )
     server.wait_for { ready? }
     node = Node.new do |n|

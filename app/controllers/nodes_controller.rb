@@ -42,9 +42,11 @@ class NodesController < ApplicationController
     if permissions_on(node)
       Node.destroy(node.id)
       transaction = Transaction.find_by_node_id(node.id)
-      transaction.stopped_at = Time.now
-      transaction.save!
-      Resque::Job.create(@node.host, GridController, :destroy_on_aws, params)
+      if transaction
+        transaction.stopped_at = Time.now
+        transaction.save!
+        Resque::Job.create(@node.host, GridController, :destroy_on_aws, params)
+      end
       redirect_to '/dashboard', :notice => 'Node was stopped.'
     else
       redirect_to :back, :alert => 'Access to this node is denied.'
