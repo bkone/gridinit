@@ -4,7 +4,7 @@ h1. Overview
 
 Welcome to the grid. The grid is a collection of performance test automation tools deployed on cloud resources, making them an inexpensive test asset for a wide variety of testing needs. 
 
-The grid can be used to execute basic URL load tests through to more advanced JMeter based test plans. The grid is an Australian solution hosted out of Sydney with a near zero latency network for our domestic clients. The grid also taps into the international cloud market offering distributed load tests across the globe. Pay for our managed services, or host your own grid for free.
+The grid can be used to execute basic URL load tests through to more advanced JMeter based test plans. The grid taps into the international cloud market offering distributed load tests across the globe. Pay for our managed services, or host your own grid for free.
 
 h1. Features
 
