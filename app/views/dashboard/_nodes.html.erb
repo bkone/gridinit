@@ -29,29 +29,29 @@
           <% else %>
             <td>
               <script>
-                $.ajax({
-                  // url: "<%= request.scheme %>://<%= node.host %>:<%= request.port %>/health",
-                  url: "http://<%= node.host %>/health",
-                  timeout: 4000
-                }).done(function(data) {
-                  $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
-                  $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
-                  $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
-                  $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
-                  $('.node-role[data-host="<%= node.host %>"]').attr('data-status', 'healthy');
-                }).fail(function(jqXHR, status) {
-                  data = $.parseJSON(jqXHR.responseText);
-                  if(data) {
-                    $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', data.services);
-                    $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
-                    $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
-                    $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
-                    $('.node-role[data-host="<%= node.host %>"]').attr('data-status', status);
-                  } else {
-                    $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', 'Grid node host unreachable');
-                    $('.node-role[data-host="<%= node.host %>"]').attr('data-status', 'unhealthy');
-                  }
-                });
+                // $.ajax({
+                //   // url: "<%= request.scheme %>://<%= node.host %>:<%= request.port %>/health",
+                //   url: "http://<%= node.host %>/health",
+                //   timeout: 4000
+                // }).done(function(data) {
+                //   $('.node-role[data-host="<%= node.host %>"]').attr('title', data.services);
+                //   $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
+                //   $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
+                //   $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
+                //   $('.node-role[data-host="<%= node.host %>"]').attr('data-status', 'healthy');
+                // }).fail(function(jqXHR, status) {
+                //   data = $.parseJSON(jqXHR.responseText);
+                //   if(data) {
+                //     $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', data.services);
+                //     $('.node-role[data-host="<%= node.host %>"]').attr('data-started', data.started);
+                //     $('.node-role[data-host="<%= node.host %>"]').attr('data-duration', data.duration);
+                //     $('.node-role[data-host="<%= node.host %>"]').attr('data-cost', data.cost);
+                //     $('.node-role[data-host="<%= node.host %>"]').attr('data-status', status);
+                //   } else {
+                //     $('.node-role[data-host="<%= node.host %>"]').addClass('label-important').attr('title', 'Grid node host unreachable');
+                //     $('.node-role[data-host="<%= node.host %>"]').attr('data-status', 'unhealthy');
+                //   }
+                // });
               </script>
             </td>
 
