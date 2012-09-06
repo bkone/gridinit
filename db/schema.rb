@@ -15,60 +15,60 @@ ActiveRecord::Schema.define(:version => 20120903121048) do
 
   create_table "attachments", :force => true do |t|
     t.string "filename"
-    t.binary "data",     :limit => 16777215
+    t.binary "data",     :limit => 2147483647
   end
 
   create_table "nodes", :force => true do |t|
-    t.string   "host"
-    t.string   "role",        :default => "standalone"
-    t.string   "master"
-    t.datetime "created_at",                            :null => false
-    t.datetime "updated_at",                            :null => false
-    t.string   "instance_id"
-    t.integer  "user_id"
-    t.string   "location"
-    t.string   "region"
+    t.string    "host"
+    t.string    "role",                      :default => "standalone"
+    t.string    "master"
+    t.timestamp "created_at",  :limit => 23,                           :null => false
+    t.timestamp "updated_at",  :limit => 23,                           :null => false
+    t.string    "instance_id"
+    t.integer   "user_id",     :limit => 10
+    t.string    "location"
+    t.string    "region"
   end
 
   create_table "runs", :force => true do |t|
-    t.text     "params"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
-    t.string   "status"
-    t.integer  "privacy_flag"
-    t.string   "notes"
-    t.integer  "threads"
-    t.integer  "user_id"
-    t.datetime "started"
-    t.datetime "completed"
+    t.text      "params",       :limit => 2147483647
+    t.timestamp "created_at",   :limit => 23,         :null => false
+    t.timestamp "updated_at",   :limit => 23,         :null => false
+    t.string    "status"
+    t.integer   "privacy_flag", :limit => 10
+    t.string    "notes"
+    t.integer   "threads",      :limit => 10
+    t.integer   "user_id",      :limit => 10
+    t.timestamp "started",      :limit => 23
+    t.timestamp "completed",    :limit => 23
   end
 
   create_table "transactions", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "node_id"
-    t.string   "instance_id"
-    t.string   "instance_type"
-    t.integer  "rate"
-    t.integer  "amount"
-    t.string   "card_token"
-    t.boolean  "success"
-    t.string   "purchase_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.datetime "stopped_at"
-    t.integer  "stop_after"
+    t.integer   "user_id",       :limit => 10
+    t.integer   "node_id",       :limit => 10
+    t.string    "instance_id"
+    t.string    "instance_type"
+    t.integer   "rate",          :limit => 10
+    t.integer   "amount",        :limit => 10
+    t.string    "card_token"
+    t.boolean   "success",       :limit => 3
+    t.string    "purchase_id"
+    t.timestamp "created_at",    :limit => 23, :null => false
+    t.timestamp "updated_at",    :limit => 23, :null => false
+    t.timestamp "stopped_at",    :limit => 23
+    t.integer   "stop_after",    :limit => 10
   end
 
   create_table "users", :force => true do |t|
-    t.string   "provider"
-    t.string   "uid"
-    t.string   "name"
-    t.string   "email"
-    t.string   "avatar_url"
-    t.string   "role"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-    t.string   "card_token"
+    t.string    "provider"
+    t.string    "uid"
+    t.string    "name"
+    t.string    "email"
+    t.string    "avatar_url"
+    t.string    "role"
+    t.timestamp "created_at", :limit => 23, :null => false
+    t.timestamp "updated_at", :limit => 23, :null => false
+    t.string    "card_token"
   end
 
 end

@@ -24,7 +24,7 @@
 
   <context-param>
         <param-name>jruby.worker.script</param-name>
-        <param-value>require 'delayed/jruby_worker'; Delayed::JRubyWorker.new(:quiet => false, :queues=>['<%= ENV['HOSTNAME'] %>']).start</param-value>
+        <param-value>require 'delayed/jruby_worker'; Resque::JRubyWorker.new(:queues=>['<%= ENV['HOSTNAME'] %>']).start</param-value>
     </context-param>
 
   <listener>

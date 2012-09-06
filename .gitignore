@@ -1,5 +1,6 @@
 /.bundle
 /db/*.sqlite3
+/db/*.h2.db
 /log/*
 /tmp
 public/uploads
@@ -16,6 +17,6 @@ config/deploy.rb
 nohup.out
 config/logstash.conf
 spec/
-Profile
+Procfile
 payment*
 *.war
