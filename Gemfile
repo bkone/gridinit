@@ -8,7 +8,6 @@ gem 'activeresource'
 gem 'mysql2'
 gem 'rest-client'
 gem 'statsample'
-gem 'jls-grok'
 gem 'capistrano'
 gem 'daemons'
 gem 'kaminari'
@@ -21,33 +20,29 @@ gem 'redis'
 gem 'nokogiri'
 gem 'uuidtools'
 gem 'har'
-gem 'honeypot-captcha'
 gem 'tire'
 gem 'resque', :require => 'resque/server'
 gem 'foreman'
 gem 'RedCloth', :require => 'redcloth'
-gem 'fog', :require => 'fog'
-gem 'geocoder'
+gem 'grizzled-rails-logger'
+gem 'jquery-rails'
 
 group :assets do
   gem 'uglifier'
 end
 
-gem 'jquery-rails'
-
-gem 'omniauth-github'
-gem 'omniauth-google'
-gem 'omniauth-twitter'
-
-gem 'grizzled-rails-logger'
-
-group :production do
+group :staging, :production do
+  gem 'fog', :require => 'fog'
+  gem 'omniauth-github'
+  gem 'omniauth-google'
+  gem 'omniauth-twitter'
   gem 'rack-google_analytics', :require => 'rack/google_analytics'
   gem 'airbrake'
   gem 'fat_zebra', :require => 'fat_zebra'
 end
 
 group :test, :development do
+  gem 'fog', :require => 'fog'
   gem 'fat_zebra', :require => 'fat_zebra'
   gem 'rspec'				      
   gem 'rspec-rails'
@@ -72,6 +67,5 @@ platforms :jruby do
 
   group :development do
     gem 'jruby-lint'
-    gem 'trinidad'
   end
 end
