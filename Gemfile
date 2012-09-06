@@ -24,8 +24,10 @@ gem 'tire'
 gem 'foreman'
 gem 'grizzled-rails-logger'
 gem 'jquery-rails'
-gem 'resque', :require => 'resque/server'
+gem 'omniauth'
+gem 'resque',   :require => 'resque/server'
 gem 'RedCloth', :require => 'redcloth'
+gem 'fog',      :require => 'fog'
 
 platforms :ruby do
   group :assets do
@@ -34,7 +36,6 @@ platforms :ruby do
 end
 
 group :test, :development do
-  gem 'fog', :require => 'fog'
   gem 'fat_zebra', :require => 'fat_zebra'
   gem 'rspec'             
   gem 'rspec-rails'
@@ -48,12 +49,10 @@ group :test, :development do
 end
 
 group :staging do
-  gem 'fog', :require => 'fog'
   gem 'fat_zebra', :require => 'fat_zebra'
 end
 
 group :production do
-  gem 'fog', :require => 'fog'
   gem 'fat_zebra', :require => 'fat_zebra'
   gem 'omniauth-github'
   gem 'omniauth-google'
@@ -72,7 +71,7 @@ platforms :jruby do
     gem 'therubyrhino'
   end
 
-  group :development do
+  group :standalone do
     gem 'jruby-lint'
   end
 end

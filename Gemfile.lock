@@ -369,6 +369,7 @@ DEPENDENCIES
   kaminari
   mysql2
   nokogiri
+  omniauth
   omniauth-github
   omniauth-google
   omniauth-twitter
