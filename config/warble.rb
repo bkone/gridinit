@@ -18,7 +18,7 @@ Warbler::Config.new do |config|
   config.includes += FileList["db/*"]
 
   # Additional files/directories to exclude
-  config.excludes = FileList["config/deploy.rb", "payment*", "spec*", "config/initializers/omniauth.rb"]
+  config.excludes = FileList["config/deploy.rb", "payment*", "spec*"]
 
   # Additional Java .jar files to include.  Note that if .jar files are placed
   # in lib (and not otherwise excluded) then they need not be mentioned here.
@@ -112,7 +112,7 @@ Warbler::Config.new do |config|
   # config.pathmaps.public_html = ["%{public/,}p"]
 
   # Value of RAILS_ENV for the webapp -- default as shown below
-  config.webxml.rails.env = ENV['RAILS_ENV'] || 'development'
+  config.webxml.rails.env = ENV['RAILS_ENV'] || 'standalone'
 
   # Application booter to use, one of :rack, :rails, or :merb (autodetected by default)
   # config.webxml.booter = :rails
