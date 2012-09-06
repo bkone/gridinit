@@ -24,7 +24,7 @@
 
   <context-param>
         <param-name>jruby.worker.script</param-name>
-        <param-value>require 'resque/jruby_worker'; Resque::JRubyWorker.new(:queues=>['<%= ENV['HOSTNAME'] %>']).work</param-value>
+        <param-value>require 'resque/jruby_worker'; Resque::JRubyWorker.new(*['<%= ENV['HOSTNAME'] %>']).work</param-value>
     </context-param>
 
   <listener>
