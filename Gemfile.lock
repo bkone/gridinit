@@ -378,7 +378,6 @@ DEPENDENCIES
   rails (~> 3.2.1)
   redis
   resque
-  rest-client
   rspec
   rspec-rails
   spork
